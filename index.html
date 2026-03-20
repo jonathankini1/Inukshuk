@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inukshuk — Bespoke Stone Sculptures for Your Land</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --stone: #8B8680;
+      --earth: #5C4A3A;
+      --sky: #2C3E50;
+      --warm: #D4A574;
+      --cream: #F5F0EB;
+      --white: #FFFFFF;
+      --dark: #1a1a1a;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(245,240,235,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(139,134,128,0.15);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--earth);
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+    nav .nav-links a {
+      text-decoration: none; color: var(--stone); font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.5px; transition: color 0.3s;
+    }
+    nav .nav-links a:hover { color: var(--earth); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 8rem 2rem 4rem;
+      background: linear-gradient(170deg, var(--sky) 0%, #3d5a6e 40%, var(--stone) 100%);
+      color: var(--white);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, rgba(212,165,116,0.15) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+    .hero p {
+      font-size: 1.2rem; font-weight: 300; opacity: 0.9;
+      max-width: 600px; margin: 0 auto 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block; padding: 1rem 2.5rem;
+      background: var(--warm); color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border-radius: 2px; transition: all 0.3s;
+    }
+    .hero-cta:hover { background: var(--earth); transform: translateY(-2px); }
+
+    /* INUKSHUK SVG ART */
+    .inukshuk-art {
+      margin: 3rem auto 0; width: 120px; height: 180px; opacity: 0.4;
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; text-align: center; margin-bottom: 1rem;
+      color: var(--sky);
+    }
+    .section-subtitle {
+      text-align: center; color: var(--stone); font-weight: 300;
+      max-width: 600px; margin: 0 auto 3rem; font-size: 1.05rem;
+    }
+
+    /* WHAT IS */
+    .what-is { background: var(--white); }
+    .what-is-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .what-is-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--earth); margin-bottom: 1rem;
+    }
+    .what-is-text p { color: #555; margin-bottom: 1rem; }
+    .origin-badge {
+      display: inline-block; padding: 0.5rem 1.2rem; margin-top: 0.5rem;
+      background: var(--cream); border-left: 3px solid var(--warm);
+      font-size: 0.85rem; color: var(--earth); font-style: italic;
+    }
+    .stone-visual {
+      background: linear-gradient(135deg, var(--stone) 0%, #a09890 100%);
+      border-radius: 4px; height: 400px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .stone-visual svg { width: 160px; height: 240px; opacity: 0.6; }
+
+    /* PROCESS */
+    .process { background: var(--cream); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+    }
+    .step {
+      text-align: center; padding: 2rem 1.5rem;
+      background: var(--white); border-radius: 4px;
+      border-top: 3px solid var(--warm);
+    }
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; color: var(--warm); font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .step h4 { font-size: 1rem; color: var(--sky); margin-bottom: 0.75rem; font-weight: 600; }
+    .step p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+
+    /* PRICING */
+    .pricing { background: var(--white); }
+    .pricing-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    }
+    .price-card {
+      padding: 2.5rem 2rem; border: 1px solid rgba(139,134,128,0.2);
+      border-radius: 4px; text-align: center; transition: all 0.3s;
+      position: relative;
+    }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+    .price-card.featured {
+      border-color: var(--warm);
+      background: linear-gradient(180deg, rgba(212,165,116,0.05) 0%, var(--white) 100%);
+    }
+    .price-card.featured::before {
+      content: 'Most Popular'; position: absolute; top: -12px; left: 50%;
+      transform: translateX(-50%); background: var(--warm); color: var(--white);
+      padding: 0.3rem 1rem; font-size: 0.7rem; letter-spacing: 1px;
+      text-transform: uppercase; font-weight: 600; border-radius: 2px;
+    }
+    .price-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--sky); margin-bottom: 0.5rem;
+    }
+    .price-amount {
+      font-size: 2.2rem; font-weight: 700; color: var(--earth);
+      margin: 1rem 0;
+    }
+    .price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--stone); }
+    .price-card ul {
+      list-style: none; text-align: left; margin: 1.5rem 0;
+    }
+    .price-card li {
+      padding: 0.5rem 0; font-size: 0.9rem; color: #555;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .price-card li::before { content: '\2713\00a0\00a0'; color: var(--warm); font-weight: 700; }
+    .price-btn {
+      display: inline-block; width: 100%; padding: 0.85rem;
+      background: var(--sky); color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: 0.85rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: none; cursor: pointer; border-radius: 2px;
+      transition: background 0.3s;
+    }
+    .price-btn:hover { background: var(--earth); }
+
+    /* STORY */
+    .story { background: var(--sky); color: var(--white); }
+    .story .section-title { color: var(--white); }
+    .story-content {
+      max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    .story-content p { opacity: 0.85; margin-bottom: 1.5rem; font-weight: 300; }
+    .story-content .highlight {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-style: italic; opacity: 1;
+      color: var(--warm); margin: 2rem 0;
+    }
+
+    /* CONTACT */
+    .contact { background: var(--cream); }
+    .contact-form {
+      max-width: 600px; margin: 0 auto;
+      background: var(--white); padding: 3rem;
+      border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label {
+      display: block; font-size: 0.85rem; font-weight: 500;
+      color: var(--sky); margin-bottom: 0.5rem;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 0.85rem 1rem;
+      border: 1px solid rgba(139,134,128,0.3);
+      border-radius: 2px; font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; transition: border-color 0.3s;
+      background: var(--cream);
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: var(--warm);
+    }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .submit-btn {
+      width: 100%; padding: 1rem; background: var(--earth);
+      color: var(--white); border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-weight: 600;
+      font-size: 0.95rem; letter-spacing: 1px;
+      text-transform: uppercase; border-radius: 2px;
+      transition: background 0.3s;
+    }
+    .submit-btn:hover { background: var(--sky); }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,0.5);
+      padding: 3rem 2rem; text-align: center; font-size: 0.85rem;
+    }
+    footer .logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--warm); font-size: 1.2rem;
+      letter-spacing: 2px; margin-bottom: 1rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .what-is-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      nav .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Inukshuk</div>
+    <ul class="nav-links">
+      <li><a href="#what">What Is It</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#contact">Enquire</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>A Monument Built By Your Own Hands</h1>
+      <p>Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story.</p>
+      <a href="#contact" class="hero-cta">Begin Your Build</a>
+      <div class="inukshuk-art">
+        <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stylised Inukshuk silhouette -->
+          <rect x="45" y="0" width="30" height="20" rx="3" fill="white" opacity="0.6"/>
+          <rect x="25" y="25" width="70" height="12" rx="2" fill="white" opacity="0.5"/>
+          <rect x="50" y="42" width="20" height="25" rx="1" fill="white" opacity="0.45"/>
+          <rect x="10" y="72" width="100" height="14" rx="2" fill="white" opacity="0.55"/>
+          <rect x="15" y="91" width="35" height="45" rx="2" fill="white" opacity="0.4"/>
+          <rect x="70" y="91" width="35" height="45" rx="2" fill="white" opacity="0.4"/>
+          <rect x="0" y="141" width="50" height="14" rx="2" fill="white" opacity="0.35"/>
+          <rect x="70" y="141" width="50" height="14" rx="2" fill="white" opacity="0.35"/>
+          <rect x="5" y="160" width="40" height="18" rx="2" fill="white" opacity="0.3"/>
+          <rect x="75" y="160" width="40" height="18" rx="2" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="what-is" id="what">
+    <div class="container">
+      <div class="what-is-grid">
+        <div class="what-is-text">
+          <h3>What Is an Inukshuk?</h3>
+          <p>An Inukshuk is a stone landmark built by the Inuit peoples of the Canadian Arctic. Traditionally used as navigation markers across vast, featureless landscapes, they are human-shaped figures assembled from carefully balanced stones — each one unique, none held together by mortar.</p>
+          <p>Today, they stand as symbols of guidance, hope, friendship, and the power of working together. Each Inukshuk is a communal act — the stones are too heavy for one person alone. It takes a gathering to raise one.</p>
+          <p>We bring this tradition to private estates across the UK and beyond. Your Inukshuk becomes a permanent landmark on your land — built with your people, from your stone.</p>
+          <div class="origin-badge">From the Inuktitut: "in the likeness of a human"</div>
+        </div>
+        <div class="stone-visual">
+          <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="45" y="0" width="30" height="20" rx="3" fill="white" opacity="0.7"/>
+            <rect x="25" y="25" width="70" height="12" rx="2" fill="white" opacity="0.6"/>
+            <rect x="50" y="42" width="20" height="25" rx="1" fill="white" opacity="0.55"/>
+            <rect x="10" y="72" width="100" height="14" rx="2" fill="white" opacity="0.65"/>
+            <rect x="15" y="91" width="35" height="45" rx="2" fill="white" opacity="0.5"/>
+            <rect x="70" y="91" width="35" height="45" rx="2" fill="white" opacity="0.5"/>
+            <rect x="0" y="141" width="50" height="14" rx="2" fill="white" opacity="0.45"/>
+            <rect x="70" y="141" width="50" height="14" rx="2" fill="white" opacity="0.45"/>
+            <rect x="5" y="160" width="40" height="18" rx="2" fill="white" opacity="0.4"/>
+            <rect x="75" y="160" width="40" height="18" rx="2" fill="white" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process" id="process">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">From first conversation to a standing monument on your land. Every build is different. Every Inukshuk is unique.</p>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <h4>Site Visit</h4>
+          <p>We walk your land together. Assess the terrain, identify natural stone sources, and choose the perfect location for your Inukshuk.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <h4>Stone Selection</h4>
+          <p>Local stone where possible. We source boulders and slabs that match your landscape — limestone, sandstone, granite, or whatever your land offers.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <h4>The Build Day</h4>
+          <p>This is the event. Friends, family, neighbours. Diggers, concrete foundations, and heavy lifting. Your people build your monument together.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">04</div>
+          <h4>Standing Forever</h4>
+          <p>Engineered to last generations. Your Inukshuk becomes a permanent landmark — a story in stone that outlives all of us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2 class="section-title">Investment</h2>
+      <p class="section-subtitle">Every Inukshuk is bespoke. These guide prices reflect the scale and complexity of the build.</p>
+      <div class="pricing-cards">
+        <div class="price-card">
+          <h4>Garden</h4>
+          <p style="color:#888;font-size:0.85rem;">Up to 1.5 metres tall</p>
+          <div class="price-amount">POA <span>/ from</span></div>
+          <ul>
+            <li>Site assessment and design</li>
+            <li>Stone sourcing and delivery</li>
+            <li>Professional build team</li>
+            <li>Half-day build event</li>
+            <li>Photography of the day</li>
+          </ul>
+          <button class="price-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+        <div class="price-card featured">
+          <h4>Estate</h4>
+          <p style="color:#888;font-size:0.85rem;">2 to 3.5 metres tall</p>
+          <div class="price-amount">POA <span>/ from</span></div>
+          <ul>
+            <li>Everything in Garden</li>
+            <li>Structural engineering review</li>
+            <li>Digger and machinery on site</li>
+            <li>Full-day community build event</li>
+            <li>Drone footage and film</li>
+          </ul>
+          <button class="price-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+        <div class="price-card">
+          <h4>Landmark</h4>
+          <p style="color:#888;font-size:0.85rem;">3.5 metres and above</p>
+          <div class="price-amount">POA <span>/ from</span></div>
+          <ul>
+            <li>Everything in Estate</li>
+            <li>Bespoke foundation engineering</li>
+            <li>Multi-day build programme</li>
+            <li>Full event production</li>
+            <li>Commemorative plaque and story</li>
+          </ul>
+          <button class="price-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="container">
+      <h2 class="section-title">Our Story</h2>
+      <div class="story-content">
+        <p>It started on a 13-acre property in Manchester. A family, their friends, and their neighbours decided to build something that would stand long after they were gone.</p>
+        <p class="highlight">"The stones were too heavy for one person. That was the whole point."</p>
+        <p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected — not a construction project, but a shared experience that drew people closer together.</p>
+        <p>That first build proved something: the act of building together creates something more powerful than the structure itself. Now we help others create that same experience on their own land.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2 class="section-title">Start the Conversation</h2>
+      <p class="section-subtitle">Tell us about your land, your vision, and the people you want to build with.</p>
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Property Location</label>
+          <input type="text" placeholder="Town, county, or postcode">
+        </div>
+        <div class="form-group">
+          <label>Land Size</label>
+          <select>
+            <option value="">Select approximate size</option>
+            <option>Under 1 acre</option>
+            <option>1 to 5 acres</option>
+            <option>5 to 20 acres</option>
+            <option>Over 20 acres</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell Us About Your Vision</label>
+          <textarea placeholder="What draws you to the idea of an Inukshuk? Who would you want to build it with?"></textarea>
+        </div>
+        <button class="submit-btn" type="button" onclick="alert('Thank you for your enquiry. We will be in touch within 48 hours.')">Send Enquiry</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">INUKSHUK</div>
+    <p>Bespoke stone sculptures for private estates and gardens.</p>
+    <p style="margin-top:1rem;">&copy; 2026 Inukshuk. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
