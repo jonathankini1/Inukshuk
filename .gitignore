@@ -1,0 +1,4 @@
+.DS_Store
+
+# Private, full-resolution camera originals (some include GPS metadata).
+assets/originals/

@@ -4,6 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bespoke Inukshuk stone sculptures, built with your people and rooted in your land.">
+  <meta property="og:title" content="Inukshuk — A Monument Built By Your Own Hands">
+  <meta property="og:description" content="Commission a bespoke stone landmark for your estate, garden, or land.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://inukshuk-plum.vercel.app/">
+  <meta property="og:image" content="https://inukshuk-plum.vercel.app/assets/gallery/hillside-landmark.jpg">
+  <meta property="og:image:alt" content="An Inukshuk stone sculpture overlooking rolling Pennine hills">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://inukshuk-plum.vercel.app/">
   <title>Inukshuk — Bespoke Stone Sculptures for Your Land</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -54,7 +63,9 @@
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       text-align: center; padding: 8rem 2rem 4rem;
-      background: linear-gradient(170deg, var(--sky) 0%, #3d5a6e 40%, var(--stone) 100%);
+      background:
+        linear-gradient(180deg, rgba(22,35,47,0.48) 0%, rgba(22,35,47,0.64) 55%, rgba(26,26,26,0.82) 100%),
+        url('assets/gallery/hillside-landmark.jpg') center 48% / cover no-repeat;
       color: var(--white);
       position: relative; overflow: hidden;
     }
@@ -81,11 +92,12 @@
       border-radius: 2px; transition: all 0.3s;
     }
     .hero-cta:hover { background: var(--earth); transform: translateY(-2px); }
-
-    /* INUKSHUK SVG ART */
-    .inukshuk-art {
-      margin: 3rem auto 0; width: 120px; height: 180px; opacity: 0.4;
+    .hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+    .hero-cta.secondary {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
     }
+    .hero-cta.secondary:hover { background: var(--white); color: var(--earth); }
 
     /* SECTIONS */
     section { padding: 6rem 2rem; }
@@ -116,12 +128,88 @@
       font-size: 0.85rem; color: var(--earth); font-style: italic;
     }
     .stone-visual {
-      background: linear-gradient(135deg, var(--stone) 0%, #a09890 100%);
+      background: var(--stone);
       border-radius: 4px; height: 400px;
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    .stone-visual svg { width: 160px; height: 240px; opacity: 0.6; }
+    .stone-visual img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* GALLERY */
+    .gallery { background: var(--cream); }
+    .photo-grid {
+      display: grid; grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 230px; gap: 1rem;
+    }
+    .photo-card {
+      grid-column: span 4; position: relative; overflow: hidden;
+      border-radius: 4px; background: var(--stone);
+    }
+    .photo-card.wide { grid-column: span 8; }
+    .photo-card.tall { grid-row: span 2; }
+    .photo-card img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .photo-card:hover img { transform: scale(1.025); }
+    .photo-card figcaption {
+      position: absolute; inset: auto 0 0; padding: 2.5rem 1rem 0.8rem;
+      color: var(--white); font-size: 0.8rem; letter-spacing: 0.04em;
+      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+    }
+
+    /* LAND VISUALIZER */
+    .visualizer { background: var(--white); }
+    .visualizer-shell {
+      display: grid; grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 1.5rem; align-items: start;
+    }
+    .viz-stage {
+      position: relative; overflow: hidden; border-radius: 4px;
+      background: var(--sky); border: 1px solid rgba(139,134,128,0.25);
+    }
+    .viz-stage.dragover { outline: 3px solid var(--warm); outline-offset: 3px; }
+    #viz-canvas {
+      width: 100%; height: auto; aspect-ratio: 8 / 5; display: block;
+      cursor: grab; touch-action: none;
+    }
+    #viz-canvas.dragging { cursor: grabbing; }
+    .viz-tip {
+      position: absolute; left: 50%; bottom: 0.8rem; transform: translateX(-50%);
+      padding: 0.45rem 0.8rem; border-radius: 99px;
+      background: rgba(26,26,26,0.76); color: var(--white);
+      font-size: 0.75rem; white-space: nowrap; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .viz-tip.hidden { opacity: 0; }
+    .viz-controls {
+      padding: 1.5rem; border-radius: 4px; background: var(--cream);
+      border: 1px solid rgba(139,134,128,0.2);
+    }
+    .viz-control { margin-bottom: 1.4rem; }
+    .viz-control-title {
+      display: block; margin-bottom: 0.65rem; color: var(--sky);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .upload-action, .viz-button {
+      display: inline-flex; min-height: 44px; align-items: center; justify-content: center;
+      padding: 0.7rem 0.75rem; border: 1px solid rgba(92,74,58,0.28);
+      border-radius: 2px; background: var(--white); color: var(--earth);
+      font: 600 0.78rem 'Inter', sans-serif; text-align: center; cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .upload-action:hover, .viz-button:hover { background: var(--earth); color: var(--white); transform: translateY(-1px); }
+    .viz-button.primary { background: var(--earth); color: var(--white); }
+    .viz-button.primary:hover { background: var(--sky); }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .viz-range { width: 100%; accent-color: var(--warm); cursor: pointer; }
+    .viz-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .viz-button-row .primary { grid-column: 1 / -1; }
+    .privacy-note, .viz-status { font-size: 0.76rem; line-height: 1.5; color: #6d6864; }
+    .privacy-note { margin-top: 0.7rem; }
+    .viz-status { min-height: 2.3em; margin-top: 0.75rem; color: var(--earth); }
 
     /* PROCESS */
     .process { background: var(--cream); }
@@ -252,10 +340,16 @@
       .what-is-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .visualizer-shell { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+      .photo-card, .photo-card.wide { grid-column: span 1; }
       nav .nav-links { display: none; }
     }
     @media (max-width: 480px) {
       .process-steps { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-card.tall { grid-row: span 1; }
+      .upload-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -265,6 +359,8 @@
     <div class="logo">Inukshuk</div>
     <ul class="nav-links">
       <li><a href="#what">What Is It</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#visualizer">Try It</a></li>
       <li><a href="#process">Process</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#story">Our Story</a></li>
@@ -276,21 +372,9 @@
     <div class="hero-content">
       <h1>A Monument Built By Your Own Hands</h1>
       <p>Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story.</p>
-      <a href="#contact" class="hero-cta">Begin Your Build</a>
-      <div class="inukshuk-art">
-        <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Stylised Inukshuk silhouette -->
-          <rect x="45" y="0" width="30" height="20" rx="3" fill="white" opacity="0.6"/>
-          <rect x="25" y="25" width="70" height="12" rx="2" fill="white" opacity="0.5"/>
-          <rect x="50" y="42" width="20" height="25" rx="1" fill="white" opacity="0.45"/>
-          <rect x="10" y="72" width="100" height="14" rx="2" fill="white" opacity="0.55"/>
-          <rect x="15" y="91" width="35" height="45" rx="2" fill="white" opacity="0.4"/>
-          <rect x="70" y="91" width="35" height="45" rx="2" fill="white" opacity="0.4"/>
-          <rect x="0" y="141" width="50" height="14" rx="2" fill="white" opacity="0.35"/>
-          <rect x="70" y="141" width="50" height="14" rx="2" fill="white" opacity="0.35"/>
-          <rect x="5" y="160" width="40" height="18" rx="2" fill="white" opacity="0.3"/>
-          <rect x="75" y="160" width="40" height="18" rx="2" fill="white" opacity="0.3"/>
-        </svg>
+      <div class="hero-actions">
+        <a href="#visualizer" class="hero-cta">See It on Your Land</a>
+        <a href="#contact" class="hero-cta secondary">Begin Your Build</a>
       </div>
     </div>
   </section>
@@ -306,19 +390,73 @@
           <div class="origin-badge">From the Inuktitut: "in the likeness of a human"</div>
         </div>
         <div class="stone-visual">
-          <svg viewBox="0 0 120 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="45" y="0" width="30" height="20" rx="3" fill="white" opacity="0.7"/>
-            <rect x="25" y="25" width="70" height="12" rx="2" fill="white" opacity="0.6"/>
-            <rect x="50" y="42" width="20" height="25" rx="1" fill="white" opacity="0.55"/>
-            <rect x="10" y="72" width="100" height="14" rx="2" fill="white" opacity="0.65"/>
-            <rect x="15" y="91" width="35" height="45" rx="2" fill="white" opacity="0.5"/>
-            <rect x="70" y="91" width="35" height="45" rx="2" fill="white" opacity="0.5"/>
-            <rect x="0" y="141" width="50" height="14" rx="2" fill="white" opacity="0.45"/>
-            <rect x="70" y="141" width="50" height="14" rx="2" fill="white" opacity="0.45"/>
-            <rect x="5" y="160" width="40" height="18" rx="2" fill="white" opacity="0.4"/>
-            <rect x="75" y="160" width="40" height="18" rx="2" fill="white" opacity="0.4"/>
-          </svg>
+          <img src="assets/gallery/stone-detail.jpg" alt="Finished stone Inukshuk standing in a Pennine landscape">
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <h2 class="section-title">A Story in Stone</h2>
+      <p class="section-subtitle">The first landmark, seen across weather, seasons, and distance. Every angle reveals the landscape it belongs to.</p>
+      <div class="photo-grid">
+        <figure class="photo-card wide">
+          <img src="assets/gallery/landmark-wide.jpg" alt="Wide view of an Inukshuk overlooking rolling hills" loading="lazy" decoding="async">
+          <figcaption>Rooted in its landscape</figcaption>
+        </figure>
+        <figure class="photo-card tall">
+          <img src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" loading="lazy" decoding="async">
+          <figcaption>Built stone by stone</figcaption>
+        </figure>
+        <figure class="photo-card">
+          <img src="assets/gallery/summer-landmark.jpg" alt="Inukshuk standing in a green summer field" loading="lazy" decoding="async">
+          <figcaption>Through every season</figcaption>
+        </figure>
+        <figure class="photo-card">
+          <img src="assets/gallery/stone-detail.jpg" alt="Close view showing the scale and texture of the stone" loading="lazy" decoding="async">
+          <figcaption>Local stone, monumental scale</figcaption>
+        </figure>
+        <figure class="photo-card wide">
+          <img src="assets/gallery/moonlit-landmark.jpg" alt="Illuminated Inukshuk beneath the moon at night" loading="lazy" decoding="async">
+          <figcaption>A landmark after dark</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="visualizer" id="visualizer">
+    <div class="container">
+      <h2 class="section-title">See It on Your Land</h2>
+      <p class="section-subtitle">Take a photo or choose one from your library. Then drag and resize the Inukshuk to find the right place.</p>
+      <div class="visualizer-shell">
+        <div class="viz-stage" id="viz-stage">
+          <canvas id="viz-canvas" width="1200" height="750" role="img" tabindex="0" aria-label="Preview of an Inukshuk placed on your land. Drag to move it, or use the arrow keys."></canvas>
+          <p class="viz-tip" id="viz-tip">Drag the Inukshuk to position it</p>
+        </div>
+        <aside class="viz-controls" aria-label="Preview controls">
+          <div class="viz-control">
+            <span class="viz-control-title">1. Add your land</span>
+            <div class="upload-grid">
+              <label class="upload-action" for="camera-input">Take a photo</label>
+              <label class="upload-action" for="photo-input">Choose a photo</label>
+            </div>
+            <input class="visually-hidden" id="camera-input" type="file" accept="image/*" capture="environment">
+            <input class="visually-hidden" id="photo-input" type="file" accept="image/*">
+            <p class="privacy-note">Your photo stays on this device. It is never uploaded.</p>
+          </div>
+          <div class="viz-control">
+            <label class="viz-control-title" for="size-slider">2. Set the scale</label>
+            <input class="viz-range" id="size-slider" type="range" min="15" max="90" value="44">
+          </div>
+          <div class="viz-button-row">
+            <button class="viz-button" id="flip-btn" type="button">Flip</button>
+            <button class="viz-button" id="reset-btn" type="button">Reset position</button>
+            <button class="viz-button" id="demo-btn" type="button">Use demo land</button>
+            <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
+          </div>
+          <p class="viz-status" id="viz-status" role="status">Demo land loaded. Add your own photo when you are ready.</p>
+        </aside>
       </div>
     </div>
   </section>
@@ -453,6 +591,271 @@
     <p>Bespoke stone sculptures for private estates and gardens.</p>
     <p style="margin-top:1rem;">&copy; 2026 Inukshuk. All rights reserved.</p>
   </footer>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('viz-canvas');
+      const ctx = canvas.getContext('2d');
+      const stage = document.getElementById('viz-stage');
+      const tip = document.getElementById('viz-tip');
+      const status = document.getElementById('viz-status');
+      const slider = document.getElementById('size-slider');
+      const cameraInput = document.getElementById('camera-input');
+      const photoInput = document.getElementById('photo-input');
+      const flipButton = document.getElementById('flip-btn');
+      const resetButton = document.getElementById('reset-btn');
+      const demoButton = document.getElementById('demo-btn');
+      const downloadButton = document.getElementById('download-btn');
+
+      const demoLand = new Image();
+      const sculpture = new Image();
+      let landPhoto = demoLand;
+      let photoUrl = null;
+      let dragging = false;
+      let flipped = false;
+      let x = canvas.width * 0.62;
+      let footY = canvas.height * 0.91;
+      let heightPercent = Number(slider.value);
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      function drawCover(image) {
+        const imageRatio = image.naturalWidth / image.naturalHeight;
+        const canvasRatio = canvas.width / canvas.height;
+        let sourceX = 0;
+        let sourceY = 0;
+        let sourceWidth = image.naturalWidth;
+        let sourceHeight = image.naturalHeight;
+
+        if (imageRatio > canvasRatio) {
+          sourceWidth = image.naturalHeight * canvasRatio;
+          sourceX = (image.naturalWidth - sourceWidth) / 2;
+        } else {
+          sourceHeight = image.naturalWidth / canvasRatio;
+          sourceY = (image.naturalHeight - sourceHeight) / 2;
+        }
+
+        ctx.drawImage(
+          image,
+          sourceX, sourceY, sourceWidth, sourceHeight,
+          0, 0, canvas.width, canvas.height
+        );
+      }
+
+      function drawFallbackLand() {
+        const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        sky.addColorStop(0, '#8bb7d2');
+        sky.addColorStop(0.58, '#d5d8ca');
+        sky.addColorStop(0.59, '#71845f');
+        sky.addColorStop(1, '#394c35');
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function drawFallbackSculpture(drawWidth, drawHeight) {
+        ctx.save();
+        ctx.translate(x, footY);
+        ctx.scale(flipped ? -1 : 1, 1);
+        ctx.fillStyle = '#756e64';
+        const unit = drawHeight / 260;
+        const stones = [
+          [-28, -260, 56, 58],
+          [-112, -204, 224, 24],
+          [-74, -178, 148, 36],
+          [-88, -144, 176, 58],
+          [-61, -87, 47, 87],
+          [14, -87, 47, 87]
+        ];
+        stones.forEach(([sx, sy, width, height], index) => {
+          ctx.fillStyle = index % 2 ? '#6f685e' : '#8a8174';
+          ctx.fillRect(sx * unit, sy * unit, width * unit, height * unit);
+        });
+        ctx.restore();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
+        else drawFallbackLand();
+
+        const drawHeight = canvas.height * (heightPercent / 100);
+        const ratio = sculpture.naturalWidth && sculpture.naturalHeight
+          ? sculpture.naturalWidth / sculpture.naturalHeight
+          : 0.76;
+        const drawWidth = drawHeight * ratio;
+
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        ctx.filter = 'blur(7px)';
+        ctx.fillStyle = '#17140f';
+        ctx.beginPath();
+        ctx.ellipse(x, footY + 3, drawWidth * 0.28, drawHeight * 0.035, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        if (sculpture.complete && sculpture.naturalWidth) {
+          ctx.save();
+          ctx.translate(x, footY);
+          ctx.scale(flipped ? -1 : 1, 1);
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
+          ctx.restore();
+        } else {
+          drawFallbackSculpture(drawWidth, drawHeight);
+        }
+      }
+
+      function resetPosition() {
+        x = canvas.width * 0.62;
+        footY = canvas.height * 0.91;
+        heightPercent = 44;
+        flipped = false;
+        slider.value = String(heightPercent);
+        tip.classList.remove('hidden');
+        draw();
+      }
+
+      function canvasPoint(event) {
+        const bounds = canvas.getBoundingClientRect();
+        return {
+          x: (event.clientX - bounds.left) * (canvas.width / bounds.width),
+          y: (event.clientY - bounds.top) * (canvas.height / bounds.height)
+        };
+      }
+
+      function placeAt(event) {
+        const point = canvasPoint(event);
+        const drawHeight = canvas.height * (heightPercent / 100);
+        x = clamp(point.x, 0, canvas.width);
+        footY = clamp(point.y, drawHeight * 0.55, canvas.height);
+        tip.classList.add('hidden');
+        draw();
+      }
+
+      function loadPhoto(file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          status.textContent = 'Please choose an image file.';
+          return;
+        }
+
+        if (photoUrl) URL.revokeObjectURL(photoUrl);
+        photoUrl = URL.createObjectURL(file);
+        const visitorPhoto = new Image();
+        visitorPhoto.onload = () => {
+          landPhoto = visitorPhoto;
+          status.textContent = 'Your land is ready. Drag the Inukshuk into position.';
+          tip.classList.remove('hidden');
+          draw();
+        };
+        visitorPhoto.onerror = () => {
+          status.textContent = 'That photo could not be opened. Please try another image.';
+        };
+        visitorPhoto.src = photoUrl;
+      }
+
+      [cameraInput, photoInput].forEach(input => {
+        input.addEventListener('change', event => {
+          loadPhoto(event.target.files && event.target.files[0]);
+          event.target.value = '';
+        });
+      });
+
+      canvas.addEventListener('pointerdown', event => {
+        dragging = true;
+        canvas.classList.add('dragging');
+        canvas.setPointerCapture(event.pointerId);
+        placeAt(event);
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (dragging) placeAt(event);
+      });
+      const stopDragging = event => {
+        dragging = false;
+        canvas.classList.remove('dragging');
+        if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      };
+      canvas.addEventListener('pointerup', stopDragging);
+      canvas.addEventListener('pointercancel', stopDragging);
+      canvas.addEventListener('wheel', event => {
+        event.preventDefault();
+        heightPercent = clamp(heightPercent - Math.sign(event.deltaY) * 3, 15, 90);
+        slider.value = String(heightPercent);
+        draw();
+      }, { passive: false });
+      canvas.addEventListener('keydown', event => {
+        const movement = event.shiftKey ? 20 : 6;
+        if (event.key === 'ArrowLeft') x -= movement;
+        else if (event.key === 'ArrowRight') x += movement;
+        else if (event.key === 'ArrowUp') footY -= movement;
+        else if (event.key === 'ArrowDown') footY += movement;
+        else return;
+        event.preventDefault();
+        x = clamp(x, 0, canvas.width);
+        footY = clamp(footY, 0, canvas.height);
+        tip.classList.add('hidden');
+        draw();
+      });
+
+      slider.addEventListener('input', () => {
+        heightPercent = Number(slider.value);
+        tip.classList.add('hidden');
+        draw();
+      });
+      flipButton.addEventListener('click', () => {
+        flipped = !flipped;
+        draw();
+      });
+      resetButton.addEventListener('click', () => {
+        resetPosition();
+        status.textContent = 'Position and scale reset.';
+      });
+      demoButton.addEventListener('click', () => {
+        landPhoto = demoLand;
+        resetPosition();
+        status.textContent = 'Demo land loaded. Add your own photo when you are ready.';
+      });
+      downloadButton.addEventListener('click', () => {
+        canvas.toBlob(blob => {
+          if (!blob) {
+            status.textContent = 'The preview could not be downloaded. Please try again.';
+            return;
+          }
+          const link = document.createElement('a');
+          const downloadUrl = URL.createObjectURL(blob);
+          link.href = downloadUrl;
+          link.download = 'inukshuk-on-my-land.png';
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+          status.textContent = 'Preview downloaded.';
+        }, 'image/png');
+      });
+
+      ['dragenter', 'dragover'].forEach(type => {
+        stage.addEventListener(type, event => {
+          event.preventDefault();
+          stage.classList.add('dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach(type => {
+        stage.addEventListener(type, event => {
+          event.preventDefault();
+          stage.classList.remove('dragover');
+        });
+      });
+      stage.addEventListener('drop', event => {
+        loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]);
+      });
+
+      demoLand.onload = draw;
+      sculpture.onload = draw;
+      demoLand.src = 'assets/visualizer/demo-land.jpg';
+      sculpture.src = 'assets/visualizer/inukshuk-cutout.webp';
+      draw();
+    })();
+  </script>
 
 </body>
 </html>
