@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Bespoke Inukshuk stone sculptures, built with your people and rooted in your land.">
-  <meta property="og:title" content="Inukshuk — A Monument Built By Your Own Hands">
+  <meta property="og:title" content="Inukshuk: A Monument Built By Your Own Hands">
   <meta property="og:description" content="Commission a bespoke stone landmark for your estate, garden, or land.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_GB">
@@ -18,7 +18,7 @@
   <link rel="canonical" href="https://inukshuk-plum.vercel.app/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
-  <title>Inukshuk — Bespoke Stone Sculptures for Your Land</title>
+  <title>Inukshuk | Bespoke Stone Sculptures for Your Land</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <script type="application/ld+json">
@@ -433,7 +433,7 @@
     }
     .faq summary::-webkit-details-marker { display: none; }
     .faq summary::after { content: '+'; color: var(--warm); font-size: 1.7rem; font-weight: 300; }
-    .faq details[open] summary::after { content: '−'; }
+    .faq details[open] summary::after { content: '×'; }
     .faq-answer { padding: 0 2rem 1.5rem 0; color: #5e5b58; }
 
     /* CONTACT */
@@ -630,9 +630,9 @@
       <div class="what-is-grid">
         <div class="what-is-text">
           <h3>What Is an Inukshuk?</h3>
-          <p>An Inukshuk is a stone landmark built by the Inuit peoples of the Canadian Arctic. Traditionally used as navigation markers across vast, featureless landscapes, they are human-shaped figures assembled from carefully balanced stones — each one unique, none held together by mortar.</p>
-          <p>Today, they stand as symbols of guidance, hope, friendship, and the power of working together. Each Inukshuk is a communal act — the stones are too heavy for one person alone. It takes a gathering to raise one.</p>
-          <p>We bring this tradition to private estates across the UK and beyond. Your Inukshuk becomes a permanent landmark on your land — built with your people, from your stone.</p>
+          <p>An Inukshuk is a stone landmark built by the Inuit peoples of the Canadian Arctic. Traditionally used as navigation markers across vast, featureless landscapes, they are human-shaped figures assembled from carefully balanced stones. Each one is unique, and none is held together by mortar.</p>
+          <p>Today, they stand as symbols of guidance, hope, friendship, and the power of working together. Each Inukshuk is a communal act because the stones are too heavy for one person alone. It takes a gathering to raise one.</p>
+          <p>We bring this tradition to private estates across the UK and beyond. Your Inukshuk becomes a permanent landmark on your land, built with your people and your stone.</p>
           <div class="origin-badge">From the Inuktitut: "in the likeness of a human"</div>
         </div>
         <div class="stone-visual">
@@ -720,7 +720,7 @@
               </label>
               <label class="size-choice">
                 <input type="radio" name="visual-size" value="Estate" data-height="44" checked>
-                <span class="size-card"><strong>Estate</strong><small>2–3.5m</small><b>£7.5k</b></span>
+                <span class="size-card"><strong>Estate</strong><small>2 to 3.5m</small><b>£7.5k</b></span>
               </label>
               <label class="size-choice">
                 <input type="radio" name="visual-size" value="Landmark" data-height="60">
@@ -753,7 +753,7 @@
         <div class="step">
           <div class="step-number">02</div>
           <h4>Stone Selection</h4>
-          <p>Local stone where possible. We source boulders and slabs that match your landscape — limestone, sandstone, granite, or whatever your land offers.</p>
+          <p>Local stone where possible. We source boulders and slabs that match your landscape, including limestone, sandstone, granite, or whatever your land offers.</p>
         </div>
         <div class="step">
           <div class="step-number">03</div>
@@ -763,7 +763,7 @@
         <div class="step">
           <div class="step-number">04</div>
           <h4>Standing Forever</h4>
-          <p>Engineered to last generations. Your Inukshuk becomes a permanent landmark — a story in stone that outlives all of us.</p>
+          <p>Engineered to last generations. Your Inukshuk becomes a permanent landmark and a story in stone that outlives all of us.</p>
         </div>
       </div>
     </div>
@@ -823,7 +823,7 @@
       <div class="story-content">
         <p>It started on a 13-acre property in Manchester. A family, their friends, and their neighbours decided to build something that would stand long after they were gone.</p>
         <p class="highlight">"The stones were too heavy for one person. That was the whole point."</p>
-        <p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected — not a construction project, but a shared experience that drew people closer together.</p>
+        <p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected. It was not a construction project, but a shared experience that drew people closer together.</p>
         <p>That first build proved something: the act of building together creates something more powerful than the structure itself. Now we help others create that same experience on their own land.</p>
       </div>
     </div>
@@ -910,9 +910,9 @@
               <label for="enquiry-package">Project scale</label>
               <select id="enquiry-package" name="package">
                 <option value="">Not sure yet</option>
-                <option value="Garden">Garden — £5,000</option>
-                <option value="Estate">Estate — £7,500</option>
-                <option value="Landmark">Landmark — £10,000</option>
+                <option value="Garden">Garden (£5,000)</option>
+                <option value="Estate">Estate (£7,500)</option>
+                <option value="Landmark">Landmark (£10,000)</option>
               </select>
               <span class="field-error" aria-hidden="true"></span>
             </div>
@@ -1060,7 +1060,7 @@
         const item = galleryItems[galleryIndex];
         lightboxImage.src = item.src;
         lightboxImage.alt = item.alt;
-        lightboxCaption.textContent = `${item.caption} — ${galleryIndex + 1} of ${galleryItems.length}`;
+        lightboxCaption.textContent = `${item.caption}. ${galleryIndex + 1} of ${galleryItems.length}`;
       }
 
       galleryButtons.forEach(button => {
