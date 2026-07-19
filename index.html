@@ -317,7 +317,26 @@
     .viz-button.primary { background: var(--earth); color: var(--white); }
     .viz-button.primary:hover { background: var(--sky); }
     .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    .viz-range { width: 100%; accent-color: var(--warm); cursor: pointer; }
+    .size-options { display: grid; gap: 0.5rem; border: 0; padding: 0; }
+    .size-choice { position: relative; display: block; cursor: pointer; }
+    .size-choice input {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+    .size-card {
+      display: grid; grid-template-columns: 1fr auto; align-items: center;
+      gap: 0.05rem 0.75rem; padding: 0.65rem 0.75rem;
+      border: 1px solid rgba(92,74,58,0.22); border-radius: 2px;
+      background: var(--white); color: var(--earth); transition: border 0.2s, background 0.2s;
+    }
+    .size-card strong { font-size: 0.83rem; }
+    .size-card small { grid-column: 1; color: #77716c; font-size: 0.7rem; }
+    .size-card b { grid-column: 2; grid-row: 1 / span 2; color: var(--sky); font-size: 0.9rem; }
+    .size-choice input:checked + .size-card {
+      border-color: var(--warm); background: rgba(212,165,116,0.14);
+      box-shadow: inset 3px 0 0 var(--warm);
+    }
+    .size-choice input:focus-visible + .size-card { outline: 3px solid var(--warm); outline-offset: 2px; }
     .viz-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .viz-button-row .primary { grid-column: 1 / -1; }
     .privacy-note, .viz-status { font-size: 0.76rem; line-height: 1.5; color: #6d6864; }
@@ -675,10 +694,10 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Take a photo or choose one from your library. Then drag and resize the Inukshuk to find the right place.</p>
+      <p class="section-subtitle">Take a photo or choose one from your library. Pick one of the three sizes, then drag the illustrated Inukshuk into place.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1200" height="750" role="img" tabindex="0" aria-label="Preview of an Inukshuk placed on your land. Drag to move it, or use the arrow keys."></canvas>
+          <canvas id="viz-canvas" width="1200" height="750" role="img" tabindex="0" aria-label="Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys."></canvas>
           <p class="viz-tip" id="viz-tip">Drag the Inukshuk to position it</p>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
@@ -693,8 +712,21 @@
             <p class="privacy-note">Your photo stays on this device. It is never uploaded.</p>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="size-slider">2. Set the scale</label>
-            <input class="viz-range" id="size-slider" type="range" min="15" max="90" value="44">
+            <fieldset class="size-options">
+              <legend class="viz-control-title">2. Choose a size</legend>
+              <label class="size-choice">
+                <input type="radio" name="visual-size" value="Garden" data-height="30">
+                <span class="size-card"><strong>Garden</strong><small>Up to 1.5m</small><b>£5k</b></span>
+              </label>
+              <label class="size-choice">
+                <input type="radio" name="visual-size" value="Estate" data-height="44" checked>
+                <span class="size-card"><strong>Estate</strong><small>2–3.5m</small><b>£7.5k</b></span>
+              </label>
+              <label class="size-choice">
+                <input type="radio" name="visual-size" value="Landmark" data-height="60">
+                <span class="size-card"><strong>Landmark</strong><small>3.5m+</small><b>£10k</b></span>
+              </label>
+            </fieldset>
           </div>
           <div class="viz-button-row">
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
@@ -740,12 +772,12 @@
   <section class="pricing" id="pricing">
     <div class="container">
       <h2 class="section-title">Investment</h2>
-      <p class="section-subtitle">Every Inukshuk is bespoke. These guide prices reflect the scale and complexity of the build.</p>
+      <p class="section-subtitle">Three sizes with clear guide prices. Site-specific access and logistics are confirmed after assessment.</p>
       <div class="pricing-cards">
         <div class="price-card">
           <h4>Garden</h4>
           <p style="color:#888;font-size:0.85rem;">Up to 1.5 metres tall</p>
-          <div class="price-amount">POA <span>/ from</span></div>
+          <div class="price-amount">£5,000</div>
           <ul>
             <li>Site assessment and design</li>
             <li>Stone sourcing and delivery</li>
@@ -758,7 +790,7 @@
         <div class="price-card featured">
           <h4>Estate</h4>
           <p style="color:#888;font-size:0.85rem;">2 to 3.5 metres tall</p>
-          <div class="price-amount">POA <span>/ from</span></div>
+          <div class="price-amount">£7,500</div>
           <ul>
             <li>Everything in Garden</li>
             <li>Structural engineering review</li>
@@ -771,7 +803,7 @@
         <div class="price-card">
           <h4>Landmark</h4>
           <p style="color:#888;font-size:0.85rem;">3.5 metres and above</p>
-          <div class="price-amount">POA <span>/ from</span></div>
+          <div class="price-amount">£10,000</div>
           <ul>
             <li>Everything in Estate</li>
             <li>Bespoke foundation engineering</li>
@@ -878,9 +910,9 @@
               <label for="enquiry-package">Project scale</label>
               <select id="enquiry-package" name="package">
                 <option value="">Not sure yet</option>
-                <option>Garden</option>
-                <option>Estate</option>
-                <option>Landmark</option>
+                <option value="Garden">Garden — £5,000</option>
+                <option value="Estate">Estate — £7,500</option>
+                <option value="Landmark">Landmark — £10,000</option>
               </select>
               <span class="field-error" aria-hidden="true"></span>
             </div>
@@ -1153,7 +1185,7 @@
       const stage = document.getElementById('viz-stage');
       const tip = document.getElementById('viz-tip');
       const status = document.getElementById('viz-status');
-      const slider = document.getElementById('size-slider');
+      const sizeInputs = [...document.querySelectorAll('input[name="visual-size"]')];
       const cameraInput = document.getElementById('camera-input');
       const photoInput = document.getElementById('photo-input');
       const flipButton = document.getElementById('flip-btn');
@@ -1169,7 +1201,7 @@
       let flipped = false;
       let x = canvas.width * 0.62;
       let footY = canvas.height * 0.91;
-      let heightPercent = Number(slider.value);
+      let heightPercent = Number(sizeInputs.find(input => input.checked).dataset.height);
 
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -1266,7 +1298,7 @@
         footY = canvas.height * 0.91;
         heightPercent = 44;
         flipped = false;
-        slider.value = String(heightPercent);
+        sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');
         draw();
       }
@@ -1300,7 +1332,7 @@
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
-          status.textContent = 'Your land is ready. Drag the Inukshuk into position.';
+          status.textContent = 'Your land is ready. Drag the illustrated Inukshuk into position.';
           tip.classList.remove('hidden');
           draw();
         };
@@ -1333,12 +1365,6 @@
       };
       canvas.addEventListener('pointerup', stopDragging);
       canvas.addEventListener('pointercancel', stopDragging);
-      canvas.addEventListener('wheel', event => {
-        event.preventDefault();
-        heightPercent = clamp(heightPercent - Math.sign(event.deltaY) * 3, 15, 90);
-        slider.value = String(heightPercent);
-        draw();
-      }, { passive: false });
       canvas.addEventListener('keydown', event => {
         const movement = event.shiftKey ? 20 : 6;
         if (event.key === 'ArrowLeft') x -= movement;
@@ -1353,10 +1379,14 @@
         draw();
       });
 
-      slider.addEventListener('input', () => {
-        heightPercent = Number(slider.value);
-        tip.classList.add('hidden');
-        draw();
+      sizeInputs.forEach(input => {
+        input.addEventListener('change', () => {
+          if (!input.checked) return;
+          heightPercent = Number(input.dataset.height);
+          status.textContent = `${input.value} size selected. Drag the illustration to position it.`;
+          tip.classList.add('hidden');
+          draw();
+        });
       });
       flipButton.addEventListener('click', () => {
         flipped = !flipped;
@@ -1364,7 +1394,7 @@
       });
       resetButton.addEventListener('click', () => {
         resetPosition();
-        status.textContent = 'Position and scale reset.';
+        status.textContent = 'Estate size and position reset.';
       });
       demoButton.addEventListener('click', () => {
         landPhoto = demoLand;
@@ -1406,7 +1436,7 @@
       demoLand.onload = draw;
       sculpture.onload = draw;
       demoLand.src = 'assets/visualizer/demo-land.jpg';
-      sculpture.src = 'assets/visualizer/inukshuk-cutout.webp';
+      sculpture.src = 'assets/visualizer/inukshuk-illustration.svg';
       draw();
     })();
   </script>
