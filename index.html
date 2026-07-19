@@ -399,6 +399,18 @@
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
     .price-card li::before { content: '\2713\00a0\00a0'; color: var(--warm); font-weight: 700; }
+    .deposit-note {
+      min-height: 4.25rem; margin: 1.1rem 0 0.9rem; padding: 0.85rem 1rem;
+      background: var(--cream); color: #555; border-radius: 3px;
+      font-size: 0.82rem; line-height: 1.45;
+    }
+    .deposit-note strong { display: block; color: var(--earth); font-size: 0.92rem; }
+    .price-actions { display: grid; gap: 0.65rem; }
+    .shopify-buy-slot { min-height: 44px; }
+    .checkout-loading {
+      display: flex; min-height: 44px; align-items: center; justify-content: center;
+      color: var(--stone); font-size: 0.78rem;
+    }
     .price-btn {
       display: inline-block; width: 100%; padding: 0.85rem;
       background: var(--sky); color: var(--white);
@@ -408,6 +420,10 @@
       transition: background 0.3s;
     }
     .price-btn:hover { background: var(--earth); }
+    .price-btn.secondary {
+      background: transparent; color: var(--earth); border: 1px solid rgba(92,74,58,0.38);
+    }
+    .price-btn.secondary:hover { background: var(--cream); }
 
     /* STORY */
     .story { background: var(--sky); color: var(--white); }
@@ -785,7 +801,11 @@
             <li>Half-day build event</li>
             <li>Photography of the day</li>
           </ul>
-          <button class="price-btn package-enquire" type="button" data-package="Garden">Enquire about Garden</button>
+          <p class="deposit-note"><strong>Reserve with £500</strong>Your booking deposit is credited against the £5,000 project price.</p>
+          <div class="price-actions">
+            <div class="shopify-buy-slot" id="shopify-buy-garden"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <button class="price-btn secondary package-enquire" type="button" data-package="Garden">Ask about Garden</button>
+          </div>
         </div>
         <div class="price-card featured">
           <h4>Estate</h4>
@@ -798,7 +818,11 @@
             <li>Full-day community build event</li>
             <li>Drone footage and film</li>
           </ul>
-          <button class="price-btn package-enquire" type="button" data-package="Estate">Enquire about Estate</button>
+          <p class="deposit-note"><strong>Reserve with £750</strong>Your booking deposit is credited against the £7,500 project price.</p>
+          <div class="price-actions">
+            <div class="shopify-buy-slot" id="shopify-buy-estate"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <button class="price-btn secondary package-enquire" type="button" data-package="Estate">Ask about Estate</button>
+          </div>
         </div>
         <div class="price-card">
           <h4>Landmark</h4>
@@ -811,7 +835,11 @@
             <li>Full event production</li>
             <li>Commemorative plaque and story</li>
           </ul>
-          <button class="price-btn package-enquire" type="button" data-package="Landmark">Enquire about Landmark</button>
+          <p class="deposit-note"><strong>Reserve with £1,000</strong>Your booking deposit is credited against the £10,000 project price.</p>
+          <div class="price-actions">
+            <div class="shopify-buy-slot" id="shopify-buy-landmark"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <button class="price-btn secondary package-enquire" type="button" data-package="Landmark">Ask about Landmark</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1438,6 +1466,88 @@
       demoLand.src = 'assets/visualizer/demo-land-estate.jpg';
       sculpture.src = 'assets/visualizer/inukshuk-illustration.svg';
       draw();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const products = [
+        { nodeId: 'shopify-buy-garden', productId: '10724008526163', buttonText: 'Pay £500 deposit' },
+        { nodeId: 'shopify-buy-estate', productId: '10724008657235', buttonText: 'Pay £750 deposit' },
+        { nodeId: 'shopify-buy-landmark', productId: '10724008788307', buttonText: 'Pay £1,000 deposit' }
+      ];
+
+      function showCheckoutError() {
+        products.forEach(product => {
+          const node = document.getElementById(product.nodeId);
+          if (!node || node.querySelector('.shopify-buy__product')) return;
+          node.innerHTML = '<a class="price-btn" href="#contact">Checkout unavailable. Enquire instead</a>';
+        });
+      }
+
+      function createCheckoutButtons() {
+        const client = ShopifyBuy.buildClient({
+          domain: 'wwajbm-kv.myshopify.com',
+          storefrontAccessToken: 'e5ad6d652ff31efa8118ce57d0a0e4ae'
+        });
+
+        ShopifyBuy.UI.onReady(client).then(ui => {
+          products.forEach(product => {
+            const node = document.getElementById(product.nodeId);
+            node.textContent = '';
+            ui.createComponent('product', {
+              id: product.productId,
+              node,
+              moneyFormat: '£{{amount}}',
+              options: {
+                product: {
+                  contents: {
+                    img: false,
+                    title: false,
+                    price: false,
+                    options: false,
+                    quantity: false
+                  },
+                  styles: {
+                    product: {
+                      'max-width': 'none',
+                      'margin': '0',
+                      'text-align': 'center'
+                    },
+                    button: {
+                      'font-family': 'Inter, sans-serif',
+                      'font-size': '13.6px',
+                      'font-weight': '600',
+                      'letter-spacing': '1px',
+                      'text-transform': 'uppercase',
+                      'padding-top': '13.6px',
+                      'padding-bottom': '13.6px',
+                      'width': '100%',
+                      'background-color': '#2C3E50',
+                      'border-radius': '2px',
+                      ':hover': { 'background-color': '#5C4A3A' },
+                      ':focus': { 'background-color': '#5C4A3A' }
+                    }
+                  },
+                  buttonDestination: 'checkout',
+                  text: { button: product.buttonText }
+                }
+              }
+            });
+          });
+        }).catch(showCheckoutError);
+      }
+
+      if (window.ShopifyBuy && window.ShopifyBuy.UI) {
+        createCheckoutButtons();
+      } else {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        script.onload = createCheckoutButtons;
+        script.onerror = showCheckoutError;
+        document.head.appendChild(script);
+      }
     })();
   </script>
 
