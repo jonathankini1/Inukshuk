@@ -1,0 +1,42 @@
+<section class="inner-page">
+  <div class="container">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="lede rte">{{ collection.description }}</div>
+    {% endif %}
+    {% paginate collection.products by 12 %}
+      {% if collection.products.size == 0 %}
+        <p>{{ 'collection.empty' | t }}</p>
+      {% else %}
+        <div class="catalog-grid">
+          {% for product in collection.products %}
+            <a class="catalog-card" href="{{ product.url }}">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 800 | image_tag: alt: product.featured_image.alt, loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 768px) 33vw, 100vw' }}
+              {% else %}
+                <img src="{{ 'stone-detail.jpg' | asset_url }}" alt="" width="1500" height="2000" loading="lazy">
+              {% endif %}
+              <div>
+                <h2>{{ product.title }}</h2>
+                <p>{{ product.price | money }}</p>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if paginate.pages > 1 %}
+        <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">
+          {{ paginate | default_pagination }}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.collection.name",
+  "enabled_on": { "templates": ["collection"] },
+  "settings": []
+}
+{% endschema %}

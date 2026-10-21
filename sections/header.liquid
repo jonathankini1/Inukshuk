@@ -1,0 +1,137 @@
+<nav
+  class="site-header"
+  aria-label="{{ 'sections.header.label' | t }}"
+  data-header
+  data-open-label="{{ 'general.menu_open' | t | escape }}"
+  data-close-label="{{ 'general.menu_close' | t | escape }}"
+>
+  <a class="logo" href="{{ routes.root_url }}#top">{{ section.settings.logo_text | escape }}</a>
+  <button
+    class="menu-toggle"
+    type="button"
+    data-menu-toggle
+    aria-expanded="false"
+    aria-controls="primary-navigation-{{ section.id }}"
+    aria-label="{{ 'general.menu_open' | t }}"
+  >
+    <span class="menu-toggle-lines" aria-hidden="true"></span>
+  </button>
+  <ul class="nav-links" id="primary-navigation-{{ section.id }}" data-menu>
+    {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
+      {% for link in section.settings.menu.links %}
+        <li>
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li><a href="{{ routes.root_url }}#what">{{ 'sections.header.what' | t }}</a></li>
+      <li><a href="{{ routes.root_url }}#gallery">{{ 'sections.header.gallery' | t }}</a></li>
+      <li><a href="{{ routes.root_url }}#visualizer">{{ 'sections.header.try' | t }}</a></li>
+      <li><a href="{{ routes.root_url }}#process">{{ 'sections.header.process' | t }}</a></li>
+      <li><a href="{{ routes.root_url }}#pricing">{{ 'sections.header.pricing' | t }}</a></li>
+      <li><a href="{{ routes.root_url }}#faq">{{ 'sections.header.faq' | t }}</a></li>
+    {% endif %}
+    <li>
+      <a class="nav-cart" href="{{ routes.cart_url }}" {% if template.name == 'cart' %}aria-current="page"{% endif %}>
+        {{ 'sections.header.cart' | t: count: cart.item_count }}
+      </a>
+    </li>
+    <li>
+      <a class="nav-cta" href="{% if section.settings.cta_link != blank %}{{ section.settings.cta_link }}{% else %}{{ routes.root_url }}#contact{% endif %}">
+        {{ section.settings.cta_label }}
+      </a>
+    </li>
+  </ul>
+</nav>
+
+{% javascript %}
+(() => {
+  const boot = (root) => {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('[data-header]').forEach((nav) => {
+      if (nav.dataset.bound === 'true') return;
+      nav.dataset.bound = 'true';
+      const toggle = nav.querySelector('[data-menu-toggle]');
+      const menu = nav.querySelector('[data-menu]');
+      if (!toggle || !menu) return;
+      const openLabel = nav.getAttribute('data-open-label');
+      const closeLabel = nav.getAttribute('data-close-label');
+      const closeMenu = () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', openLabel);
+        menu.classList.remove('open');
+        document.body.classList.remove('menu-open');
+      };
+      toggle.addEventListener('click', () => {
+        const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(willOpen));
+        toggle.setAttribute('aria-label', willOpen ? closeLabel : openLabel);
+        menu.classList.toggle('open', willOpen);
+        document.body.classList.toggle('menu-open', willOpen);
+      });
+      menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && menu.classList.contains('open')) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 960) closeMenu();
+      });
+      const sectionLinks = [...menu.querySelectorAll('a[href*="#"]')];
+      const targets = sectionLinks.map((link) => {
+        const hash = (link.getAttribute('href') || '').split('#')[1];
+        return hash ? document.getElementById(hash) : null;
+      }).filter(Boolean);
+      if ('IntersectionObserver' in window && targets.length) {
+        const observer = new IntersectionObserver((entries) => {
+          const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          sectionLinks.forEach((link) => {
+            const hash = (link.getAttribute('href') || '').split('#')[1];
+            if (hash === visible.target.id) link.setAttribute('aria-current', 'true');
+            else if (link.getAttribute('aria-current') === 'true') link.removeAttribute('aria-current');
+          });
+        }, { rootMargin: '-18% 0px -68%', threshold: [0, 0.2, 0.55] });
+        targets.forEach((target) => observer.observe(target));
+      }
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => boot(document));
+  else boot(document);
+  document.addEventListener('shopify:section:load', (event) => boot(event.target));
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "t:sections.header.settings.logo_text.label",
+      "default": "Inukshuk"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:sections.header.settings.menu.label",
+      "info": "t:sections.header.settings.menu.info"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:sections.header.settings.cta_label.label",
+      "default": "Enquire"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "t:sections.header.settings.cta_link.label"
+    }
+  ]
+}
+{% endschema %}

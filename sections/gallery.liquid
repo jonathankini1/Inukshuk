@@ -1,0 +1,116 @@
+<section class="gallery" id="{{ section.settings.anchor | default: 'gallery' | handleize }}" data-gallery>
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="section-subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <div class="photo-grid">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+  <dialog class="lightbox" data-lightbox aria-labelledby="lightbox-caption-{{ section.id }}">
+    <div class="lightbox-frame">
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="{{ 'sections.gallery.close' | t }}">&times;</button>
+      <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-prev aria-label="{{ 'sections.gallery.previous' | t }}">&#8249;</button>
+      <img data-lightbox-image src="{{ 'landmark-wide.jpg' | asset_url }}" alt="" width="2000" height="1125">
+      <button class="lightbox-nav lightbox-next" type="button" data-lightbox-next aria-label="{{ 'sections.gallery.next' | t }}">&#8250;</button>
+      <p class="lightbox-caption" id="lightbox-caption-{{ section.id }}" data-lightbox-caption></p>
+    </div>
+  </dialog>
+</section>
+
+{% javascript %}
+(() => {
+  const boot = (root) => {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('[data-gallery]').forEach((section) => {
+      if (section.dataset.bound === 'true') return;
+      section.dataset.bound = 'true';
+      const buttons = [...section.querySelectorAll('.gallery-open')];
+      const lightbox = section.querySelector('[data-lightbox]');
+      const image = section.querySelector('[data-lightbox-image]');
+      const caption = section.querySelector('[data-lightbox-caption]');
+      const closeButton = section.querySelector('[data-lightbox-close]');
+      if (!lightbox || !image || !caption || buttons.length === 0) return;
+      let index = 0;
+      let trigger = null;
+      const items = buttons.map((button) => ({
+        src: button.getAttribute('data-src'),
+        alt: button.getAttribute('data-alt') || '',
+        caption: button.getAttribute('data-caption') || ''
+      }));
+      const show = (next) => {
+        index = (next + items.length) % items.length;
+        const item = items[index];
+        image.src = item.src;
+        image.alt = item.alt;
+        caption.textContent = item.caption + '. ' + (index + 1) + ' of ' + items.length;
+      };
+      buttons.forEach((button, buttonIndex) => {
+        button.addEventListener('click', () => {
+          trigger = button;
+          show(buttonIndex);
+          if (typeof lightbox.showModal === 'function') lightbox.showModal();
+          document.body.classList.add('modal-open');
+          closeButton.focus();
+        });
+      });
+      closeButton.addEventListener('click', () => lightbox.close());
+      section.querySelector('[data-lightbox-prev]').addEventListener('click', () => show(index - 1));
+      section.querySelector('[data-lightbox-next]').addEventListener('click', () => show(index + 1));
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) lightbox.close();
+      });
+      lightbox.addEventListener('close', () => {
+        document.body.classList.remove('modal-open');
+        if (trigger) trigger.focus();
+      });
+      lightbox.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          show(index - 1);
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          show(index + 1);
+        }
+      });
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => boot(document));
+  else boot(document);
+  document.addEventListener('shopify:section:load', (event) => boot(event.target));
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.gallery.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 12,
+  "blocks": [{ "type": "gallery-photo" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "t:labels.anchor",
+      "default": "gallery"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "A Story in Stone"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "t:labels.subheading",
+      "default": "The first landmark, seen across weather, seasons, and distance. Every angle reveals the landscape it belongs to."
+    }
+  ],
+  "presets": [
+    { "name": "t:sections.gallery.presets.name" }
+  ]
+}
+{% endschema %}

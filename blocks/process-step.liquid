@@ -1,0 +1,39 @@
+{% doc %}
+  One numbered step in the build process.
+  @example
+  {% content_for 'block', type: 'process-step', id: 'step' %}
+{% enddoc %}
+
+<article class="step" {{ block.shopify_attributes }}>
+  <div class="step-number">{{ block.settings.number }}</div>
+  <h3>{{ block.settings.title }}</h3>
+  <p>{{ block.settings.text }}</p>
+</article>
+
+{% schema %}
+{
+  "name": "t:blocks.process_step.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "number",
+      "label": "t:blocks.process_step.settings.number.label",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:blocks.process_step.settings.title.label",
+      "default": "Site Visit"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:blocks.process_step.settings.text.label"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.process_step.presets.name" }
+  ]
+}
+{% endschema %}

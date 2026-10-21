@@ -1488,7 +1488,7 @@
       function createCheckoutButtons() {
         const client = ShopifyBuy.buildClient({
           domain: 'wwajbm-kv.myshopify.com',
-          storefrontAccessToken: 'e5ad6d652ff31efa8118ce57d0a0e4ae'
+          storefrontAccessToken: ''
         });
 
         ShopifyBuy.UI.onReady(client).then(ui => {
@@ -1543,7 +1543,7 @@
       } else {
         const script = document.createElement('script');
         script.async = true;
-        script.src = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        script.src = '';
         script.onload = createCheckoutButtons;
         script.onerror = showCheckoutError;
         document.head.appendChild(script);

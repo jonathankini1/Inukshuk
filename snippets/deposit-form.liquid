@@ -1,0 +1,29 @@
+{% doc %}
+  Renders a product form that adds one unit of a deposit and continues to checkout.
+  @param {product} deposit_product - The booking deposit product
+  @param {string} form_id - Unique form id
+  @param {string} label - Submit button label
+  @example
+  {% render 'deposit-form', deposit_product: product, form_id: 'deposit', label: 'Continue to checkout' %}
+{% enddoc %}
+
+{% liquid
+  assign deposit_variant = nil
+  if deposit_product.id != blank
+    assign deposit_variant = deposit_product.selected_or_first_available_variant
+  endif
+  assign checkout_path = routes.cart_url | split: 'cart' | first | append: 'checkout'
+%}
+
+{% if deposit_variant != blank and deposit_variant.available %}
+  {% form 'product', deposit_product, id: form_id, class: 'deposit-form' %}
+    <input type="hidden" name="id" value="{{ deposit_variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <input type="hidden" name="return_to" value="{{ checkout_path }}">
+    <button class="price-btn" type="submit" name="add">{{ label }}</button>
+  {% endform %}
+{% elsif deposit_product.id != blank %}
+  <p class="deposit-unavailable">{{ 'general.sold_out' | t }}</p>
+{% elsif request.design_mode %}
+  <p class="deposit-unavailable">{{ 'sections.pricing.pick_product' | t }}</p>
+{% endif %}

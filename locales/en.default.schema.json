@@ -1,0 +1,459 @@
+{
+  "blocks": {
+    "faq_item": {
+      "name": "FAQ item",
+      "presets": {
+        "name": "FAQ item"
+      },
+      "settings": {
+        "answer": {
+          "label": "Answer"
+        },
+        "question": {
+          "label": "Question"
+        }
+      }
+    },
+    "gallery_photo": {
+      "name": "Gallery photo",
+      "presets": {
+        "name": "Gallery photo"
+      },
+      "settings": {
+        "alt": {
+          "label": "Alt text"
+        },
+        "caption": {
+          "label": "Caption"
+        },
+        "fallback_asset": {
+          "info": "Theme image filename used until you pick an image. Example: landmark-wide.jpg",
+          "label": "Fallback image"
+        },
+        "image": {
+          "label": "Image"
+        },
+        "layout": {
+          "label": "Layout",
+          "options": {
+            "normal": "Normal",
+            "tall": "Tall",
+            "wide": "Wide"
+          }
+        },
+        "open_label": {
+          "label": "Open button label"
+        }
+      }
+    },
+    "pricing_card": {
+      "name": "Pricing card",
+      "presets": {
+        "name": "Pricing card"
+      },
+      "settings": {
+        "badge": {
+          "label": "Badge"
+        },
+        "deposit_text": {
+          "label": "Deposit note"
+        },
+        "deposit_title": {
+          "label": "Deposit heading"
+        },
+        "enquire_label": {
+          "label": "Enquire button"
+        },
+        "featured": {
+          "label": "Featured"
+        },
+        "features": {
+          "info": "One feature per line.",
+          "label": "Features"
+        },
+        "guide_price": {
+          "label": "Guide price"
+        },
+        "package_value": {
+          "info": "Must match Garden, Estate or Landmark so the enquiry form can preselect it.",
+          "label": "Enquiry value"
+        },
+        "product": {
+          "label": "Product"
+        },
+        "product_handle": {
+          "info": "Used when the product picker is empty. Example: garden-inukshuk-booking-deposit",
+          "label": "Product handle"
+        },
+        "size_label": {
+          "label": "Size"
+        },
+        "title": {
+          "label": "Title"
+        }
+      }
+    },
+    "principle": {
+      "name": "Principle",
+      "presets": {
+        "name": "Principle"
+      },
+      "settings": {
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "process_step": {
+      "name": "Process step",
+      "presets": {
+        "name": "Process step"
+      },
+      "settings": {
+        "number": {
+          "label": "Number"
+        },
+        "text": {
+          "label": "Text"
+        },
+        "title": {
+          "label": "Title"
+        }
+      }
+    },
+    "visualizer_size": {
+      "name": "Visualizer size",
+      "presets": {
+        "name": "Visualizer size"
+      },
+      "settings": {
+        "detail": {
+          "label": "Detail"
+        },
+        "height": {
+          "label": "Illustration height"
+        },
+        "price": {
+          "label": "Price"
+        },
+        "selected": {
+          "label": "Selected by default"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "value": {
+          "label": "Value"
+        }
+      }
+    }
+  },
+  "labels": {
+    "anchor": "Anchor",
+    "heading": "Heading",
+    "image": "Image",
+    "image_alt": "Image alt text",
+    "subheading": "Subheading",
+    "text": "Text"
+  },
+  "sections": {
+    "cart": {
+      "name": "Cart"
+    },
+    "collection": {
+      "name": "Collection"
+    },
+    "enquiry": {
+      "name": "Enquiry",
+      "presets": {
+        "name": "Enquiry"
+      },
+      "settings": {
+        "button_label": {
+          "label": "Button label"
+        },
+        "email_placeholder": {
+          "label": "Email placeholder"
+        },
+        "estate_option": {
+          "label": "Estate option"
+        },
+        "garden_option": {
+          "label": "Garden option"
+        },
+        "landmark_option": {
+          "label": "Landmark option"
+        },
+        "location_placeholder": {
+          "label": "Location placeholder"
+        },
+        "name_placeholder": {
+          "label": "Name placeholder"
+        },
+        "panel_heading": {
+          "label": "Panel heading"
+        },
+        "panel_text": {
+          "label": "Panel text"
+        },
+        "promises": {
+          "label": "Promises"
+        },
+        "success_message": {
+          "label": "Success message"
+        },
+        "vision_placeholder": {
+          "label": "Vision placeholder"
+        }
+      }
+    },
+    "faq": {
+      "name": "FAQ",
+      "presets": {
+        "name": "FAQ"
+      }
+    },
+    "footer": {
+      "name": "Footer",
+      "settings": {
+        "cta_label": {
+          "label": "Button label"
+        },
+        "cta_link": {
+          "label": "Button link"
+        },
+        "intro": {
+          "label": "Intro"
+        },
+        "logo_text": {
+          "label": "Logo"
+        },
+        "menu": {
+          "info": "Use a nested menu. Parent items become column headings.",
+          "label": "Menu"
+        }
+      }
+    },
+    "gallery": {
+      "name": "Gallery",
+      "presets": {
+        "name": "Gallery"
+      }
+    },
+    "header": {
+      "name": "Header",
+      "settings": {
+        "cta_label": {
+          "label": "Enquire button"
+        },
+        "cta_link": {
+          "label": "Enquire link"
+        },
+        "logo_text": {
+          "label": "Logo"
+        },
+        "menu": {
+          "info": "Leave this empty to use the built-in homepage links.",
+          "label": "Menu"
+        }
+      }
+    },
+    "hero": {
+      "name": "Hero",
+      "presets": {
+        "name": "Hero"
+      },
+      "settings": {
+        "anchor": {
+          "label": "Anchor"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "image": {
+          "label": "Image"
+        },
+        "primary_label": {
+          "label": "Primary label"
+        },
+        "primary_link": {
+          "label": "Primary link"
+        },
+        "secondary_label": {
+          "label": "Secondary label"
+        },
+        "secondary_link": {
+          "label": "Secondary link"
+        },
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "legal": {
+      "name": "Legal page",
+      "presets": {
+        "name": "Legal page"
+      },
+      "settings": {
+        "body": {
+          "label": "Body"
+        },
+        "lede": {
+          "label": "Lede"
+        },
+        "summary": {
+          "label": "Summary"
+        },
+        "summary_label": {
+          "label": "Summary label"
+        },
+        "use_page_content": {
+          "info": "Turn this on to show text pasted into the Shopify page instead of the theme copy.",
+          "label": "Use the page content"
+        }
+      }
+    },
+    "not_found": {
+      "name": "404",
+      "settings": {
+        "enquiry_label": {
+          "label": "Enquiry button"
+        },
+        "home_label": {
+          "label": "Home button"
+        },
+        "mark": {
+          "label": "Mark"
+        }
+      }
+    },
+    "page": {
+      "name": "Page"
+    },
+    "password": {
+      "name": "Password"
+    },
+    "pricing": {
+      "name": "Pricing",
+      "presets": {
+        "name": "Pricing"
+      }
+    },
+    "principles": {
+      "name": "Principles",
+      "presets": {
+        "name": "Principles"
+      },
+      "settings": {
+        "label": {
+          "label": "Label"
+        }
+      }
+    },
+    "process": {
+      "name": "Process",
+      "presets": {
+        "name": "Process"
+      }
+    },
+    "product": {
+      "name": "Product",
+      "settings": {
+        "note": {
+          "label": "Note"
+        }
+      }
+    },
+    "search": {
+      "name": "Search"
+    },
+    "story": {
+      "name": "Story",
+      "presets": {
+        "name": "Story"
+      },
+      "settings": {
+        "closing": {
+          "label": "Closing"
+        },
+        "highlight": {
+          "label": "Highlight"
+        },
+        "intro": {
+          "label": "Intro"
+        }
+      }
+    },
+    "visualizer": {
+      "name": "Land visualizer",
+      "presets": {
+        "name": "Land visualizer"
+      },
+      "settings": {
+        "choose_photo": {
+          "label": "Choose photo"
+        },
+        "controls_label": {
+          "label": "Controls label"
+        },
+        "demo_label": {
+          "label": "Demo label"
+        },
+        "download_label": {
+          "label": "Download label"
+        },
+        "flip_label": {
+          "label": "Flip label"
+        },
+        "privacy": {
+          "label": "Privacy"
+        },
+        "reset_label": {
+          "label": "Reset label"
+        },
+        "step_one": {
+          "label": "Step one"
+        },
+        "step_two": {
+          "label": "Step two"
+        },
+        "take_photo": {
+          "label": "Take photo"
+        }
+      }
+    },
+    "what_is": {
+      "name": "What is an Inukshuk",
+      "presets": {
+        "name": "What is an Inukshuk"
+      },
+      "settings": {
+        "badge": {
+          "label": "Badge"
+        }
+      }
+    }
+  },
+  "settings": {
+    "colors": {
+      "cream": "Cream",
+      "dark": "Dark",
+      "earth": "Earth",
+      "name": "Colors",
+      "sky": "Sky",
+      "stone": "Stone",
+      "warm": "Warm",
+      "white": "White"
+    },
+    "social": {
+      "description": "Homepage description",
+      "name": "Social"
+    },
+    "typography": {
+      "body": "Body font",
+      "heading": "Heading font",
+      "name": "Typography"
+    }
+  }
+}

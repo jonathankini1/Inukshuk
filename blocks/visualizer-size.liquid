@@ -1,0 +1,71 @@
+{% doc %}
+  A size choice for the land visualizer.
+  @example
+  {% content_for 'block', type: 'visualizer-size', id: 'estate' %}
+{% enddoc %}
+
+<label class="size-choice" {{ block.shopify_attributes }}>
+  <input
+    type="radio"
+    name="visual-size-{{ section.id }}"
+    value="{{ block.settings.value | escape }}"
+    data-height="{{ block.settings.height }}"
+    {% if block.settings.selected %}checked data-default="true"{% endif %}
+  >
+  <span class="size-card">
+    <strong>{{ block.settings.title }}</strong>
+    <small>{{ block.settings.detail }}</small>
+    <b>{{ block.settings.price }}</b>
+  </span>
+</label>
+
+{% schema %}
+{
+  "name": "t:blocks.visualizer_size.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:blocks.visualizer_size.settings.title.label",
+      "default": "Estate"
+    },
+    {
+      "type": "text",
+      "id": "detail",
+      "label": "t:blocks.visualizer_size.settings.detail.label",
+      "default": "2 to 3.5m"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "t:blocks.visualizer_size.settings.price.label",
+      "default": "£7.5k"
+    },
+    {
+      "type": "text",
+      "id": "value",
+      "label": "t:blocks.visualizer_size.settings.value.label",
+      "default": "Estate"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "t:blocks.visualizer_size.settings.height.label",
+      "min": 10,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 44
+    },
+    {
+      "type": "checkbox",
+      "id": "selected",
+      "label": "t:blocks.visualizer_size.settings.selected.label",
+      "default": false
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.visualizer_size.presets.name" }
+  ]
+}
+{% endschema %}

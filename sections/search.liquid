@@ -1,0 +1,56 @@
+<section class="inner-page">
+  <div class="container">
+    <h1>
+      {% if search.performed %}
+        {{ 'search.results' | t: terms: search.terms }}
+      {% else %}
+        {{ 'search.title' | t }}
+      {% endif %}
+    </h1>
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="field-label" for="SearchQuery">{{ 'search.label' | t }}</label>
+      <input id="SearchQuery" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}">
+      <button class="price-btn" type="submit">{{ 'search.submit' | t }}</button>
+    </form>
+    {% if search.performed %}
+      {% paginate search.results by 12 %}
+        {% if search.results.size == 0 %}
+          <p class="lede">{{ 'search.empty' | t: terms: search.terms }}</p>
+        {% else %}
+          <div class="catalog-grid catalog-grid--spaced">
+            {% for result in search.results %}
+              <a class="catalog-card" href="{{ result.url }}">
+                {% if result.featured_image %}
+                  {{ result.featured_image | image_url: width: 800 | image_tag: alt: result.featured_image.alt, loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 768px) 33vw, 100vw' }}
+                {% elsif result.image %}
+                  {{ result.image | image_url: width: 800 | image_tag: alt: result.title, loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 768px) 33vw, 100vw' }}
+                {% endif %}
+                <div>
+                  <h2>{{ result.title }}</h2>
+                  {% if result.price %}
+                    <p>{{ result.price | money }}</p>
+                  {% else %}
+                    <p>{{ result.content | strip_html | truncate: 140 }}</p>
+                  {% endif %}
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if paginate.pages > 1 %}
+          <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">
+            {{ paginate | default_pagination }}
+          </nav>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.search.name",
+  "enabled_on": { "templates": ["search"] },
+  "settings": []
+}
+{% endschema %}

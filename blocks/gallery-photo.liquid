@@ -1,0 +1,107 @@
+{% doc %}
+  A gallery photograph that opens in the lightbox.
+  @example
+  {% content_for 'block', type: 'gallery-photo', id: 'photo' %}
+{% enddoc %}
+
+{% liquid
+  assign photo_src = ''
+  assign photo_width = 1600
+  assign photo_height = 1067
+  if block.settings.image != blank
+    assign photo_src = block.settings.image | image_url: width: 2000
+    assign photo_width = block.settings.image.width
+    assign photo_height = block.settings.image.height
+  elsif block.settings.fallback_asset != blank
+    assign photo_src = block.settings.fallback_asset | asset_url
+    case block.settings.fallback_asset
+      when 'landmark-wide.jpg', 'hillside-landmark.jpg'
+        assign photo_width = 2000
+        assign photo_height = 1125
+      when 'landmark-front.jpg'
+        assign photo_width = 1200
+        assign photo_height = 1600
+      when 'summer-landmark.jpg'
+        assign photo_width = 1125
+        assign photo_height = 2000
+      when 'stone-detail.jpg', 'moonlit-landmark.jpg'
+        assign photo_width = 1500
+        assign photo_height = 2000
+    endcase
+  endif
+%}
+
+<figure class="photo-card{% if block.settings.layout == 'wide' %} wide{% elsif block.settings.layout == 'tall' %} tall{% endif %}" {{ block.shopify_attributes }}>
+  <button
+    type="button"
+    class="gallery-open"
+    data-src="{{ photo_src }}"
+    data-alt="{{ block.settings.alt | escape }}"
+    data-caption="{{ block.settings.caption | escape }}"
+    aria-label="{{ block.settings.open_label | escape }}"
+  >
+    {% if block.settings.image != blank %}
+      {{ block.settings.image | image_url: width: 1600 | image_tag: alt: block.settings.alt, loading: 'lazy', widths: '400, 800, 1200, 1600', sizes: '(min-width: 768px) 50vw, 100vw' }}
+    {% elsif block.settings.fallback_asset != blank %}
+      <img
+        src="{{ block.settings.fallback_asset | asset_url }}"
+        alt="{{ block.settings.alt | escape }}"
+        width="{{ photo_width }}"
+        height="{{ photo_height }}"
+        loading="lazy"
+        decoding="async"
+      >
+    {% endif %}
+    <span class="photo-caption">{{ block.settings.caption }}</span>
+    <span class="photo-view">{{ 'sections.gallery.view' | t }}</span>
+  </button>
+</figure>
+
+{% schema %}
+{
+  "name": "t:blocks.gallery_photo.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:blocks.gallery_photo.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "t:blocks.gallery_photo.settings.fallback_asset.label",
+      "info": "t:blocks.gallery_photo.settings.fallback_asset.info"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "t:blocks.gallery_photo.settings.alt.label"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:blocks.gallery_photo.settings.caption.label"
+    },
+    {
+      "type": "text",
+      "id": "open_label",
+      "label": "t:blocks.gallery_photo.settings.open_label.label",
+      "default": "Open photograph"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:blocks.gallery_photo.settings.layout.label",
+      "default": "normal",
+      "options": [
+        { "value": "normal", "label": "t:blocks.gallery_photo.settings.layout.options.normal" },
+        { "value": "wide", "label": "t:blocks.gallery_photo.settings.layout.options.wide" },
+        { "value": "tall", "label": "t:blocks.gallery_photo.settings.layout.options.tall" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.gallery_photo.presets.name" }
+  ]
+}
+{% endschema %}

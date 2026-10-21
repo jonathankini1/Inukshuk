@@ -1,0 +1,38 @@
+<article class="legal">
+  <header class="legal-hero">
+    <div class="legal-hero__inner">
+      <h1>{% if section.settings.heading != blank %}{{ section.settings.heading }}{% else %}{{ page.title }}{% endif %}</h1>
+      {% if section.settings.lede != blank %}
+        <p>{{ section.settings.lede }}</p>
+      {% endif %}
+    </div>
+  </header>
+  <div class="legal-content rte">
+    {% if section.settings.summary != blank %}
+      <p class="callout">{% if section.settings.summary_label != blank %}<strong>{{ section.settings.summary_label }}</strong> {% endif %}{{ section.settings.summary }}</p>
+    {% endif %}
+    {% if section.settings.use_page_content and page.content != blank %}
+      {{ page.content }}
+    {% else %}
+      {{ section.settings.body }}
+    {% endif %}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "t:sections.legal.name",
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "t:labels.heading" },
+    { "type": "textarea", "id": "lede", "label": "t:sections.legal.settings.lede.label" },
+    { "type": "text", "id": "summary_label", "label": "t:sections.legal.settings.summary_label.label", "default": "Plain-English summary:" },
+    { "type": "textarea", "id": "summary", "label": "t:sections.legal.settings.summary.label" },
+    { "type": "richtext", "id": "body", "label": "t:sections.legal.settings.body.label" },
+    { "type": "checkbox", "id": "use_page_content", "label": "t:sections.legal.settings.use_page_content.label", "info": "t:sections.legal.settings.use_page_content.info", "default": false }
+  ],
+  "presets": [
+    { "name": "t:sections.legal.presets.name" }
+  ]
+}
+{% endschema %}

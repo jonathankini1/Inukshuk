@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal",
+      "settings": {
+        "heading": "Website Terms",
+        "lede": "The practical terms that apply when you use this website.",
+        "summary_label": "",
+        "summary": "These terms cover website use only. Any commissioned project will have its own written proposal and contract.",
+        "body": "<h2>Website information</h2><p>We aim to keep this website accurate and useful. Project descriptions, availability, lead times, inclusions and guide pricing are indicative and may change. Nothing on the website is a binding quotation or offer.</p><h2>Project enquiries</h2><p>Sending an enquiry does not create a contract or reserve a build date. A commission begins only when the parties agree a written scope, price, programme and payment terms.</p><h2>Land visualizer</h2><p>The See It on Your Land tool is an illustrative concept aid. It does not represent measured dimensions, final stone selection, structural design, planning approval or a guaranteed finished appearance.</p><h2>Planning, engineering and site conditions</h2><p>Planning requirements, utilities, access, ground conditions and structural needs vary by site. They are assessed separately during project development. Visitors should not rely on general website content as professional planning, engineering or safety advice.</p><h2>Intellectual property</h2><p>Unless otherwise stated, the website design, copy, photography, graphics and visualizer are owned by or licensed to Inukshuk. They may not be reproduced or used commercially without permission.</p><h2>Acceptable use</h2><p>You must not attempt to interfere with the website, introduce malicious code, access systems without permission, or use the site in a way that infringes another person's rights.</p><h2>Availability and liability</h2><p>We do not guarantee uninterrupted access to the website. To the extent permitted by law, we are not liable for losses arising solely from reliance on general website content or temporary unavailability. Nothing in these terms excludes liability that cannot legally be excluded.</p><h2>Governing law</h2><p>These website terms are governed by the laws of England and Wales. Last updated: 19 July 2026.</p>",
+        "use_page_content": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
