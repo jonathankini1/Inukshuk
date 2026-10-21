@@ -1,0 +1,18 @@
+<section class="inner-page">
+  <div class="container rte">
+    <h1>{{ page.title }}</h1>
+    {% if page.content != blank %}
+      {{ page.content }}
+    {% else %}
+      <p>{{ 'page.empty' | t }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.page.name",
+  "enabled_on": { "templates": ["page"] },
+  "settings": []
+}
+{% endschema %}

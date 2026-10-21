@@ -1,0 +1,39 @@
+{% doc %}
+  Loads the heading and body font faces, then writes the colour tokens
+  and font stacks used across the theme.
+  @example
+  {% render 'theme-styles' %}
+{% enddoc %}
+
+{% liquid
+  assign heading = settings.type_heading_font
+  assign heading_regular = heading | font_modify: 'weight', '400'
+  assign heading_italic = heading | font_modify: 'weight', '400' | font_modify: 'style', 'italic'
+  assign body = settings.type_body_font
+  assign body_light = body | font_modify: 'weight', '300'
+  assign body_medium = body | font_modify: 'weight', '500'
+  assign body_semibold = body | font_modify: 'weight', '600'
+%}
+
+{% style %}
+  {{ heading | font_face: font_display: 'swap' }}
+  {{ heading_regular | font_face: font_display: 'swap' }}
+  {{ heading_italic | font_face: font_display: 'swap' }}
+  {{ body | font_face: font_display: 'swap' }}
+  {{ body_light | font_face: font_display: 'swap' }}
+  {{ body_medium | font_face: font_display: 'swap' }}
+  {{ body_semibold | font_face: font_display: 'swap' }}
+
+  :root {
+    --stone: {{ settings.color_stone }};
+    --earth: {{ settings.color_earth }};
+    --sky: {{ settings.color_sky }};
+    --warm: {{ settings.color_warm }};
+    --cream: {{ settings.color_cream }};
+    --white: {{ settings.color_white }};
+    --dark: {{ settings.color_dark }};
+    --font-heading: {{ heading.family }}, {{ heading.fallback_families }};
+    --font-body: {{ body.family }}, {{ body.fallback_families }};
+    --font-heading-weight: {{ heading.weight }};
+  }
+{% endstyle %}

@@ -1,0 +1,131 @@
+{
+  "general": {
+    "skip": "Skip to main content",
+    "noscript": "The gallery and land preview need JavaScript. All project information and enquiry details remain available.",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
+    "remove": "Remove",
+    "update": "Update cart",
+    "checkout": "Checkout",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "sold_out": "Sold out",
+    "continue": "Continue",
+    "pagination": "Pagination",
+    "view": "View"
+  },
+  "sections": {
+    "header": {
+      "label": "Primary navigation",
+      "cart": "Cart ({{ count }})",
+      "what": "What Is It",
+      "gallery": "Gallery",
+      "try": "Try It",
+      "process": "Process",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "enquire": "Enquire"
+    },
+    "footer": {
+      "explore": "Explore",
+      "plan": "Plan",
+      "information": "Information",
+      "what": "What is an Inukshuk?",
+      "gallery": "Gallery",
+      "visualizer": "See it on your land",
+      "story": "Our story",
+      "process": "How it works",
+      "pricing": "Project scales",
+      "faq": "FAQ",
+      "enquire": "Enquire",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "sitemap": "Sitemap",
+      "rights": "All rights reserved.",
+      "back": "Back to top",
+      "conversation": "Start a conversation"
+    },
+    "gallery": {
+      "view": "View",
+      "counter": "{{ caption }}. {{ index }} of {{ count }}",
+      "close": "Close image viewer",
+      "previous": "Previous photograph",
+      "next": "Next photograph"
+    },
+    "visualizer": {
+      "canvas": "Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys.",
+      "tip": "Drag the Inukshuk to position it",
+      "demo": "Demo land loaded. Add your own photo when you are ready.",
+      "ready": "Your land is ready. Drag the illustrated Inukshuk into position.",
+      "bad_type": "Please choose an image file.",
+      "bad_file": "That photo could not be opened. Please try another image.",
+      "size": "{{ name }} size selected. Drag the illustration to position it.",
+      "reset": "Estate size and position reset.",
+      "downloaded": "Preview downloaded.",
+      "download_failed": "The preview could not be downloaded. Please try again."
+    },
+    "pricing": {
+      "pay_deposit": "Pay {{ amount }} deposit",
+      "reserve": "Reserve with {{ amount }}",
+      "pick_product": "Select the deposit product for this card in the theme editor."
+    },
+    "enquiry": {
+      "error_heading": "Your enquiry could not be sent. Please check the details and try again.",
+      "field_required": "Please complete this field.",
+      "email_invalid": "Enter a valid email address.",
+      "too_short": "Please add at least {{ count }} characters.",
+      "check_fields": "Please check the highlighted fields.",
+      "privacy": "privacy notice",
+      "name": "Your name",
+      "email": "Email",
+      "location": "Property location",
+      "land": "Land size",
+      "land_placeholder": "Select approximate size",
+      "land_under_1": "Under 1 acre",
+      "land_1_5": "1 to 5 acres",
+      "land_5_20": "5 to 20 acres",
+      "land_over_20": "Over 20 acres",
+      "land_unsure": "Not sure yet",
+      "scale": "Project scale",
+      "scale_unsure": "Not sure yet",
+      "timing": "Ideal timing",
+      "timing_exploring": "Still exploring",
+      "timing_3": "Within 3 months",
+      "timing_6": "3 to 6 months",
+      "timing_12": "6 to 12 months",
+      "timing_year": "More than a year",
+      "vision": "Tell us about your vision",
+      "consent": "I agree that my details may be used to respond to this enquiry, as described in the"
+    }
+  },
+  "products": {
+    "checkout": "Continue to checkout",
+    "variant": "Option"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "home": "Return home",
+    "deposit": "Booking deposits are credited against the agreed project price.",
+    "remove": "Remove {{ title }}"
+  },
+  "search": {
+    "title": "Search",
+    "label": "Search",
+    "placeholder": "Search sculptures and pages",
+    "submit": "Search",
+    "empty": "No results for \"{{ terms }}\".",
+    "results": "Results for \"{{ terms }}\""
+  },
+  "collection": {
+    "empty": "This collection does not have any products yet."
+  },
+  "password": {
+    "label": "Store password",
+    "submit": "Enter",
+    "error": "The password was not recognised. Please try again."
+  },
+  "page": {
+    "empty": "This page does not have any content yet."
+  }
+}

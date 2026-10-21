@@ -1,0 +1,40 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Inukshuk",
+    "theme_version": "1.0.0",
+    "theme_author": "Inukshuk",
+    "theme_documentation_url": "https://github.com/jonathankini1/Inukshuk",
+    "theme_support_url": "https://github.com/jonathankini1/Inukshuk"
+  },
+  {
+    "name": "t:settings.colors.name",
+    "settings": [
+      { "type": "color", "id": "color_stone", "label": "t:settings.colors.stone", "default": "#8B8680" },
+      { "type": "color", "id": "color_earth", "label": "t:settings.colors.earth", "default": "#5C4A3A" },
+      { "type": "color", "id": "color_sky", "label": "t:settings.colors.sky", "default": "#2C3E50" },
+      { "type": "color", "id": "color_warm", "label": "t:settings.colors.warm", "default": "#D4A574" },
+      { "type": "color", "id": "color_cream", "label": "t:settings.colors.cream", "default": "#F5F0EB" },
+      { "type": "color", "id": "color_white", "label": "t:settings.colors.white", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_dark", "label": "t:settings.colors.dark", "default": "#1A1A1A" }
+    ]
+  },
+  {
+    "name": "t:settings.typography.name",
+    "settings": [
+      { "type": "font_picker", "id": "type_heading_font", "label": "t:settings.typography.heading", "default": "playfair_display_n7" },
+      { "type": "font_picker", "id": "type_body_font", "label": "t:settings.typography.body", "default": "inter_n4" }
+    ]
+  },
+  {
+    "name": "t:settings.social.name",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "meta_description",
+        "label": "t:settings.social.description",
+        "default": "Bespoke Inukshuk stone sculptures, built with your people and rooted in your land."
+      }
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+{% doc %}
+  One phrase in the principles strip.
+  @example
+  {% content_for 'block', type: 'principle', id: 'principle' %}
+{% enddoc %}
+
+<li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+
+{% schema %}
+{
+  "name": "t:blocks.principle.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:blocks.principle.settings.text.label",
+      "default": "Bespoke to your land"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.principle.presets.name" }
+  ]
+}
+{% endschema %}

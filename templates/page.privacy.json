@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal",
+      "settings": {
+        "heading": "Privacy Notice",
+        "lede": "How this website handles photographs, enquiries and basic technical information.",
+        "summary_label": "Plain-English summary:",
+        "summary": "photographs used in the land visualizer stay on your device. Enquiries submitted through the contact form are sent to the store so the team can reply. This theme does not add advertising trackers.",
+        "body": "<h2>Who this notice covers</h2><p>This notice applies to visitors using the Inukshuk online store. The project team is responsible for information received through project enquiries.</p><h2>Information you choose to provide</h2><p>The enquiry form collects your name, email address, property location, approximate land size, preferred project scale, timing and project notes. Submitting the form sends that information to the store. It is used to respond, assess project suitability, prepare a proposal and keep appropriate business records. Information is retained only for as long as reasonably necessary for those purposes or to meet legal obligations.</p><h2>Your land photographs</h2><p>Photos selected in the See It on Your Land tool are processed locally in your browser. They are not uploaded to this website or a third party. A preview is downloaded only when you choose the download button.</p><h2>Technical information</h2><p>The store is hosted by Shopify. Shopify may process basic request information such as IP address, browser type, requested page and time of access for security, reliability and abuse prevention. Typefaces are served by Shopify as part of the theme.</p><h2>Cookies</h2><p>This theme does not add analytics or advertising cookies. Shopify uses cookies that the online store needs in order to remember a cart, keep checkout secure and run the storefront. If additional cookies are introduced, this notice will be updated.</p><h2>Your choices and rights</h2><p>You may ask to access, correct or delete personal information held about you, or object to its use where applicable. Use the enquiry form on the <a href=\"/#contact\">home page</a> to make a privacy request.</p><h2>Changes to this notice</h2><p>This notice may be updated as the service develops. The latest version will always appear on this page. Last updated: 21 October 2026.</p>",
+        "use_page_content": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

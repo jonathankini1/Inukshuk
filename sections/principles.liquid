@@ -1,0 +1,33 @@
+<aside class="trust-strip" aria-label="{{ section.settings.label }}">
+  <ul class="trust-list">
+    {% content_for 'blocks' %}
+  </ul>
+</aside>
+
+{% schema %}
+{
+  "name": "t:sections.principles.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 6,
+  "blocks": [{ "type": "principle" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:sections.principles.settings.label.label",
+      "default": "Project principles"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.principles.presets.name",
+      "blocks": [
+        { "type": "principle", "settings": { "text": "Bespoke to your land" } },
+        { "type": "principle", "settings": { "text": "Local stone where possible" } },
+        { "type": "principle", "settings": { "text": "Engineering-led builds" } },
+        { "type": "principle", "settings": { "text": "Across the UK" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,28 @@
+<section class="process" id="{{ section.settings.anchor | default: 'process' | handleize }}">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="section-subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <div class="process-steps">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.process.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 8,
+  "blocks": [{ "type": "process-step" }],
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "process" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "How It Works" },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "From first conversation to a standing monument on your land. Every build is different. Every Inukshuk is unique." }
+  ],
+  "presets": [
+    { "name": "t:sections.process.presets.name" }
+  ]
+}
+{% endschema %}

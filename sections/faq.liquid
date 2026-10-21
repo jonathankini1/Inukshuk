@@ -1,0 +1,52 @@
+<section class="faq" id="{{ section.settings.anchor | default: 'faq' | handleize }}" data-faq>
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="section-subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <div class="faq-list">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+(() => {
+  const boot = (root) => {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll('[data-faq]').forEach((section) => {
+      if (section.dataset.bound === 'true') return;
+      section.dataset.bound = 'true';
+      const items = [...section.querySelectorAll('details')];
+      items.forEach((item) => {
+        item.addEventListener('toggle', () => {
+          if (!item.open) return;
+          items.forEach((other) => {
+            if (other !== item) other.open = false;
+          });
+        });
+      });
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => boot(document));
+  else boot(document);
+  document.addEventListener('shopify:section:load', (event) => boot(event.target));
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 16,
+  "blocks": [{ "type": "faq-item" }],
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "faq" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Frequently Asked Questions" },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "The practical details behind creating a permanent landmark on your land." }
+  ],
+  "presets": [
+    { "name": "t:sections.faq.presets.name" }
+  ]
+}
+{% endschema %}

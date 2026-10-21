@@ -1,0 +1,66 @@
+<section class="inner-page">
+  <div class="container product-layout">
+    <div class="product-media">
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 1400 | image_tag: alt: product.featured_image.alt, loading: 'eager', fetchpriority: 'high', widths: '400, 700, 1000, 1400', sizes: '(min-width: 768px) 50vw, 100vw' }}
+      {% else %}
+        <img src="{{ 'stone-detail.jpg' | asset_url }}" alt="" width="1500" height="2000">
+      {% endif %}
+    </div>
+    <div>
+      <h1>{{ product.title }}</h1>
+      <p class="product-price">{{ product.price | money }}</p>
+      {% if section.settings.note != blank %}
+        <p class="product-note">{{ section.settings.note }}</p>
+      {% endif %}
+      {% if product.description != blank %}
+        <div class="rte">{{ product.description }}</div>
+      {% endif %}
+      {% liquid
+        assign product_variant = product.selected_or_first_available_variant
+        assign product_label = 'products.checkout' | t
+        if product_variant
+          assign product_amount = product_variant.price | money_without_trailing_zeros
+          assign product_label = 'sections.pricing.pay_deposit' | t: amount: product_amount
+        endif
+        assign product_form_id = 'product-deposit-' | append: section.id
+      %}
+      {% if product.has_only_default_variant %}
+        {% render 'deposit-form', deposit_product: product, form_id: product_form_id, label: product_label %}
+      {% else %}
+        {% form 'product', product, id: product_form_id, class: 'deposit-form' %}
+          <div class="variant-field">
+            <label class="field-label" for="Variant-{{ section.id }}">{{ 'products.variant' | t }}</label>
+            <select id="Variant-{{ section.id }}" name="id">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %} {% if variant == product_variant %}selected{% endif %}>
+                  {{ variant.title }}: {{ variant.price | money }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <input type="hidden" name="quantity" value="1">
+          <input type="hidden" name="return_to" value="{{ routes.cart_url | split: 'cart' | first | append: 'checkout' }}">
+          <button class="price-btn" type="submit" name="add" {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}{{ product_label }}{% else %}{{ 'general.sold_out' | t }}{% endif %}
+          </button>
+        {% endform %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.product.name",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "t:sections.product.settings.note.label",
+      "default": "This payment is a booking deposit. It is credited against the agreed project price."
+    }
+  ]
+}
+{% endschema %}

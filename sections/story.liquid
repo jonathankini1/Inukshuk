@@ -1,0 +1,44 @@
+<section class="story" id="{{ section.settings.anchor | default: 'story' | handleize }}">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    <div class="story-content">
+      {{ section.settings.intro }}
+      {% if section.settings.highlight != blank %}
+        <p class="highlight">"{{ section.settings.highlight }}"</p>
+      {% endif %}
+      {{ section.settings.closing }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.story.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "story" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Our Story" },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:sections.story.settings.intro.label",
+      "default": "<p>It started on a 13-acre property in Manchester. A family, their friends, and their neighbours decided to build something that would stand long after they were gone.</p>"
+    },
+    {
+      "type": "text",
+      "id": "highlight",
+      "label": "t:sections.story.settings.highlight.label",
+      "default": "The stones were too heavy for one person. That was the whole point."
+    },
+    {
+      "type": "richtext",
+      "id": "closing",
+      "label": "t:sections.story.settings.closing.label",
+      "default": "<p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected. It was not a construction project, but a shared experience that drew people closer together.</p><p>That first build proved something: the act of building together creates something more powerful than the structure itself. Now we help others create that same experience on their own land.</p>"
+    }
+  ],
+  "presets": [
+    { "name": "t:sections.story.presets.name" }
+  ]
+}
+{% endschema %}

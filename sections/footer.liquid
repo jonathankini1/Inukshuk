@@ -1,0 +1,100 @@
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-intro">
+      <a class="logo" href="{{ routes.root_url }}#top">{{ section.settings.logo_text }}</a>
+      <p>{{ section.settings.intro }}</p>
+      <a class="footer-contact" href="{% if section.settings.cta_link != blank %}{{ section.settings.cta_link }}{% else %}{{ routes.root_url }}#contact{% endif %}">
+        {{ section.settings.cta_label }}
+      </a>
+    </div>
+    {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
+      {% for link in section.settings.menu.links %}
+        <div>
+          <h2 class="footer-heading">{{ link.title }}</h2>
+          <ul class="footer-links">
+            {% if link.links.size > 0 %}
+              {% for child in link.links %}
+                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div>
+        <h2 class="footer-heading">{{ 'sections.footer.explore' | t }}</h2>
+        <ul class="footer-links">
+          <li><a href="{{ routes.root_url }}#what">{{ 'sections.footer.what' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#gallery">{{ 'sections.footer.gallery' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#visualizer">{{ 'sections.footer.visualizer' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#story">{{ 'sections.footer.story' | t }}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer-heading">{{ 'sections.footer.plan' | t }}</h2>
+        <ul class="footer-links">
+          <li><a href="{{ routes.root_url }}#process">{{ 'sections.footer.process' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#pricing">{{ 'sections.footer.pricing' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#faq">{{ 'sections.footer.faq' | t }}</a></li>
+          <li><a href="{{ routes.root_url }}#contact">{{ 'sections.footer.enquire' | t }}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer-heading">{{ 'sections.footer.information' | t }}</h2>
+        <ul class="footer-links">
+          {% if pages.privacy.url != blank %}
+            <li><a href="{{ pages.privacy.url }}">{{ pages.privacy.title }}</a></li>
+          {% endif %}
+          {% if pages.terms.url != blank %}
+            <li><a href="{{ pages.terms.url }}">{{ pages.terms.title }}</a></li>
+          {% endif %}
+          <li><a href="{{ shop.url }}/sitemap.xml">{{ 'sections.footer.sitemap' | t }}</a></li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'sections.footer.rights' | t }}</p>
+    <a class="back-to-top" href="{{ routes.root_url }}#top">{{ 'sections.footer.back' | t }} ↑</a>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "t:sections.footer.settings.logo_text.label",
+      "default": "INUKSHUK"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "t:sections.footer.settings.intro.label",
+      "default": "Bespoke stone landmarks for private estates, gardens and shared places across the UK."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:sections.footer.settings.cta_label.label",
+      "default": "Start a conversation"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "t:sections.footer.settings.cta_link.label"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:sections.footer.settings.menu.label",
+      "info": "t:sections.footer.settings.menu.info"
+    }
+  ]
+}
+{% endschema %}

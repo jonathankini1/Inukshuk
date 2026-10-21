@@ -1,0 +1,331 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "principles": {
+      "type": "principles",
+      "blocks": {
+        "principle_bespoke": {
+          "type": "principle",
+          "settings": {
+            "text": "Bespoke to your land"
+          }
+        },
+        "principle_stone": {
+          "type": "principle",
+          "settings": {
+            "text": "Local stone where possible"
+          }
+        },
+        "principle_engineering": {
+          "type": "principle",
+          "settings": {
+            "text": "Engineering-led builds"
+          }
+        },
+        "principle_uk": {
+          "type": "principle",
+          "settings": {
+            "text": "Across the UK"
+          }
+        }
+      },
+      "block_order": [
+        "principle_bespoke",
+        "principle_stone",
+        "principle_engineering",
+        "principle_uk"
+      ]
+    },
+    "what_is": {
+      "type": "what-is",
+      "settings": {}
+    },
+    "gallery": {
+      "type": "gallery",
+      "blocks": {
+        "photo_wide": {
+          "type": "gallery-photo",
+          "settings": {
+            "fallback_asset": "landmark-wide.jpg",
+            "alt": "Wide view of an Inukshuk overlooking rolling hills",
+            "caption": "Rooted in its landscape",
+            "open_label": "Open wide landscape photograph",
+            "layout": "wide"
+          }
+        },
+        "photo_front": {
+          "type": "gallery-photo",
+          "settings": {
+            "fallback_asset": "landmark-front.jpg",
+            "alt": "Front view of a handbuilt stone Inukshuk",
+            "caption": "Built stone by stone",
+            "open_label": "Open front view photograph",
+            "layout": "tall"
+          }
+        },
+        "photo_summer": {
+          "type": "gallery-photo",
+          "settings": {
+            "fallback_asset": "summer-landmark.jpg",
+            "alt": "Inukshuk standing in a green summer field",
+            "caption": "Through every season",
+            "open_label": "Open summer photograph",
+            "layout": "normal"
+          }
+        },
+        "photo_detail": {
+          "type": "gallery-photo",
+          "settings": {
+            "fallback_asset": "stone-detail.jpg",
+            "alt": "Close view showing the scale and texture of the stone",
+            "caption": "Local stone, monumental scale",
+            "open_label": "Open stone detail photograph",
+            "layout": "normal"
+          }
+        },
+        "photo_moon": {
+          "type": "gallery-photo",
+          "settings": {
+            "fallback_asset": "moonlit-landmark.jpg",
+            "alt": "Illuminated Inukshuk beneath the moon at night",
+            "caption": "A landmark after dark",
+            "open_label": "Open moonlit photograph",
+            "layout": "wide"
+          }
+        }
+      },
+      "block_order": [
+        "photo_wide",
+        "photo_front",
+        "photo_summer",
+        "photo_detail",
+        "photo_moon"
+      ]
+    },
+    "visualizer": {
+      "type": "visualizer",
+      "blocks": {
+        "size_garden": {
+          "type": "visualizer-size",
+          "settings": {
+            "title": "Garden",
+            "detail": "Up to 1.5m",
+            "price": "\u00a35k",
+            "value": "Garden",
+            "height": 30,
+            "selected": false
+          }
+        },
+        "size_estate": {
+          "type": "visualizer-size",
+          "settings": {
+            "title": "Estate",
+            "detail": "2 to 3.5m",
+            "price": "\u00a37.5k",
+            "value": "Estate",
+            "height": 44,
+            "selected": true
+          }
+        },
+        "size_landmark": {
+          "type": "visualizer-size",
+          "settings": {
+            "title": "Landmark",
+            "detail": "3.5m+",
+            "price": "\u00a310k",
+            "value": "Landmark",
+            "height": 60,
+            "selected": false
+          }
+        }
+      },
+      "block_order": [
+        "size_garden",
+        "size_estate",
+        "size_landmark"
+      ]
+    },
+    "process": {
+      "type": "process",
+      "blocks": {
+        "step_visit": {
+          "type": "process-step",
+          "settings": {
+            "number": "01",
+            "title": "Site Visit",
+            "text": "We walk your land together. Assess the terrain, identify natural stone sources, and choose the perfect location for your Inukshuk."
+          }
+        },
+        "step_stone": {
+          "type": "process-step",
+          "settings": {
+            "number": "02",
+            "title": "Stone Selection",
+            "text": "Local stone where possible. We source boulders and slabs that match your landscape, including limestone, sandstone, granite, or whatever your land offers."
+          }
+        },
+        "step_build": {
+          "type": "process-step",
+          "settings": {
+            "number": "03",
+            "title": "The Build Day",
+            "text": "This is the event. Friends, family, neighbours. Diggers, concrete foundations, and heavy lifting. Your people build your monument together."
+          }
+        },
+        "step_forever": {
+          "type": "process-step",
+          "settings": {
+            "number": "04",
+            "title": "Standing Forever",
+            "text": "Engineered to last generations. Your Inukshuk becomes a permanent landmark and a story in stone that outlives all of us."
+          }
+        }
+      },
+      "block_order": [
+        "step_visit",
+        "step_stone",
+        "step_build",
+        "step_forever"
+      ]
+    },
+    "pricing": {
+      "type": "pricing",
+      "blocks": {
+        "garden": {
+          "type": "pricing-card",
+          "settings": {
+            "title": "Garden",
+            "size_label": "Up to 1.5 metres tall",
+            "guide_price": "\u00a35,000",
+            "features": "Site assessment and design\nStone sourcing and delivery\nProfessional build team\nHalf-day build event\nPhotography of the day",
+            "deposit_title": "Reserve with \u00a3500",
+            "deposit_text": "Your booking deposit is credited against the \u00a35,000 project price.",
+            "enquire_label": "Ask about Garden",
+            "package_value": "Garden",
+            "featured": false,
+            "badge": "Most Popular",
+            "product": "garden-inukshuk-booking-deposit",
+            "product_handle": "garden-inukshuk-booking-deposit"
+          }
+        },
+        "estate": {
+          "type": "pricing-card",
+          "settings": {
+            "title": "Estate",
+            "size_label": "2 to 3.5 metres tall",
+            "guide_price": "\u00a37,500",
+            "features": "Everything in Garden\nStructural engineering review\nDigger and machinery on site\nFull-day community build event\nDrone footage and film",
+            "deposit_title": "Reserve with \u00a3750",
+            "deposit_text": "Your booking deposit is credited against the \u00a37,500 project price.",
+            "enquire_label": "Ask about Estate",
+            "package_value": "Estate",
+            "featured": true,
+            "badge": "Most Popular",
+            "product": "estate-inukshuk-booking-deposit",
+            "product_handle": "estate-inukshuk-booking-deposit"
+          }
+        },
+        "landmark": {
+          "type": "pricing-card",
+          "settings": {
+            "title": "Landmark",
+            "size_label": "3.5 metres and above",
+            "guide_price": "\u00a310,000",
+            "features": "Everything in Estate\nBespoke foundation engineering\nMulti-day build programme\nFull event production\nCommemorative plaque and story",
+            "deposit_title": "Reserve with \u00a31,000",
+            "deposit_text": "Your booking deposit is credited against the \u00a310,000 project price.",
+            "enquire_label": "Ask about Landmark",
+            "package_value": "Landmark",
+            "featured": false,
+            "badge": "Most Popular",
+            "product": "landmark-inukshuk-booking-deposit",
+            "product_handle": "landmark-inukshuk-booking-deposit"
+          }
+        }
+      },
+      "block_order": [
+        "garden",
+        "estate",
+        "landmark"
+      ]
+    },
+    "story": {
+      "type": "story",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "stone": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Where does the stone come from?",
+            "answer": "<p>We prioritise stone that belongs visually and geologically to the setting. Where suitable material exists on your land, we assess it first; otherwise we source from an appropriate local quarry or reclaimed supply.</p>"
+          }
+        },
+        "time": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long does a project take?",
+            "answer": "<p>The on-site build is typically one to several days, depending on scale. The full programme also includes the site visit, design, engineering review, stone selection, logistics and ground preparation.</p>"
+          }
+        },
+        "planning": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Will it need planning permission?",
+            "answer": "<p>Requirements vary by height, location, land designation and local authority. We flag likely considerations during the site assessment, but formal planning advice should come from your local planning authority or appointed adviser.</p>"
+          }
+        },
+        "safety": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How is the structure made safe?",
+            "answer": "<p>Every build is designed around its scale, ground conditions and exposure. Larger commissions include an engineering review and a purpose-designed foundation before any stone is lifted into place.</p>"
+          }
+        },
+        "people": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can family and friends take part?",
+            "answer": "<p>Yes. Participation is central to the experience. The professional team manages machinery, lifting and safety while creating meaningful, supervised ways for your group to help raise the landmark.</p>"
+          }
+        },
+        "where": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Where do you work?",
+            "answer": "<p>We work across the UK and will consider projects further afield. Travel, specialist transport and local logistics are scoped clearly before a commission begins.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "stone",
+        "time",
+        "planning",
+        "safety",
+        "people",
+        "where"
+      ]
+    },
+    "enquiry": {
+      "type": "enquiry",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "principles",
+    "what_is",
+    "gallery",
+    "visualizer",
+    "process",
+    "pricing",
+    "story",
+    "faq",
+    "enquiry"
+  ]
+}

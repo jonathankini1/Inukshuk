@@ -1,0 +1,53 @@
+<section class="pricing" id="{{ section.settings.anchor | default: 'pricing' | handleize }}">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="section-subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <div class="pricing-cards">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+(() => {
+  const boot = () => {
+    document.querySelectorAll('[data-package]').forEach((button) => {
+      if (button.dataset.bound === 'true') return;
+      button.dataset.bound = 'true';
+      button.addEventListener('click', () => {
+        const select = document.querySelector('[data-project-scale]');
+        const value = button.getAttribute('data-package');
+        if (select && [...select.options].some((option) => option.value === value)) {
+          select.value = value;
+        }
+        const name = document.querySelector('[data-enquiry-name]');
+        window.setTimeout(() => {
+          if (name) name.focus();
+        }, 450);
+      });
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+  document.addEventListener('shopify:section:load', boot);
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.pricing.name",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "max_blocks": 6,
+  "blocks": [{ "type": "pricing-card" }],
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "pricing" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "Investment" },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Three sizes with clear guide prices. Site-specific access and logistics are confirmed after assessment." }
+  ],
+  "presets": [
+    { "name": "t:sections.pricing.presets.name" }
+  ]
+}
+{% endschema %}

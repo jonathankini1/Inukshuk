@@ -1,0 +1,56 @@
+<section class="inner-page">
+  <div class="container">
+    <h1>{{ 'cart.title' | t }}</h1>
+    {% if cart.item_count == 0 %}
+      <p class="lede">{{ 'cart.empty' | t }}</p>
+      <a class="price-btn" href="{{ routes.root_url }}">{{ 'cart.home' | t }}</a>
+    {% else %}
+      {% form 'cart' %}
+        <div class="cart-list">
+          {% for item in cart.items %}
+            <article class="cart-row">
+              {% if item.image %}
+                <a href="{{ item.url }}">
+                  {{ item.image | image_url: width: 200 | image_tag: alt: item.image.alt, loading: 'lazy', widths: '96, 160, 200' }}
+                </a>
+              {% else %}
+                <span></span>
+              {% endif %}
+              <div>
+                <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+                {% unless item.product.has_only_default_variant %}
+                  <p class="cart-meta">{{ item.variant.title }}</p>
+                {% endunless %}
+                <p class="cart-meta">{{ item.final_line_price | money }}</p>
+                <a href="{{ item.url_to_remove }}">{{ 'cart.remove' | t: title: item.product.title }}</a>
+              </div>
+              <div class="cart-actions">
+                <label class="visually-hidden" for="Updates-{{ item.key }}">{{ 'general.quantity' | t }}</label>
+                <input class="cart-qty" id="Updates-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric">
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        <div class="cart-summary">
+          {% if cart.cart_level_discount_applications.size > 0 %}
+            {% for discount in cart.cart_level_discount_applications %}
+              <p class="cart-meta">{{ discount.title }}: {{ discount.total_allocated_amount | money }}</p>
+            {% endfor %}
+          {% endif %}
+          <p><strong>{{ 'general.subtotal' | t }}</strong> {{ cart.total_price | money }}</p>
+          <p class="cart-meta">{{ 'cart.deposit' | t }}</p>
+          <button class="price-btn" type="submit" name="update">{{ 'general.update' | t }}</button>
+          <button class="price-btn" type="submit" name="checkout">{{ 'general.checkout' | t }}</button>
+        </div>
+      {% endform %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.cart.name",
+  "enabled_on": { "templates": ["cart"] },
+  "settings": []
+}
+{% endschema %}

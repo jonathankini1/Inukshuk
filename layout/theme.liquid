@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_sky }}">
+  <meta name="color-scheme" content="light">
+  <title>
+    {{ page_title }}
+    {%- unless page_title contains shop.name %} | {{ shop.name }}{% endunless -%}
+  </title>
+  {% if page_description != blank %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% elsif settings.meta_description != blank %}
+    <meta name="description" content="{{ settings.meta_description | escape }}">
+  {% endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="icon" href="{{ 'favicon.svg' | asset_url }}" type="image/svg+xml">
+  {% if template.name == '404' %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {% liquid
+    assign social_description = page_description | default: settings.meta_description
+    assign social_image = 'hillside-landmark.jpg' | asset_url
+    if template.name == 'product' and product.featured_image
+      assign social_image = product.featured_image | image_url: width: 1200
+    endif
+    unless social_image contains 'https:'
+      assign social_image = social_image | prepend: 'https:'
+    endunless
+  %}
+  {% if social_description != blank %}
+    <meta property="og:description" content="{{ social_description | escape }}">
+  {% endif %}
+  <meta property="og:image" content="{{ social_image }}">
+  <meta property="og:image:alt" content="An Inukshuk stone sculpture overlooking rolling Pennine hills">
+  <meta name="twitter:card" content="summary_large_image">
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {% render 'theme-styles' %}
+  {% unless settings.type_body_font.system? %}
+    {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+  {% endunless %}
+  {% unless settings.type_heading_font.system? %}
+    {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+  {% endunless %}
+  {{ content_for_header }}
+</head>
+<body>
+  <a class="skip-link" href="#main-content">{{ 'general.skip' | t }}</a>
+  {% sections 'header-group' %}
+  <main id="main-content">
+    {{ content_for_layout }}
+  </main>
+  {% sections 'footer-group' %}
+  <noscript><div class="no-script">{{ 'general.noscript' | t }}</div></noscript>
+</body>
+</html>

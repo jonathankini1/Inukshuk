@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Inukshuk">
+  <rect width="64" height="64" rx="12" fill="#2c3e50"/>
+  <g fill="#d4a574">
+    <rect x="25" y="9" width="14" height="10" rx="2"/>
+    <rect x="10" y="22" width="44" height="7" rx="2"/>
+    <rect x="20" y="32" width="24" height="10" rx="2"/>
+    <rect x="18" y="45" width="10" height="12" rx="2"/>
+    <rect x="36" y="45" width="10" height="12" rx="2"/>
+  </g>
+</svg>

@@ -1,0 +1,136 @@
+{% doc %}
+  A commission scale card with a native deposit checkout button.
+  @example
+  {% content_for 'block', type: 'pricing-card', id: 'garden' %}
+{% enddoc %}
+
+{% liquid
+  assign card_product = block.settings.product
+  if card_product.id == blank and block.settings.product_handle != blank
+    assign card_product = all_products[block.settings.product_handle]
+  endif
+  assign form_id = 'deposit-' | append: section.id | append: '-' | append: block.id
+  assign button_label = ''
+  assign reserve_label = block.settings.deposit_title
+  if card_product.id != blank
+    assign deposit_amount = card_product.price | money_without_trailing_zeros
+    assign button_label = 'sections.pricing.pay_deposit' | t: amount: deposit_amount
+    assign reserve_label = 'sections.pricing.reserve' | t: amount: deposit_amount
+  endif
+  assign feature_markup = block.settings.features | newline_to_br | replace: '<br />', '|' | replace: '<br>', '|'
+  assign feature_lines = feature_markup | split: '|'
+%}
+
+<article class="price-card{% if block.settings.featured %} featured{% endif %}" {{ block.shopify_attributes }}>
+  {% if block.settings.featured and block.settings.badge != blank %}
+    <p class="price-badge">{{ block.settings.badge }}</p>
+  {% endif %}
+  <h3>{{ block.settings.title }}</h3>
+  {% if block.settings.size_label != blank %}
+    <p class="price-size">{{ block.settings.size_label }}</p>
+  {% endif %}
+  <div class="price-amount">{{ block.settings.guide_price }}</div>
+  {% if feature_lines.size > 0 %}
+    <ul>
+      {% for feature in feature_lines %}
+        {% assign feature_text = feature | strip %}
+        {% if feature_text != blank %}
+          <li>{{ feature_text }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <p class="deposit-note">
+    <strong>{{ reserve_label }}</strong>
+    {{ block.settings.deposit_text }}
+  </p>
+  <div class="price-actions">
+    {% render 'deposit-form', deposit_product: card_product, form_id: form_id, label: button_label %}
+    <a class="price-btn secondary" href="{{ routes.root_url }}#contact" data-package="{{ block.settings.package_value | escape }}">
+      {{ block.settings.enquire_label }}
+    </a>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "t:blocks.pricing_card.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:blocks.pricing_card.settings.title.label",
+      "default": "Garden"
+    },
+    {
+      "type": "text",
+      "id": "size_label",
+      "label": "t:blocks.pricing_card.settings.size_label.label",
+      "default": "Up to 1.5 metres tall"
+    },
+    {
+      "type": "text",
+      "id": "guide_price",
+      "label": "t:blocks.pricing_card.settings.guide_price.label",
+      "default": "£5,000"
+    },
+    {
+      "type": "textarea",
+      "id": "features",
+      "label": "t:blocks.pricing_card.settings.features.label",
+      "info": "t:blocks.pricing_card.settings.features.info"
+    },
+    {
+      "type": "text",
+      "id": "deposit_title",
+      "label": "t:blocks.pricing_card.settings.deposit_title.label",
+      "default": "Reserve with £500"
+    },
+    {
+      "type": "textarea",
+      "id": "deposit_text",
+      "label": "t:blocks.pricing_card.settings.deposit_text.label",
+      "default": "Your booking deposit is credited against the £5,000 project price."
+    },
+    {
+      "type": "text",
+      "id": "enquire_label",
+      "label": "t:blocks.pricing_card.settings.enquire_label.label",
+      "default": "Ask about Garden"
+    },
+    {
+      "type": "text",
+      "id": "package_value",
+      "label": "t:blocks.pricing_card.settings.package_value.label",
+      "info": "t:blocks.pricing_card.settings.package_value.info",
+      "default": "Garden"
+    },
+    {
+      "type": "checkbox",
+      "id": "featured",
+      "label": "t:blocks.pricing_card.settings.featured.label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "t:blocks.pricing_card.settings.badge.label",
+      "default": "Most Popular"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:blocks.pricing_card.settings.product.label"
+    },
+    {
+      "type": "text",
+      "id": "product_handle",
+      "label": "t:blocks.pricing_card.settings.product_handle.label",
+      "info": "t:blocks.pricing_card.settings.product_handle.info"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.pricing_card.presets.name" }
+  ]
+}
+{% endschema %}

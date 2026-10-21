@@ -1,0 +1,32 @@
+{% doc %}
+  A single question and answer in the FAQ.
+  @example
+  {% content_for 'block', type: 'faq-item', id: 'question' %}
+{% enddoc %}
+
+<details {{ block.shopify_attributes }}>
+  <summary>{{ block.settings.question }}</summary>
+  <div class="faq-answer">{{ block.settings.answer }}</div>
+</details>
+
+{% schema %}
+{
+  "name": "t:blocks.faq_item.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "question",
+      "label": "t:blocks.faq_item.settings.question.label",
+      "default": "Where does the stone come from?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer",
+      "label": "t:blocks.faq_item.settings.answer.label"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.faq_item.presets.name" }
+  ]
+}
+{% endschema %}

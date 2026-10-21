@@ -1,0 +1,28 @@
+<section class="not-found">
+  <img class="not-found__media" src="{{ 'hillside-landmark.jpg' | asset_url }}" alt="" width="2000" height="1125">
+  <div class="not-found__shade" aria-hidden="true"></div>
+  <div class="not-found__card">
+    <div class="not-found__mark">{{ section.settings.mark }}</div>
+    <div class="not-found__code" aria-hidden="true">404</div>
+    <h1>{{ section.settings.heading }}</h1>
+    <p>{{ section.settings.text }}</p>
+    <div class="not-found__actions">
+      <a href="{{ routes.root_url }}">{{ section.settings.home_label }}</a>
+      <a href="{{ routes.root_url }}#contact">{{ section.settings.enquiry_label }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.not_found.name",
+  "enabled_on": { "templates": ["404"] },
+  "settings": [
+    { "type": "text", "id": "mark", "label": "t:sections.not_found.settings.mark.label", "default": "INUKSHUK" },
+    { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "This path has no marker." },
+    { "type": "textarea", "id": "text", "label": "t:labels.text", "default": "The page may have moved, but the main trail is easy to find." },
+    { "type": "text", "id": "home_label", "label": "t:sections.not_found.settings.home_label.label", "default": "Return home" },
+    { "type": "text", "id": "enquiry_label", "label": "t:sections.not_found.settings.enquiry_label.label", "default": "Start an enquiry" }
+  ]
+}
+{% endschema %}
