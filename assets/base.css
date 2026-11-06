@@ -1228,3 +1228,85 @@ em, em.inuktitut { font-style: italic; }
 .viz-credit, .viz-credit a { color: #a1a1a6; font-size: 0.82rem; line-height: 1.45; }
 .viz-credit a { text-decoration: underline; }
 .viz-button-row { flex-wrap: wrap; }
+
+.hero-copy { padding: 0.85rem 1.5rem 0.2rem; }
+.hero h1 { margin-bottom: 0.2rem; }
+.hero p { margin-bottom: 0.2rem; }
+.hero-stage,
+.hero-stage picture { width: 100%; }
+.hero-media {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100svh - 400px);
+  margin-inline: auto;
+}
+.hero-caption {
+  max-width: 44rem;
+  padding: 0.55rem 1.5rem 0.45rem;
+  font-size: clamp(1.08rem, 1.45vw, 1.28rem);
+  line-height: 1.32;
+}
+.trust-strip { padding-bottom: 0.85rem; }
+section { padding: 6.75rem 2rem; }
+.section-subtitle { font-size: 1.28rem; line-height: 1.45; max-width: 40rem; }
+.what-is-text p { font-size: 1.22rem; line-height: 1.5; }
+.what-is .container { max-width: 46rem; }
+.gallery { padding-top: 6rem; padding-bottom: 6.5rem; }
+.gallery .container { max-width: none; }
+.photo-grid { gap: 0; }
+.photo-card img,
+.photo-card.wide img { max-height: min(90vh, 1180px); }
+.visualizer { padding-inline: 0; }
+.visualizer .container { max-width: 1500px; }
+.visualizer-shell { grid-template-columns: minmax(0, 1fr); gap: 1.35rem; }
+.viz-stage {
+  border-radius: 0;
+  width: min(100%, calc((100svh - 220px) * 4 / 3));
+  margin-inline: auto;
+}
+.viz-tip {
+  white-space: normal;
+  max-width: 38rem;
+  text-align: center;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  margin: 0.85rem auto 0;
+}
+.viz-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.35rem 1.75rem;
+  align-items: start;
+}
+.viz-controls .viz-control:nth-child(4),
+.viz-controls > .viz-button-row,
+.viz-credit,
+.viz-status { grid-column: 1 / -1; }
+.viz-control-title { font-size: 1rem; line-height: 1.35; color: #f5f5f7; }
+.viz-control-title span { color: #f5f5f7; font-variant-numeric: tabular-nums; }
+.step h3,
+.step h4 { font-size: 1.45rem; }
+.step p { font-size: 1.02rem; }
+.price-amount { font-size: clamp(2.7rem, 4vw, 3.5rem); }
+.price-card h3,
+.price-card h4 { font-size: 1.55rem; }
+
+@media (max-width: 960px) {
+  .hero-copy { padding: 1.35rem 1.15rem 0.35rem; }
+  .hero-media { max-height: none; width: 100%; }
+  .hero-caption { font-size: 1.08rem; padding: 0.8rem 1.15rem 1rem; }
+  section { padding: 4.5rem 1.15rem; }
+  .visualizer { padding-inline: 0; }
+  .visualizer .container { padding-inline: 0; }
+  .viz-stage { width: 100%; }
+  .viz-controls { grid-template-columns: 1fr; padding-inline: 1.15rem; }
+  .gallery .section-title,
+  .gallery .section-subtitle { padding-inline: 1.15rem; }
+  .site-header .nav-links.open {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 80;
+  }
+}

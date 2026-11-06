@@ -616,6 +616,107 @@
       .gallery { padding-inline: 0; }
       .gallery .section-title, .gallery .section-subtitle { padding-inline: 1.15rem; }
     }
+
+    .hero-copy { padding: 0.85rem 1.5rem 0.2rem; }
+    .hero h1 { margin-bottom: 0.2rem; }
+    .hero p { margin-bottom: 0.2rem; }
+    .hero-stage, .hero-stage picture { width: 100%; }
+    .hero-media {
+      width: auto;
+      max-width: 100%;
+      max-height: calc(100svh - 400px);
+      margin-inline: auto;
+    }
+    .hero-caption {
+      max-width: 44rem;
+      padding: 0.55rem 1.5rem 0.45rem;
+      font-size: clamp(1.08rem, 1.45vw, 1.28rem);
+      line-height: 1.32;
+    }
+    .trust-strip { padding-bottom: 0.85rem; }
+    section { padding: 6.75rem 2rem; }
+    .section-subtitle { font-size: 1.28rem; line-height: 1.45; max-width: 40rem; }
+    .what-is-text p { font-size: 1.22rem; line-height: 1.5; }
+    .what-is .container { max-width: 46rem; }
+    .gallery { padding-top: 6rem; padding-bottom: 6.5rem; }
+    .gallery .container { max-width: none; }
+    .photo-grid { gap: 0; }
+    .photo-card img, .photo-card.wide img { max-height: min(90vh, 1180px); }
+    .visualizer { padding-inline: 0; }
+    .visualizer .container { max-width: 1500px; }
+    .visualizer-shell { grid-template-columns: minmax(0, 1fr); gap: 1.35rem; }
+    .viz-stage {
+      border-radius: 0;
+      width: min(100%, calc((100svh - 220px) * 4 / 3));
+      margin-inline: auto;
+    }
+    .viz-tip {
+      white-space: normal;
+      max-width: 38rem;
+      text-align: center;
+      font-size: 0.98rem;
+      line-height: 1.4;
+      margin: 0.85rem auto 0;
+    }
+    .viz-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.35rem 1.75rem;
+      align-items: start;
+    }
+    .viz-controls .viz-control:nth-child(4),
+    .viz-controls > .viz-button-row,
+    .viz-credit,
+    .viz-status { grid-column: 1 / -1; }
+    .viz-control-title { font-size: 1rem; line-height: 1.35; color: #f5f5f7; }
+    .viz-control-title span { color: #f5f5f7; font-variant-numeric: tabular-nums; }
+    .step h4 { font-size: 1.45rem; }
+    .step p { font-size: 1.02rem; }
+    .price-amount { font-size: clamp(2.7rem, 4vw, 3.5rem); }
+    .price-card h4 { font-size: 1.55rem; }
+    @media (max-width: 960px) {
+      .hero-copy { padding: 1.35rem 1.15rem 0.35rem; }
+      .hero-media { max-height: none; width: 100%; }
+      .hero-caption { font-size: 1.08rem; padding: 0.8rem 1.15rem 1rem; }
+      section { padding: 4.5rem 1.15rem; }
+      .visualizer { padding-inline: 0; }
+      .visualizer .container { padding-inline: 0; }
+      .viz-stage { width: 100%; }
+      .viz-controls { grid-template-columns: 1fr; padding-inline: 1.15rem; }
+      .gallery .section-title, .gallery .section-subtitle { padding-inline: 1.15rem; }
+      #primary-navigation {
+        display: flex;
+        position: fixed;
+        inset: 48px 0 auto;
+        z-index: 80;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+        padding: 0.35rem 1.25rem 1.15rem;
+        background: #000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        transform: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: none;
+      }
+      #primary-navigation.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      #primary-navigation a {
+        display: flex;
+        min-height: 52px;
+        align-items: center;
+        color: #f5f5f7;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 1.05rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1271,7 +1372,62 @@
       let userMoved = false;
       let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-      const labelPx = () => Math.round(Math.max(48, canvas.width / 26));
+      function displayedWidth() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width > 40) return rect.width;
+        return Math.min(canvas.width, 960);
+      }
+      function labelFontPx() {
+        const shown = displayedWidth();
+        const css = shown < 560 ? 17 : 18;
+        return Math.max(30, Math.round(css * (canvas.width / shown)));
+      }
+      function fillRound(x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+        ctx.fill();
+      }
+      function drawPlate(lines, anchorX, anchorY, align) {
+        let size = labelFontPx();
+        const fontFor = (px) => '600 ' + px + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.save();
+        ctx.font = fontFor(size);
+        let widest = 0;
+        lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
+        while (widest > canvas.width * 0.34 && size > 22) {
+          size = Math.round(size * 0.88);
+          ctx.font = fontFor(size);
+          widest = 0;
+          lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
+        }
+        const font = fontFor(size);
+        const lineH = Math.round(size * 1.18);
+        const padX = Math.round(size * 0.62);
+        const padY = Math.round(size * 0.38);
+        const w = widest + padX * 2;
+        const h = lineH * lines.length + padY * 2;
+        let x = align === 'right' ? anchorX - w : anchorX;
+        let y = anchorY - h / 2;
+        x = clamp(x, 16, canvas.width - w - 16);
+        y = clamp(y, 16, canvas.height - h - 16);
+        ctx.fillStyle = 'rgba(0,0,0,0.78)';
+        fillRound(x, y, w, h, Math.round(size * 0.36));
+        ctx.fillStyle = '#f5f5f7';
+        ctx.font = font;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        lines.forEach((line, index) => {
+          ctx.fillText(line, x + padX, y + padY + lineH * index + lineH / 2);
+        });
+        ctx.restore();
+        canvas.dataset.labelCss = String(Math.round(size * displayedWidth() / canvas.width));
+      }
       function hostedSample(relative) {
         const baseEl = document.querySelector('base');
         const raw = baseEl ? (baseEl.getAttribute('href') || '') : '';
@@ -1336,50 +1492,35 @@
         }
       }
 
-      function drawBracket(bx, y1, y2, label, align) {
-        const tick = Math.max(14, Math.round(canvas.width / 70));
-        ctx.save();
-        ctx.strokeStyle = 'rgba(255,255,255,0.95)';
-        ctx.fillStyle = '#f5f5f7';
-        ctx.lineWidth = Math.max(4, Math.round(canvas.width / 400));
-        ctx.beginPath();
-        ctx.moveTo(bx - tick, y1); ctx.lineTo(bx + tick, y1);
-        ctx.moveTo(bx, y1); ctx.lineTo(bx, y2);
-        ctx.moveTo(bx - tick, y2); ctx.lineTo(bx + tick, y2);
-        ctx.stroke();
-        ctx.font = '600 ' + labelPx() + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.textAlign = align;
-        ctx.lineWidth = Math.max(6, Math.round(canvas.width / 200));
-        ctx.strokeStyle = 'rgba(0,0,0,0.6)';
-        const tx = align === 'left' ? bx + tick + 8 : bx - tick - 8;
-        ctx.strokeText(label, tx, (y1 + y2) / 2);
-        ctx.fillText(label, tx, (y1 + y2) / 2);
-        ctx.restore();
-      }
-
       function drawAnchors() {
         if (!usingSample) return;
         const bx = landRect.x + landRect.w * TREE_X;
         const y1 = landRect.y + landRect.h * TREE_TOP;
         const y2 = landRect.y + landRect.h * TREE_FOOT;
-        drawBracket(bx, y1, y2, 'Illustrative ' + treeHeightM + ' m', 'right');
-        const houseY = landRect.y + landRect.h * HOUSE_FOOT;
-        const hx = landRect.x + landRect.w * 0.36;
+        const tick = Math.max(12, Math.round(canvas.width / 100));
         ctx.save();
-        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-        ctx.fillStyle = '#f5f5f7';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#f5f5f7';
+        ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
+        ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.moveTo(hx - 18, houseY); ctx.lineTo(hx + 18, houseY);
+        ctx.moveTo(bx - tick, y1); ctx.lineTo(bx + tick, y1);
+        ctx.moveTo(bx, y1); ctx.lineTo(bx, y2);
+        ctx.moveTo(bx - tick, y2); ctx.lineTo(bx + tick, y2);
         ctx.stroke();
-        ctx.font = '600 ' + labelPx() + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.strokeStyle = 'rgba(0,0,0,0.55)';
-        ctx.lineWidth = 4;
-        if (Math.abs(distanceM - treeDistanceM) >= 2) {
-          ctx.strokeText('house ground', hx + 24, houseY + 6);
-          ctx.fillText('house ground', hx + 24, houseY + 6);
-        }
         ctx.restore();
+        drawPlate([treeHeightM + ' m tree', 'illustrative'], bx - tick - 14, y1 + (y2 - y1) * 0.2, 'right');
+        if (Math.abs(distanceM - treeDistanceM) >= 2) {
+          const houseY = landRect.y + landRect.h * HOUSE_FOOT;
+          const hx = landRect.x + landRect.w * 0.36;
+          ctx.save();
+          ctx.strokeStyle = '#f5f5f7';
+          ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
+          ctx.beginPath();
+          ctx.moveTo(hx - 22, houseY); ctx.lineTo(hx + 22, houseY);
+          ctx.stroke();
+          ctx.restore();
+          drawPlate(['House ground'], hx + 30, houseY, 'left');
+        }
       }
 
       function writeMath(drawHeight) {
@@ -1449,15 +1590,8 @@
           ctx.moveTo(x + drawWidth / 2 + 8, top);
           ctx.lineTo(treeX - 12, top);
           ctx.stroke();
-          ctx.setLineDash([]);
-          ctx.font = '600 ' + labelPx() + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-          ctx.textAlign = 'right';
-          ctx.lineWidth = Math.max(6, Math.round(canvas.width / 200));
-          ctx.strokeStyle = 'rgba(0,0,0,0.6)';
-          const compare = meters + ' m';
-          ctx.strokeText(compare, x - drawWidth / 2 - 12, footY - drawHeight * 0.35);
-          ctx.fillText(compare, x - drawWidth / 2 - 12, footY - drawHeight * 0.35);
           ctx.restore();
+          drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right');
         }
         canvas.dataset.x = String(Math.round(x));
         canvas.dataset.distance = String(distanceM);
@@ -1578,9 +1712,21 @@
       });
       presetNear.addEventListener('click', () => setDistance(treeDistanceM));
       presetHouse.addEventListener('click', () => setDistance(houseDistance()));
+      function creditLines() {
+        return [
+          'Illustrative example. Not a measurement.',
+          'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0',
+          'https://creativecommons.org/licenses/by-sa/2.0/',
+          'Resized, metadata removed; sculpture illustration added. Not an endorsement.'
+        ];
+      }
       downloadButton.addEventListener('click', () => {
-        const note = 'Illustrative example. Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.';
-        const bar = 72;
+        const lines = creditLines();
+        const fontSize = 22;
+        const lineHeight = 32;
+        const padX = 40;
+        const padY = 28;
+        const bar = padY * 2 + lines.length * lineHeight;
         const out = document.createElement('canvas');
         out.width = canvas.width;
         out.height = canvas.height + bar;
@@ -1588,10 +1734,15 @@
         octx.drawImage(canvas, 0, 0);
         octx.fillStyle = '#000';
         octx.fillRect(0, canvas.height, out.width, bar);
+        octx.font = fontSize + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        const fits = lines.every((line) => octx.measureText(line).width <= out.width - padX * 2);
+        octx.font = (fits ? fontSize : 18) + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
         octx.fillStyle = '#f5f5f7';
-        octx.font = '28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        octx.textBaseline = 'middle';
-        octx.fillText(note, 28, canvas.height + bar / 2);
+        octx.textBaseline = 'top';
+        octx.textAlign = 'left';
+        lines.forEach((line, index) => {
+          octx.fillText(line, padX, canvas.height + padY + index * lineHeight);
+        });
         let url = '';
         try {
           url = out.toDataURL('image/png');
