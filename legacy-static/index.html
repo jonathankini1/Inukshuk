@@ -588,6 +588,29 @@
       .hero-stage, .hero-stage picture, .hero-media { position: static; inset: auto; width: 100%; height: auto; min-height: 0; transform: none; }
       .hero-media { aspect-ratio: 3 / 4; object-fit: cover; object-position: center center; }
     }
+    body, .what-is, .visualizer, .process, .pricing, .story, .faq, .contact, footer {
+      background: #000; color: #f5f5f7;
+    }
+    .section-title, .what-is-text h3, .step h4, .price-card h4, .price-amount,
+    .contact-panel h3, .story .section-title, .story-content .highlight, .faq summary, .price-card li {
+      color: #f5f5f7;
+    }
+    .section-subtitle, .what-is-text p, .step p, .price-size, .story-content p, .faq-answer,
+    .contact-panel p, .origin-badge, .deposit-note, .deposit-note strong, .privacy-note, .viz-status, .viz-control-title {
+      color: #a1a1a6;
+    }
+    .price-card, .step, .faq details, .faq-list { border-color: rgba(255,255,255,0.14); }
+    .price-btn { background: #f5f5f7; color: #1d1d1f; }
+    .price-btn.secondary { background: transparent; color: #f5f5f7; border: 0; }
+    .form-group label { color: #a1a1a6; }
+    .form-group input, .form-group textarea, .form-group select { background: #1d1d1f; color: #f5f5f7; border-color: rgba(255,255,255,0.16); }
+    .submit-btn { background: #f5f5f7; color: #1d1d1f; }
+    .viz-controls, .viz-stage { background: #000; border: 0; }
+    .upload-action, .viz-button, .size-card { background: #141414; color: #f5f5f7; border-color: rgba(255,255,255,0.16); }
+    .viz-button[aria-pressed="true"], .viz-button.primary { background: #f5f5f7; color: #1d1d1f; }
+    .size-choice input:checked + .size-card { background: #1d1d1f; border-color: #f5f5f7; box-shadow: none; }
+    .faq summary::after { color: #f5f5f7; }
+    footer .logo, .footer-heading { color: #f5f5f7; }
   </style>
 </head>
 <body>
@@ -709,10 +732,10 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Each sample is a crop from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site. The figure is a 2D illustration for size and position. Your own photo stays on this device and is never uploaded.</p>
+      <p class="section-subtitle">Crossbank: concept placement on your land. A 2D photo illustration, not a survey.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away."></canvas>
+          <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Crossbank field with a sculpture illustration to preview size and position."></canvas>
           <p class="viz-tip" id="viz-tip">Drag the base of the illustration. It gets smaller as it moves toward the horizon.</p>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
@@ -763,7 +786,7 @@
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Sample crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.</p>
+          <p class="viz-status" id="viz-status" role="status">Crossbank: concept placement on your land. A 2D photo illustration, not a survey.</p>
         </aside>
       </div>
     </div>
@@ -1241,7 +1264,7 @@
       let usingSample = true;
       let cropAnchor = 0.5;
       const samples = {
-        mown: { src: 'assets/gallery/crossbank-base-9056-crop.jpg', anchor: 0.5, horizon: 0.32, x: 0.48 },
+        mown: { src: 'assets/gallery/crossbank-base-9056-crop.jpg', anchor: 0.5, horizon: 0.3, x: 0.55 },
         meadow: { src: 'assets/gallery/crossbank-base-9055-crop.jpg', anchor: 0.33, horizon: 0.38, x: 0.68 }
       };
       let sampleKey = 'mown';
@@ -1358,7 +1381,8 @@
           ctx.save();
           ctx.translate(x, footY);
           ctx.scale(flipped ? -1 : 1, 1);
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
+          const footFrac = 1104 / 1117;
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * footFrac, drawWidth, drawHeight);
           ctx.restore();
         } else {
           drawFallbackSculpture(drawWidth, drawHeight, footY);
@@ -1499,12 +1523,12 @@
       });
       mownButton.addEventListener('click', () => {
         applySample('mown');
-        status.textContent = 'Mown field crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.';
+        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey.';
         tip.classList.remove('hidden');
       });
       meadowButton.addEventListener('click', () => {
         applySample('meadow');
-        status.textContent = 'Meadow crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.';
+        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey.';
         tip.classList.remove('hidden');
       });
       downloadButton.addEventListener('click', () => {
@@ -1551,7 +1575,7 @@
         horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.58);
         draw();
       });
-      sculpture.src = 'assets/visualizer/inukshuk-illustration.svg';
+      sculpture.src = 'assets/visualizer/inukshuk-cutout.webp';
       draw();
     })();
   </script>

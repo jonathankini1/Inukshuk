@@ -4,7 +4,7 @@
   data-visualizer
   data-sample-mown="{{ 'crossbank-base-9056-crop.jpg' | asset_url }}"
   data-sample-meadow="{{ 'crossbank-base-9055-crop.jpg' | asset_url }}"
-  data-sculpture="{{ 'inukshuk-illustration.svg' | asset_url }}"
+  data-sculpture="{{ 'inukshuk-cutout.webp' | asset_url }}"
   data-status-demo="{{ 'sections.visualizer.demo' | t | escape }}"
   data-status-ready="{{ 'sections.visualizer.ready' | t | escape }}"
   data-status-type="{{ 'sections.visualizer.bad_type' | t | escape }}"
@@ -99,7 +99,7 @@
       let usingSample = true;
       let cropAnchor = 0.5;
       const samples = {
-        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.5, horizon: 0.32, x: 0.48 },
+        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.5, horizon: 0.3, x: 0.55 },
         meadow: { src: section.getAttribute('data-sample-meadow'), anchor: 0.33, horizon: 0.38, x: 0.68 }
       };
       let sampleKey = 'mown';
@@ -197,7 +197,8 @@
           ctx.save();
           ctx.translate(x, footY);
           ctx.scale(flipped ? -1 : 1, 1);
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
+          const footFrac = 1104 / 1117;
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * footFrac, drawWidth, drawHeight);
           ctx.restore();
         } else {
           drawFallbackSculpture(drawHeight, footY);
@@ -417,7 +418,7 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Each sample is a crop from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site. The figure is a 2D illustration for size and position. Your own photo stays on this device and is never uploaded." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },

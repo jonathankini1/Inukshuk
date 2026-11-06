@@ -1079,3 +1079,122 @@ section { padding: 5rem 2rem; }
     transition-duration: 0.01ms !important;
   }
 }
+
+body,
+.what-is,
+.visualizer,
+.process,
+.pricing,
+.story,
+.faq,
+.contact,
+.site-footer {
+  background: #000;
+  color: #f5f5f7;
+}
+
+.section-title,
+.what-is-text h2,
+.what-is-text h3,
+.step h3,
+.step h4,
+.price-card h3,
+.price-card h4,
+.price-amount,
+.contact-panel h3,
+.story .section-title,
+.story-content .highlight,
+.faq summary,
+.price-card li,
+.contact-promises li {
+  color: #f5f5f7;
+}
+
+.section-subtitle,
+.what-is-text p,
+.step p,
+.price-size,
+.story-content p,
+.faq-answer,
+.contact-panel p,
+.origin-badge,
+.deposit-note,
+.deposit-note strong,
+.privacy-note,
+.viz-status,
+.step-number,
+.viz-control-title {
+  color: #a1a1a6;
+}
+
+.price-card,
+.step,
+.faq-list,
+.faq details,
+.contact-promises li {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.pricing-cards,
+.price-card,
+.price-card:first-child,
+.price-card:last-child { border-color: rgba(255, 255, 255, 0.14); }
+
+.price-btn {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+
+.price-btn.secondary,
+.price-btn.secondary:hover {
+  background: transparent;
+  color: #f5f5f7;
+}
+
+.form-group label,
+.field-label { color: #a1a1a6; }
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+.field input,
+.field textarea,
+.field select {
+  background: #1d1d1f;
+  color: #f5f5f7;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.submit-btn { background: #f5f5f7; color: #1d1d1f; }
+.submit-btn:hover { background: #fff; }
+
+.viz-controls { background: transparent; }
+.viz-stage { background: #000; border: 0; }
+
+.upload-action,
+.viz-button,
+.size-card {
+  background: #141414;
+  color: #f5f5f7;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.upload-action:hover,
+.viz-button:hover { background: #1d1d1f; color: #f5f5f7; }
+
+.viz-button[aria-pressed="true"],
+.viz-button.primary { background: #f5f5f7; color: #1d1d1f; border-color: #f5f5f7; }
+
+.size-card small,
+.size-card b { color: #a1a1a6; }
+.size-card b { color: #f5f5f7; }
+
+.size-choice input:checked + .size-card {
+  background: #1d1d1f;
+  border-color: #f5f5f7;
+}
+
+.faq summary::after { color: #f5f5f7; }
+.site-footer .logo,
+.footer-heading { color: #f5f5f7; }
+.footer-links a { color: #a1a1a6; }
