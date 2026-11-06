@@ -749,71 +749,89 @@
       }
     }
 
-    /* Image-led sequence. The photograph is the first screen. */
+    /* Desktop hero: the wide landscape fills the screen. Phones use the block below. */
     nav { background: #000; backdrop-filter: none; }
-    .hero {
-      position: relative;
-      display: block;
-      height: 100svh;
-      min-height: 100svh;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #000;
-      text-align: left;
-    }
-    .hero-stage, .hero-stage picture { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; display: block; }
-    .hero-stage::after {
-      content: "";
-      position: absolute;
-      z-index: 1;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 46%;
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
-      pointer-events: none;
-    }
-    .hero-media {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      max-height: none;
-      object-fit: cover;
-      object-position: center 42%;
-      transform: none;
-    }
-    .hero-copy {
-      position: absolute;
-      z-index: 2;
-      top: auto;
-      bottom: 7.4rem;
-      left: clamp(1.25rem, 5vw, 4.5rem);
-      right: auto;
-      max-width: 28rem;
-      margin: 0;
-      padding: 0;
-      text-align: left;
-    }
-    .hero h1 {
-      max-width: 12ch;
-      margin: 0 0 0.3rem;
-      color: #f5f5f7;
-      font-size: clamp(2.6rem, 4.6vw, 4.4rem);
-      font-weight: 600;
-      letter-spacing: -0.045em;
-      line-height: 0.94;
-      text-align: left;
-    }
-    .hero p {
-      max-width: 28ch;
-      margin: 0 0 0.7rem;
-      color: #f5f5f7;
-      font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-      line-height: 1.3;
-      text-align: left;
+    @media (min-width: 801px) {
+      .hero {
+        position: relative;
+        display: block;
+        height: 100svh;
+        min-height: 100svh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        text-align: left;
+      }
+      .hero-stage, .hero-stage picture { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; display: block; }
+      .hero-stage::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 46%;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+        pointer-events: none;
+      }
+      .hero-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        object-fit: cover;
+        object-position: center 42%;
+        transform: none;
+      }
+      .hero-copy {
+        position: absolute;
+        z-index: 2;
+        top: auto;
+        bottom: 7.4rem;
+        left: clamp(1.25rem, 5vw, 4.5rem);
+        right: auto;
+        max-width: 28rem;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+      }
+      .hero h1 {
+        max-width: 12ch;
+        margin: 0 0 0.3rem;
+        color: #f5f5f7;
+        font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 0.94;
+        text-align: left;
+      }
+      .hero p {
+        max-width: 28ch;
+        margin: 0 0 0.7rem;
+        color: #f5f5f7;
+        font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+        line-height: 1.3;
+        text-align: left;
+      }
+      .hero-caption {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 46rem;
+        margin: 0;
+        padding: 0 clamp(1.25rem, 5vw, 4.5rem) 1.3rem;
+        background: none;
+        color: #f5f5f7;
+        font-size: clamp(1.05rem, 1.45vw, 1.28rem);
+        line-height: 1.35;
+        letter-spacing: -0.015em;
+        text-align: left;
+      }
     }
     .hero-actions { justify-content: flex-start; gap: 1.25rem; }
     .hero-cta, .hero-cta.secondary {
@@ -824,22 +842,6 @@
       text-decoration: none;
     }
     .hero-cta::after { color: #f5f5f7; }
-    .hero-caption {
-      position: absolute;
-      z-index: 2;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      max-width: 46rem;
-      margin: 0;
-      padding: 0 clamp(1.25rem, 5vw, 4.5rem) 1.3rem;
-      background: none;
-      color: #f5f5f7;
-      font-size: clamp(1.05rem, 1.45vw, 1.28rem);
-      line-height: 1.35;
-      letter-spacing: -0.015em;
-      text-align: left;
-    }
     .trust-strip { margin: 0; padding: 0.9rem clamp(1.25rem, 5vw, 4.5rem); background: #000; }
     .trust-list { max-width: none; display: flex; justify-content: space-between; gap: 1.5rem; }
     .trust-list li { padding: 0; text-align: left; font-size: 0.82rem; letter-spacing: 0.01em; }
@@ -964,9 +966,72 @@
     .footer-grid { max-width: none; margin-bottom: 1.5rem; align-items: start; }
     .footer-bottom { max-width: none; }
     @media (max-width: 800px) {
-      .hero-copy { left: 1.15rem; bottom: 8.2rem; max-width: 16rem; }
-      .hero h1 { font-size: 2.45rem; }
-      .hero-caption { left: 1.15rem; right: 1.15rem; font-size: 1.02rem; padding: 0 0 1.1rem; }
+      .hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100svh;
+        margin: 0;
+        padding: 48px 0 0;
+        overflow: visible;
+        background: #000;
+      }
+      .hero-stage, .hero-stage picture {
+        position: relative;
+        inset: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        margin: 0;
+      }
+      .hero-stage::after { content: none; }
+      .hero-media {
+        position: relative;
+        inset: auto;
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: none;
+        object-fit: contain;
+        object-position: center center;
+        transform: none;
+      }
+      .hero-copy {
+        position: absolute;
+        z-index: 2;
+        top: 4.1rem;
+        bottom: auto;
+        left: 1.15rem;
+        right: 1.15rem;
+        width: auto;
+        max-width: 15rem;
+        margin: 0;
+        padding: 0;
+      }
+      .hero-caption {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 0.85rem 1.15rem 1.15rem;
+        color: #f5f5f7;
+        font-size: 1.05rem;
+        background: none;
+        text-align: left;
+      }
+      .hero h1 { max-width: 9ch; margin: 0 0 0.25rem; color: #f5f5f7; font-size: 2.45rem; line-height: 0.94; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
+      .hero p { max-width: 22ch; margin: 0 0 0.55rem; color: #f5f5f7; font-size: 1.05rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+      .hero-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
       .photo-card figcaption { left: 1.15rem; bottom: 1rem; }
       .photo-card img, .photo-card.wide img { object-position: center center; height: auto; }
       .trust-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
@@ -1013,7 +1078,8 @@
   <section class="hero" id="top">
     <figure class="hero-stage">
       <picture>
-        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, with hills and sky behind it" width="2000" height="1125" fetchpriority="high" loading="eager">
+        <source media="(max-width: 800px)" srcset="assets/gallery/summer-landmark.jpg">
+        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, head and both arms complete" width="2000" height="1125" fetchpriority="high" loading="eager">
       </picture>
       <figcaption class="hero-caption">Every stone chosen for its place. Stacked by hand, balanced without mortar. Made with you, for the land that will hold it.</figcaption>
     </figure>
@@ -2001,17 +2067,25 @@
       function creditLines() {
         return [
           'Illustrative example. Not a measurement.',
-          'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0',
+          'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0, via Wikimedia Commons.',
+          'https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg',
           'https://creativecommons.org/licenses/by-sa/2.0/',
           'Resized, metadata removed; sculpture illustration added. Not an endorsement.'
         ];
       }
       downloadButton.addEventListener('click', () => {
         const lines = creditLines();
-        const fontSize = 22;
-        const lineHeight = 32;
         const padX = 40;
-        const padY = 28;
+        const padY = 22;
+        const fontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        const probe = document.createElement('canvas').getContext('2d');
+        let fontSize = 22;
+        probe.font = fontSize + 'px ' + fontStack;
+        while (fontSize > 15 && lines.some((line) => probe.measureText(line).width > canvas.width - padX * 2)) {
+          fontSize -= 1;
+          probe.font = fontSize + 'px ' + fontStack;
+        }
+        const lineHeight = Math.round(fontSize * 1.45);
         const bar = padY * 2 + lines.length * lineHeight;
         const out = document.createElement('canvas');
         out.width = canvas.width;
@@ -2020,9 +2094,7 @@
         octx.drawImage(canvas, 0, 0);
         octx.fillStyle = '#000';
         octx.fillRect(0, canvas.height, out.width, bar);
-        octx.font = fontSize + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        const fits = lines.every((line) => octx.measureText(line).width <= out.width - padX * 2);
-        octx.font = (fits ? fontSize : 18) + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        octx.font = fontSize + 'px ' + fontStack;
         octx.fillStyle = '#f5f5f7';
         octx.textBaseline = 'top';
         octx.textAlign = 'left';
