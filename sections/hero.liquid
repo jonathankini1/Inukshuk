@@ -2,9 +2,9 @@
   <figure class="hero-plate">
     {% if section.settings.image != blank %}
       {% if section.index == 1 %}
-        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 46vw, 78vw' }}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 42vw, 88vw' }}
       {% else %}
-        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'lazy', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 46vw, 78vw' }}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'lazy', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 42vw, 88vw' }}
       {% endif %}
     {% else %}
       <img
@@ -21,19 +21,6 @@
     {% endif %}
   </figure>
   <div class="hero-copy">
-    <figure class="hero-study">
-      <img
-        src="{{ 'inukshuk-study.webp' | asset_url }}"
-        alt="{{ section.settings.study_alt | escape }}"
-        width="854"
-        height="1117"
-        loading="eager"
-        decoding="async"
-      >
-      {% if section.settings.study_caption != blank %}
-        <figcaption>{{ section.settings.study_caption }}</figcaption>
-      {% endif %}
-    </figure>
     <h1>{{ section.settings.heading }}</h1>
     <p>{{ section.settings.text }}</p>
     <div class="hero-actions">
@@ -129,18 +116,6 @@
       "id": "caption",
       "label": "t:labels.caption",
       "default": "Built stone by stone"
-    },
-    {
-      "type": "text",
-      "id": "study_alt",
-      "label": "t:sections.hero.settings.study_alt.label",
-      "default": "The same stone Inukshuk, lifted from a photograph and set on the page. Not a site view and not to scale."
-    },
-    {
-      "type": "text",
-      "id": "study_caption",
-      "label": "t:sections.hero.settings.study_caption.label",
-      "default": "Not to scale"
     }
   ],
   "presets": [

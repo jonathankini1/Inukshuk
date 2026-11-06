@@ -274,12 +274,6 @@
         "image": {
           "label": "Image"
         },
-        "study_alt": {
-          "label": "Study alt text"
-        },
-        "study_caption": {
-          "label": "Study caption"
-        },
         "primary_label": {
           "label": "Primary label"
         },
