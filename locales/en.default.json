@@ -53,15 +53,15 @@
       "next": "Next photograph"
     },
     "visualizer": {
-      "canvas": "A licensed garden photograph with a sculpture illustration. The height follows a stated same-plane formula. It is not a measurement.",
-      "tip": "Drag the base. The figure moves toward the horizon and its height follows the distance.",
-      "demo": "Illustration only. Not a measurement of this house.",
-      "ready": "Your photograph stays on this device. The calibration is assumed until you edit it. It is not a measurement of your photograph.",
+      "canvas": "Illustrative example. A garden photograph with the birch marked as an example height. The sculpture starts beside the tree. It is not a measurement.",
+      "tip": "Drag the base. Beside the tree you can compare heights. Moving back toward the house makes the figure smaller.",
+      "demo": "Illustrative example. Not a measurement of the tree or the house.",
+      "ready": "Your photograph stays on this device. It has no known scale. The distances stay on the illustrative example until you edit them.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
       "size": "{{ name }} guide height selected. Illustration only, not a measurement.",
-      "reset": "Estate size and the sample photograph are reset. The 8 m and 40 m figures are assumptions again.",
-      "downloaded": "Preview downloaded. The file is CC BY-SA 2.0: the photograph was resized, metadata was removed, and the sculpture illustration was added. Not an endorsement. It is not a measurement.",
+      "reset": "Reset beside the tree. Example height 10 m, example distance 8 m. Not a measurement.",
+      "downloaded": "Preview downloaded. The file is the picture on screen, including the tree mark. CC BY-SA 2.0. Not a measurement.",
       "download_failed": "The preview could not be downloaded. Please try again."
     },
     "pricing": {

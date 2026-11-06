@@ -8,7 +8,7 @@ The visualiser uses one public photograph and a composite made from it. Credit i
 
 ## Composite illustration
 
-The on-screen tool draws the sculpture illustration on that resized photograph. The downloaded preview is the same composite, with a CC BY-SA 2.0 line in the file: “Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.”
+The on-screen tool draws the sculpture illustration on that resized photograph. The birch in the foreground is the height reference. Its marked height and distance are an example for illustration. The crown continues past the top of the frame, so the tree was not measured. The house stays in the photograph and is not given a measured height. The downloaded preview is the same composite, with a CC BY-SA 2.0 line in the file: “Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.”
 
 That composite is an adaptation. It is distributed under Creative Commons Attribution-ShareAlike 2.0 Generic, the same licence as the photograph. Further adaptations of the composite must stay under that licence or a compatible one. The credit, the licence link, and the statement of changes have to travel with it. The photographer has not endorsed Inukshuk.
 

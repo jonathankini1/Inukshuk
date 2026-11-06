@@ -51,7 +51,7 @@
           "settings": {
             "fallback_asset": "summer-landmark.jpg",
             "alt": "Stone landmark in summer grass under a blue sky",
-            "caption": "Summer grass.",
+            "caption": "Later in the summer, the same figure, with a young tree to its right.",
             "open_label": "Open summer photograph",
             "layout": "normal"
           }
@@ -64,7 +64,7 @@
     "visualizer": {
       "type": "visualizer",
       "settings": {
-        "subheading": "A scale illustration on one photograph. Twice the distance is half the height. It is not a survey, and it is not a measurement of the house."
+        "subheading": "An illustrative example. The birch is the height reference. The figure starts beside it, then moves back toward the house. Twice the distance is half the size. Nothing here was measured."
       },
       "blocks": {
         "size_garden": {

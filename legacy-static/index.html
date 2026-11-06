@@ -613,9 +613,11 @@
     .hero { min-height: 0; }
     .hero-copy { padding: 1.15rem 1.5rem 0.7rem; }
     .hero h1 { font-size: clamp(2.5rem, 4.4vw, 3.7rem); max-width: 16ch; }
-    .hero-stage { flex: none; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; display: flex; justify-content: center; }
+    .hero-stage { flex: none; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .hero-stage picture { height: auto; display: flex; justify-content: center; width: 100%; }
-    .hero-media { position: static; inset: auto; left: auto; top: auto; transform: none; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 332px); object-fit: contain; object-position: center center; }
+    .hero-media { position: static; inset: auto; left: auto; top: auto; transform: none; width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 360px); object-fit: contain; object-position: center center; }
+    .hero-caption { max-width: 42rem; margin: 0 auto; padding: 0.9rem 1.5rem 1.25rem; color: #f5f5f7; font-size: 1.05rem; font-style: normal; font-weight: 400; line-height: 1.4; text-align: center; }
+    .hero-caption em { font-style: italic; }
     .gallery .container, .photo-grid { max-width: 1600px; }
     .photo-card img, .photo-card.wide img { width: auto; max-width: 100%; max-height: 72vh; height: auto; object-fit: contain; }
     .what-is-grid { grid-template-columns: minmax(0, 42rem); justify-content: center; }
@@ -628,7 +630,8 @@
       .hero h1 { font-size: 2.5rem; }
       .hero-stage { height: auto; min-height: 0; }
       .hero-stage, .hero-stage picture, .hero-media { position: static; width: 100%; height: auto; transform: none; min-height: 0; }
-      .hero-media { height: auto; max-height: none; object-fit: contain; object-position: center center; }
+      .hero-media { height: auto; max-height: calc(100svh - 340px); object-fit: contain; object-position: center center; }
+      .hero-caption { padding: 0.75rem 1.15rem 1rem; font-size: 1rem; }
       .gallery { padding-inline: 0; }
       .gallery .section-title, .gallery .section-subtitle { padding-inline: 1.15rem; }
     }
@@ -660,8 +663,8 @@
 
   <section class="hero" id="top">
     <div class="hero-copy">
-      <h1>A stone landmark for your land</h1>
-      <p>Commissioned for a garden, an estate, or open ground. Three sizes. A site visit before any build.</p>
+      <h1>Raised on open ground</h1>
+      <p>Stone, lifted by hand and left where it stands.</p>
       <div class="hero-actions">
         <a href="#visualizer" class="hero-cta">See It on Your Land</a>
         <a href="#contact" class="hero-cta secondary">Begin Your Build</a>
@@ -671,6 +674,7 @@
       <picture>
         <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, with hills and sky behind it" width="2000" height="1125" fetchpriority="high" loading="eager">
       </picture>
+      <figcaption class="hero-caption">The first landmark, on open grassland with the hills behind. Local stone, stacked without mortar. An <em class="inuktitut">inuksuk</em>.</figcaption>
     </figure>
   </section>
 
@@ -704,7 +708,7 @@
         <figure class="photo-card">
           <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open summer photograph">
             <img src="assets/gallery/summer-landmark.jpg" alt="Stone landmark in summer grass under a blue sky" width="1125" height="2000" loading="lazy" decoding="async">
-            <figcaption>Summer grass. <em class="inuktitut">inuksuk</em></figcaption>
+            <figcaption>Later in the summer, the same figure, with a young tree to its right.</figcaption>
           </button>
         </figure>
       </div>
@@ -724,10 +728,10 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">A scale illustration on one photograph. Twice the distance is half the height. It is not a survey, and it is not a measurement of the house.</p>
+      <p class="section-subtitle">An illustrative example. The birch is the height reference. The figure starts beside it, then moves back toward the house. Twice the distance is half the size. Nothing here was measured.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="A licensed garden photograph with a sculpture illustration. The height follows a stated same-plane formula. It is not a measurement."></canvas>
+          <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. A garden photograph with the birch marked as an example height. The sculpture starts beside the tree. It is not a measurement."></canvas>
           <p class="viz-tip" id="viz-tip">Drag the base. The figure moves toward the horizon and its height follows the distance.</p>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
@@ -759,23 +763,19 @@
             </fieldset>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="distance-input">Distance on this ground plane <span id="distance-readout">15 m</span></label>
-            <input id="distance-input" type="range" min="6" max="80" step="1" value="15">
+            <label class="viz-control-title" for="distance-input">Sculpture distance <span id="distance-readout">8 m</span></label>
+            <input id="distance-input" type="range" min="8" max="64" step="1" value="8">
             <div class="viz-button-row">
-              <button class="viz-button" id="preset-near" type="button">Near 12 m</button>
-              <button class="viz-button" id="preset-house" type="button">House 40 m</button>
-              <button class="viz-button" id="preset-far" type="button">Far 80 m</button>
+              <button class="viz-button" id="preset-near" type="button">Beside the tree</button>
+              <button class="viz-button" id="preset-house" type="button">At the house</button>
             </div>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="ref-height-input">Assumed reference height <span id="ref-height-readout">8 m</span></label>
-            <input id="ref-height-input" type="range" min="2" max="20" step="0.5" value="8">
-            <label class="viz-control-title" for="ref-distance-input">Assumed reference distance <span id="ref-distance-readout">40 m</span></label>
-            <input id="ref-distance-input" type="range" min="10" max="120" step="1" value="40">
-            <label class="viz-control-title" for="horizon-input">Assumed horizon <span id="horizon-readout">43%</span></label>
-            <input id="horizon-input" type="range" min="28" max="46" step="1" value="43">
-            <p class="privacy-note">The marked span beside the house is not a measured height. 8 m and 40 m are assumptions. On a photograph you upload, the same numbers are assumptions too. They are not the size of anything in that photograph.</p>
-            <p class="privacy-note">Same ground plane: apparent height = reference pixel height × (sculpture metres ÷ reference metres) × (reference distance ÷ sculpture distance). The camera file records 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). That record does not measure the house.</p>
+            <label class="viz-control-title" for="tree-height-input">Example tree height <span id="tree-height-readout">10 m</span></label>
+            <input id="tree-height-input" type="range" min="4" max="20" step="0.5" value="10">
+            <label class="viz-control-title" for="tree-distance-input">Example distance to the tree <span id="tree-distance-readout">8 m</span></label>
+            <input id="tree-distance-input" type="range" min="4" max="16" step="1" value="8">
+            <p class="privacy-note">Illustrative example. The birch in the foreground is the reference. The marked span is an example height, not a measurement. The crown continues past the top of the frame. Camera file: 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). Illustrative camera height 1.6 m. The horizon is the distant lawn line. The same height at twice the distance is half the size.</p>
             <p class="privacy-note viz-math" id="viz-math"></p>
           </div>
           <div class="viz-button-row">
@@ -784,7 +784,7 @@
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
           <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed; sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. This is not an endorsement by the photographer. GPS was not imported.</p>
-          <p class="viz-status" id="viz-status" role="status">Illustration only. Not a measurement of this house.</p>
+          <p class="viz-status" id="viz-status" role="status">Illustrative example. Not a measurement of the tree or the house.</p>
         </aside>
       </div>
     </div>
@@ -1254,29 +1254,23 @@
       const resetButton = document.getElementById('reset-btn');
       const downloadButton = document.getElementById('download-btn');
       const distanceInput = document.getElementById('distance-input');
-      const horizonInput = document.getElementById('horizon-input');
-      const refHeightInput = document.getElementById('ref-height-input');
-      const refDistanceInput = document.getElementById('ref-distance-input');
+      const treeHeightInput = document.getElementById('tree-height-input');
+      const treeDistanceInput = document.getElementById('tree-distance-input');
       const distanceReadout = document.getElementById('distance-readout');
-      const horizonReadout = document.getElementById('horizon-readout');
-      const refHeightReadout = document.getElementById('ref-height-readout');
-      const refDistanceReadout = document.getElementById('ref-distance-readout');
+      const treeHeightReadout = document.getElementById('tree-height-readout');
+      const treeDistanceReadout = document.getElementById('tree-distance-readout');
       const presetNear = document.getElementById('preset-near');
       const presetHouse = document.getElementById('preset-house');
-      const presetFar = document.getElementById('preset-far');
 
       const SAMPLE_SRC = 'assets/visualizer/preston-place.jpg';
-      const REF_TOP = 890 / 2448;
-      const REF_FOOT = 1190 / 2448;
-      const HOUSE_LEFT = 1980 / 3264;
-      const DEFAULT_HORIZON = 0.43;
-      const DEFAULT_X = 0.38;
-      const DEFAULT_REF_H = 8;
-      const DEFAULT_REF_D = 40;
-      const OPEN_M = 15;
-      const NEAR_LIMIT = 6;
-      const FAR_LIMIT = 80;
-
+      const TREE_X = 0.28;
+      const TREE_TOP = 100 / 1500;
+      const TREE_FOOT = 1330 / 1500;
+      const HOUSE_FOOT = 730 / 1500;
+      const HORIZON = 644 / 1500;
+      const PLACE_X = 0.42;
+      const DEFAULT_TREE_H = 10;
+      const DEFAULT_TREE_D = 8;
       const demoLand = new Image();
       const sculpture = new Image();
       let landPhoto = demoLand;
@@ -1284,14 +1278,12 @@
       let usingSample = true;
       let dragging = false;
       let flipped = false;
-      let horizonRatio = DEFAULT_HORIZON;
-      let refHeightM = DEFAULT_REF_H;
-      let refDistanceM = DEFAULT_REF_D;
-      let distanceM = OPEN_M;
+      let treeHeightM = DEFAULT_TREE_H;
+      let treeDistanceM = DEFAULT_TREE_D;
+      let distanceM = DEFAULT_TREE_D;
       let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
-      let x = canvas.width * DEFAULT_X;
+      let x = canvas.width * PLACE_X;
       let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
-
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
       function fitRect(image) {
@@ -1309,76 +1301,46 @@
         return { x: (canvas.width - w) / 2, y: 0, w, h };
       }
 
-      const horizonY = () => landRect.y + landRect.h * horizonRatio;
-      const refFootY = () => landRect.y + landRect.h * REF_FOOT;
-      const refPixelHeight = () => landRect.h * (REF_FOOT - REF_TOP);
-      const apparentHeight = (distance) => {
-        const height = refPixelHeight() * (meters / refHeightM) * (refDistanceM / distance);
-        return clamp(height, 4, canvas.height * 0.92);
+      const houseDistance = () => {
+        const dropTree = TREE_FOOT - HORIZON;
+        const dropHouse = HOUSE_FOOT - HORIZON;
+        return treeDistanceM * dropTree / dropHouse;
       };
-      const footYForDistance = (distance) => horizonY() + (refFootY() - horizonY()) * (refDistanceM / distance);
+      const horizonY = () => landRect.y + landRect.h * HORIZON;
+      const treeFootY = () => landRect.y + landRect.h * TREE_FOOT;
+      const treePixelHeight = () => landRect.h * (TREE_FOOT - TREE_TOP);
+      const apparentHeight = (distance) => clamp(treePixelHeight() * (meters / treeHeightM) * (treeDistanceM / distance), 4, canvas.height * 0.92);
+      const footYForDistance = (distance) => horizonY() + (treeFootY() - horizonY()) * (treeDistanceM / distance);
       const distanceForFoot = (footY) => {
-        const refDrop = refFootY() - horizonY();
         const drop = footY - horizonY();
-        if (refDrop <= 1 || drop <= 1) return FAR_LIMIT;
-        return clamp(Math.round(refDistanceM * refDrop / drop), NEAR_LIMIT, FAR_LIMIT);
+        const treeDrop = treeFootY() - horizonY();
+        if (drop <= 1 || treeDrop <= 1) return Math.round(houseDistance());
+        return clamp(Math.round(treeDistanceM * treeDrop / drop), Math.round(treeDistanceM), Math.round(houseDistance()));
       };
 
       function limitX(value, drawWidth) {
         const half = drawWidth / 2;
-        const minX = half + 4;
-        let maxX = canvas.width - half - 4;
-        if (usingSample) {
-          const house = landRect.x + landRect.w * HOUSE_LEFT;
-          maxX = Math.min(maxX, house - half - 12);
-        }
+        const minX = landRect.x + landRect.w * (TREE_X + 0.06) + half;
+        const maxX = landRect.x + landRect.w * 0.58 - half;
         if (maxX < minX) return minX;
         return clamp(value, minX, maxX);
       }
 
-      function drawImageFit(image) {
-        landRect = fitRect(image);
-        ctx.drawImage(image, landRect.x, landRect.y, landRect.w, landRect.h);
+      function syncDistanceRange() {
+        const min = Math.round(treeDistanceM);
+        const max = Math.max(min + 1, Math.round(houseDistance()));
+        distanceM = clamp(distanceM, min, max);
+        if (distanceInput) {
+          distanceInput.min = String(min);
+          distanceInput.max = String(max);
+          distanceInput.value = String(distanceM);
+        }
       }
 
-      function drawFallbackLand() {
-        landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
-        const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        sky.addColorStop(0, '#c5d5c8');
-        sky.addColorStop(0.42, '#9bb58a');
-        sky.addColorStop(1, '#6d8a55');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-
-      function drawMarkers() {
-        ctx.save();
-        ctx.font = '500 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.lineWidth = 3;
-        ctx.textAlign = 'left';
-        [10, 15, 20, 40, 80].forEach((mark) => {
-          const y = footYForDistance(mark);
-          if (y < horizonY() + 10 || y > landRect.y + landRect.h - 16) return;
-          ctx.strokeStyle = 'rgba(0,0,0,0.55)';
-          ctx.beginPath();
-          ctx.moveTo(16, y);
-          ctx.lineTo(34, y);
-          ctx.stroke();
-          ctx.strokeText(mark + ' m', 40, y + 6);
-          ctx.fillStyle = '#f5f5f7';
-          ctx.fillText(mark + ' m', 40, y + 6);
-        });
-        ctx.restore();
-      }
-
-      function drawBracket() {
-        if (!usingSample) return;
-        const bx = landRect.x + landRect.w * 0.60;
-        const y1 = landRect.y + landRect.h * REF_TOP;
-        const y2 = landRect.y + landRect.h * REF_FOOT;
+      function drawBracket(bx, y1, y2, label, align) {
         ctx.save();
         ctx.strokeStyle = 'rgba(255,255,255,0.92)';
-        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        ctx.fillStyle = '#f5f5f7';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(bx - 10, y1); ctx.lineTo(bx + 10, y1);
@@ -1386,30 +1348,59 @@
         ctx.moveTo(bx - 10, y2); ctx.lineTo(bx + 10, y2);
         ctx.stroke();
         ctx.font = '600 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.textAlign = 'right';
-        ctx.strokeStyle = 'rgba(0,0,0,0.45)';
+        ctx.textAlign = align;
         ctx.lineWidth = 4;
-        const label = 'assumed ' + refHeightM + ' m';
-        ctx.strokeText(label, bx - 14, (y1 + y2) / 2);
-        ctx.fillText(label, bx - 14, (y1 + y2) / 2);
+        ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+        const tx = align === 'left' ? bx + 14 : bx - 14;
+        ctx.strokeText(label, tx, (y1 + y2) / 2);
+        ctx.fillText(label, tx, (y1 + y2) / 2);
+        ctx.restore();
+      }
+
+      function drawAnchors() {
+        if (!usingSample) return;
+        const bx = landRect.x + landRect.w * TREE_X;
+        const y1 = landRect.y + landRect.h * TREE_TOP;
+        const y2 = landRect.y + landRect.h * TREE_FOOT;
+        drawBracket(bx, y1, y2, 'example ' + treeHeightM + ' m', 'left');
+        const houseY = landRect.y + landRect.h * HOUSE_FOOT;
+        const hx = landRect.x + landRect.w * 0.62;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillStyle = '#f5f5f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(hx - 18, houseY); ctx.lineTo(hx + 18, houseY);
+        ctx.stroke();
+        ctx.font = '600 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+        ctx.lineWidth = 4;
+        ctx.strokeText('house ground', hx + 24, houseY + 6);
+        ctx.fillText('house ground', hx + 24, houseY + 6);
         ctx.restore();
       }
 
       function writeMath(drawHeight) {
-        const doubled = Math.round(apparentHeight(distanceM * 2));
-        const atHouse = Math.round(apparentHeight(refDistanceM));
-        const span = Math.round(refPixelHeight());
+        const doubled = apparentHeight(distanceM * 2);
+        const atTree = apparentHeight(treeDistanceM);
+        const houseD = houseDistance();
         const mode = usingSample
-          ? 'Sample photograph.'
-          : 'Your photograph. These metres are assumed, not known.';
-        const sentence = mode + ' ' + meters + ' m guide height at ' + distanceM + ' m draws at ' + Math.round(drawHeight) + ' px. At ' + refDistanceM + ' m it would be ' + atHouse + ' px, against an assumed ' + refHeightM + ' m span of ' + span + ' px. At ' + (distanceM * 2) + ' m it would be ' + doubled + ' px. Twice the distance is half the height. Illustration only, not a measurement.';
-        if (math) math.textContent = sentence;
-        canvas.dataset.calibration = usingSample ? 'sample-assumption' : 'upload-assumption';
+          ? 'Illustrative example.'
+          : 'Your photograph has no known scale. These metres are the illustrative example until you edit them.';
+        if (math) {
+          math.textContent = mode + ' Example tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m. ' + meters + ' m guide height at ' + distanceM + ' m draws at ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m. Not a measurement.';
+        }
+        canvas.dataset.calibration = usingSample ? 'illustrative-example' : 'upload-illustrative';
+        canvas.dataset.treePx = String(Math.round(treePixelHeight()));
+        canvas.dataset.treeDistance = String(treeDistanceM);
+        canvas.dataset.houseDistance = String(Math.round(houseD));
+        canvas.dataset.atTree = String(Math.round(atTree));
+        canvas.dataset.doubled = String(Math.round(doubled));
       }
 
       function draw() {
-        if (landPhoto.complete && landPhoto.naturalWidth) landRect = fitRect(landPhoto);
-        else landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
+        landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
+        syncDistanceRange();
         const footY = footYForDistance(distanceM);
         const drawHeight = apparentHeight(distanceM);
         const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
@@ -1418,42 +1409,40 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        if (landPhoto.complete && landPhoto.naturalWidth) drawImageFit(landPhoto);
-        else drawFallbackLand();
-        drawMarkers();
-        drawBracket();
-        const lightShift = drawWidth * 0.28;
+        if (landPhoto.complete && landPhoto.naturalWidth) ctx.drawImage(landPhoto, landRect.x, landRect.y, landRect.w, landRect.h);
+        else {
+          ctx.fillStyle = '#6d8a55';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        drawAnchors();
+        const lightShift = drawWidth * 0.22;
         const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
-        shade.addColorStop(0, 'rgba(24, 20, 14, 0.42)');
-        shade.addColorStop(0.45, 'rgba(24, 20, 14, 0.14)');
-        shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
+        shade.addColorStop(0, 'rgba(20, 24, 12, 0.4)');
+        shade.addColorStop(0.5, 'rgba(20, 24, 12, 0.12)');
+        shade.addColorStop(1, 'rgba(20, 24, 12, 0)');
         ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.5), Math.max(4, drawHeight * 0.03), 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.48), Math.max(4, drawHeight * 0.028), 0, 0, Math.PI * 2);
         ctx.fill();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
           ctx.translate(x, footY);
           ctx.scale(flipped ? -1 : 1, 1);
-          const footFrac = 1104 / 1117;
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * footFrac, drawWidth, drawHeight);
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
         }
         canvas.dataset.distance = String(distanceM);
         canvas.dataset.meters = String(meters);
         canvas.dataset.drawHeight = String(Math.round(drawHeight));
         canvas.dataset.footY = String(Math.round(footY));
-        canvas.dataset.refPx = String(Math.round(refPixelHeight()));
         if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
-        if (horizonReadout) horizonReadout.textContent = Math.round(horizonRatio * 100) + '%';
-        if (refHeightReadout) refHeightReadout.textContent = refHeightM + ' m';
-        if (refDistanceReadout) refDistanceReadout.textContent = refDistanceM + ' m';
+        if (treeHeightReadout) treeHeightReadout.textContent = treeHeightM + ' m';
+        if (treeDistanceReadout) treeDistanceReadout.textContent = treeDistanceM + ' m';
         writeMath(drawHeight);
       }
 
       function setDistance(value) {
-        distanceM = clamp(Math.round(value), NEAR_LIMIT, FAR_LIMIT);
-        if (distanceInput) distanceInput.value = String(distanceM);
+        distanceM = Math.round(Number(value));
         tip.classList.add('hidden');
         draw();
       }
@@ -1462,16 +1451,13 @@
         usingSample = true;
         landPhoto = demoLand;
         meters = 2.75;
-        distanceM = OPEN_M;
-        horizonRatio = DEFAULT_HORIZON;
-        refHeightM = DEFAULT_REF_H;
-        refDistanceM = DEFAULT_REF_D;
+        treeHeightM = DEFAULT_TREE_H;
+        treeDistanceM = DEFAULT_TREE_D;
+        distanceM = DEFAULT_TREE_D;
         flipped = false;
-        x = canvas.width * DEFAULT_X;
-        if (distanceInput) distanceInput.value = String(OPEN_M);
-        if (horizonInput) horizonInput.value = '43';
-        if (refHeightInput) refHeightInput.value = String(DEFAULT_REF_H);
-        if (refDistanceInput) refDistanceInput.value = String(DEFAULT_REF_D);
+        x = canvas.width * PLACE_X;
+        if (treeHeightInput) treeHeightInput.value = String(DEFAULT_TREE_H);
+        if (treeDistanceInput) treeDistanceInput.value = String(DEFAULT_TREE_D);
         sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');
         if (demoLand.getAttribute('src') !== SAMPLE_SRC) demoLand.src = SAMPLE_SRC;
@@ -1488,18 +1474,15 @@
 
       function placeAt(event) {
         const point = canvasPoint(event);
-        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
         x = point.x;
         distanceM = distanceForFoot(point.y);
-        if (distanceInput) distanceInput.value = String(distanceM);
-        x = limitX(x, apparentHeight(distanceM) * ratio);
         tip.classList.add('hidden');
         draw();
       }
 
       function loadPhoto(file) {
         if (!file) return;
-        if (!file.type.startsWith('image/')) {
+        if (!file.type || file.type.indexOf('image/') !== 0) {
           status.textContent = 'Please choose an image file.';
           return;
         }
@@ -1509,13 +1492,11 @@
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
-          status.textContent = 'Your photograph stays on this device. The calibration is assumed until you edit it. It is not a measurement of your photograph.';
+          status.textContent = 'Your photograph stays on this device. It has no known scale. The distances stay on the illustrative example until you edit them.';
           tip.classList.remove('hidden');
           draw();
         };
-        visitorPhoto.onerror = () => {
-          status.textContent = 'That photo could not be opened. Please try another image.';
-        };
+        visitorPhoto.onerror = () => { status.textContent = 'That photo could not be opened. Please try another image.'; };
         visitorPhoto.src = photoUrl;
       }
 
@@ -1525,7 +1506,6 @@
           event.target.value = '';
         });
       });
-
       canvas.addEventListener('pointerdown', event => {
         dragging = true;
         canvas.classList.add('dragging');
@@ -1541,24 +1521,21 @@
       canvas.addEventListener('pointerup', stopDragging);
       canvas.addEventListener('pointercancel', stopDragging);
       canvas.addEventListener('keydown', event => {
-        const movement = event.shiftKey ? 20 : 6;
-        if (event.key === 'ArrowLeft') x -= movement;
-        else if (event.key === 'ArrowRight') x += movement;
-        else if (event.key === 'ArrowUp') distanceM += event.shiftKey ? 5 : 1;
-        else if (event.key === 'ArrowDown') distanceM -= event.shiftKey ? 5 : 1;
+        const step = event.shiftKey ? 4 : 1;
+        if (event.key === 'ArrowLeft') x -= event.shiftKey ? 40 : 12;
+        else if (event.key === 'ArrowRight') x += event.shiftKey ? 40 : 12;
+        else if (event.key === 'ArrowUp') distanceM += step;
+        else if (event.key === 'ArrowDown') distanceM -= step;
         else return;
         event.preventDefault();
-        distanceM = clamp(distanceM, NEAR_LIMIT, FAR_LIMIT);
-        if (distanceInput) distanceInput.value = String(distanceM);
         tip.classList.add('hidden');
         draw();
       });
-
       sizeInputs.forEach(input => {
         input.addEventListener('change', () => {
           if (!input.checked) return;
           meters = Number(input.dataset.meters);
-          status.textContent = input.value + ' guide height selected. Illustration only, not a measurement.';
+          status.textContent = input.value + ' guide height selected. Illustrative example, not a measurement.';
           tip.classList.add('hidden');
           draw();
         });
@@ -1566,14 +1543,13 @@
       flipButton.addEventListener('click', () => { flipped = !flipped; draw(); });
       resetButton.addEventListener('click', () => {
         resetPosition();
-        status.textContent = 'Estate size and the sample photograph are reset. The 8 m and 40 m figures are assumptions again.';
+        status.textContent = 'Reset beside the tree. Example height 10 m, example distance 8 m. Not a measurement.';
       });
-      presetNear.addEventListener('click', () => setDistance(12));
-      presetHouse.addEventListener('click', () => setDistance(40));
-      presetFar.addEventListener('click', () => setDistance(80));
+      presetNear.addEventListener('click', () => setDistance(treeDistanceM));
+      presetHouse.addEventListener('click', () => setDistance(houseDistance()));
       downloadButton.addEventListener('click', () => {
-        const note = 'Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.';
-        const bar = 64;
+        const note = 'Illustrative example. Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.';
+        const bar = 72;
         const out = document.createElement('canvas');
         out.width = canvas.width;
         out.height = canvas.height + bar;
@@ -1596,10 +1572,9 @@
           link.download = 'inukshuk-on-my-land.png';
           link.click();
           setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
-          status.textContent = 'Preview downloaded. The file is CC BY-SA 2.0: the photograph was resized, metadata was removed, and the sculpture illustration was added. Not an endorsement. It is not a measurement.';
+          status.textContent = 'Preview downloaded. The file is the picture on screen, including the tree mark. CC BY-SA 2.0. Not a measurement.';
         }, 'image/png');
       });
-
       ['dragenter', 'dragover'].forEach(type => {
         stage.addEventListener(type, event => { event.preventDefault(); stage.classList.add('dragover'); });
       });
@@ -1607,22 +1582,21 @@
         stage.addEventListener(type, event => { event.preventDefault(); stage.classList.remove('dragover'); });
       });
       stage.addEventListener('drop', event => { loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]); });
-
       demoLand.onload = draw;
       sculpture.onload = draw;
-      distanceInput.addEventListener('input', () => setDistance(Number(distanceInput.value)));
-      horizonInput.addEventListener('input', () => {
-        horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.46);
+      distanceInput.addEventListener('input', () => setDistance(distanceInput.value));
+      treeHeightInput.addEventListener('input', () => {
+        treeHeightM = clamp(Number(treeHeightInput.value), 4, 20);
         draw();
       });
-      refHeightInput.addEventListener('input', () => {
-        refHeightM = clamp(Number(refHeightInput.value), 2, 20);
+      treeDistanceInput.addEventListener('input', () => {
+        const next = clamp(Number(treeDistanceInput.value), 4, 16);
+        const wasAtTree = distanceM === treeDistanceM;
+        treeDistanceM = next;
+        if (wasAtTree) distanceM = next;
         draw();
       });
-      refDistanceInput.addEventListener('input', () => {
-        refDistanceM = clamp(Number(refDistanceInput.value), 10, 120);
-        draw();
-      });
+      window.addEventListener('resize', () => draw());
       sculpture.src = 'assets/visualizer/inukshuk-cutout.webp';
       demoLand.src = SAMPLE_SRC;
       draw();
