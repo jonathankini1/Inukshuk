@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#2C3E50">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Page Not Found | Inukshuk</title>
   <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:2rem;text-align:center;color:#fff;font:16px/1.7 system-ui,sans-serif;background:linear-gradient(rgba(25,34,43,.72),rgba(20,20,20,.86)),url('/assets/gallery/hillside-landmark.jpg') center/cover}.card{max-width:650px}.mark{font:600 1rem Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-0.02em;color:#f5f5f7}.code{margin:.5rem 0;font:600 clamp(5rem,24vw,11rem)/.9 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}.card h1{font:600 clamp(1.8rem,6vw,3rem)/1.15 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}.card p{color:#e1e5e8}.actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}.actions a{padding:.85rem 1.25rem;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.55)}.actions a:first-child{border-color:#f5f5f7;background:#f5f5f7;color:#1d1d1f}.actions a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:2rem;text-align:center;color:#fff;font:16px/1.7 system-ui,sans-serif;background:linear-gradient(rgba(25,34,43,.72),rgba(20,20,20,.86)),url('assets/gallery/landmark-wide.jpg') center/cover}.card{max-width:650px}.mark{font:600 1rem Inter,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-0.02em;color:#f5f5f7}.code{margin:.5rem 0;font:600 clamp(5rem,24vw,11rem)/.9 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}.card h1{font:600 clamp(1.8rem,6vw,3rem)/1.15 Inter,"Helvetica Neue",Helvetica,Arial,sans-serif}.card p{color:#e1e5e8}.actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}.actions a{padding:.85rem 1.25rem;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.55)}.actions a:first-child{border-color:#f5f5f7;background:#f5f5f7;color:#1d1d1f}.actions a:focus-visible{outline:3px solid #fff;outline-offset:3px}
   </style>
 </head>
 <body>
@@ -17,7 +17,23 @@
     <div class="code" aria-hidden="true">404</div>
     <h1>This path has no marker.</h1>
     <p>The page may have moved, but the main trail is easy to find.</p>
-    <div class="actions"><a href="/">Return home</a><a href="/#contact">Start an enquiry</a></div>
+    <div class="actions"><a href="index.html" data-site-page="index.html">Return home</a><a href="index.html#contact" data-site-page="index.html#contact">Start an enquiry</a></div>
+    <script>
+      (() => {
+        const base = document.querySelector('base');
+        const rawBase = base ? (base.href || '') : '';
+        if (rawBase.indexOf('raw.githubusercontent.com') === -1) return;
+        const dir = rawBase.replace(/[^/]*$/, '');
+        document.querySelectorAll('a[data-site-page]').forEach((link) => {
+          const spec = link.getAttribute('data-site-page') || '';
+          const cut = spec.indexOf('#');
+          const path = cut === -1 ? spec : spec.slice(0, cut);
+          const hash = cut === -1 ? '' : spec.slice(cut);
+          const fileUrl = new URL(path, dir).href;
+          link.href = (/\.html$/i.test(path) ? 'https://htmlpreview.github.io/?' + fileUrl : fileUrl) + hash;
+        });
+      })();
+    </script>
   </main>
 </body>
 </html>

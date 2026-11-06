@@ -1237,7 +1237,7 @@ em, em.inuktitut { font-style: italic; }
 .hero-media {
   width: auto;
   max-width: 100%;
-  max-height: calc(100svh - 400px);
+  max-height: calc(100svh - 350px);
   margin-inline: auto;
 }
 .hero-caption {
@@ -1246,16 +1246,24 @@ em, em.inuktitut { font-style: italic; }
   font-size: clamp(1.08rem, 1.45vw, 1.28rem);
   line-height: 1.32;
 }
-.trust-strip { padding-bottom: 0.85rem; }
-section { padding: 6.75rem 2rem; }
-.section-subtitle { font-size: 1.28rem; line-height: 1.45; max-width: 40rem; }
-.what-is-text p { font-size: 1.22rem; line-height: 1.5; }
-.what-is .container { max-width: 46rem; }
-.gallery { padding-top: 6rem; padding-bottom: 6.5rem; }
-.gallery .container { max-width: none; }
-.photo-grid { gap: 0; }
+.trust-strip { padding: 0 1.5rem 0.35rem; }
+section { padding: 2.4rem 4vw; }
+.section-title { text-align: left; }
+.section-subtitle { text-align: left; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.4; max-width: 36rem; margin-bottom: 1.15rem; }
+.what-is { padding: 1.4rem 6vw 0.25rem; }
+.what-is .container, .what-is-grid { max-width: none; }
+.what-is-text { max-width: 980px; }
+.what-is-text h2, .what-is-text h3 { font-size: clamp(3rem, 6.2vw, 5.5rem); letter-spacing: -0.045em; line-height: 0.96; max-width: 11ch; margin-bottom: 0.65rem; }
+.what-is-text p { font-size: clamp(1.2rem, 1.7vw, 1.5rem); line-height: 1.4; max-width: 38rem; }
+.gallery { padding: 0; }
+.gallery-stage { min-height: 0; display: grid; grid-template-columns: minmax(260px, 0.9fr) auto; align-items: center; gap: clamp(1.25rem, 4vw, 4rem); padding: 1.25rem 4vw 1rem; }
+.gallery-intro { padding-bottom: 1.25rem; }
+.gallery .section-title { font-size: clamp(3.2rem, 6vw, 5.6rem); letter-spacing: -0.045em; line-height: 0.94; max-width: 8ch; margin: 0 0 0.5rem; padding: 0; }
+.gallery .section-subtitle { margin: 0; padding: 0; max-width: 22ch; }
+.photo-grid { display: block; gap: 0; max-width: none; }
 .photo-card img,
-.photo-card.wide img { max-height: min(90vh, 1180px); }
+.photo-card.wide img { max-height: calc(100svh - 6.75rem); max-width: min(46vw, 640px); width: auto; margin: 0; }
+.photo-caption, .photo-card figcaption { text-align: left; max-width: 32ch; }
 .visualizer { padding-inline: 0; }
 .visualizer .container { max-width: 1500px; }
 .visualizer-shell { grid-template-columns: minmax(0, 1fr); gap: 1.35rem; }
@@ -1284,24 +1292,49 @@ section { padding: 6.75rem 2rem; }
 .viz-status { grid-column: 1 / -1; }
 .viz-control-title { font-size: 1rem; line-height: 1.35; color: #f5f5f7; }
 .viz-control-title span { color: #f5f5f7; font-variant-numeric: tabular-nums; }
+.visualizer { padding: 1.75rem 0 1.25rem; }
+.visualizer .section-title, .visualizer .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+.process { padding: 1.5rem 4vw 0.5rem; }
+.process .container { max-width: none; }
+.process-steps { gap: 1.5rem; }
+.step { border-top: 0; padding: 0; }
+.step-number { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; }
 .step h3,
-.step h4 { font-size: 1.45rem; }
+.step h4 { font-size: clamp(1.45rem, 2vw, 1.9rem); }
 .step p { font-size: 1.02rem; }
-.price-amount { font-size: clamp(2.7rem, 4vw, 3.5rem); }
+.pricing { padding: 1.25rem 4vw 1.5rem; }
+.pricing .container { max-width: none; }
+.pricing-cards { border: 0; gap: 2rem 2.5rem; }
+.price-card,
+.price-card:first-child,
+.price-card:last-child { border: 0; padding: 0; }
+.price-amount { font-size: clamp(3rem, 4.6vw, 4.6rem); }
 .price-card h3,
-.price-card h4 { font-size: 1.55rem; }
+.price-card h4 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.story { padding: 0.75rem 6vw 2rem; }
+.story .container { max-width: none; }
+.story-content { max-width: 920px; margin: 0; text-align: left; }
+.story .section-title { text-align: left; }
+.story-content .highlight { font-size: clamp(2.3rem, 4.6vw, 4.1rem); line-height: 1.05; letter-spacing: -0.04em; max-width: 16ch; margin: 0.35rem 0 0.9rem; text-align: left; }
+.faq .section-title, .contact .section-title, .faq .section-subtitle, .contact .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
 
 @media (max-width: 960px) {
   .hero-copy { padding: 1.35rem 1.15rem 0.35rem; }
   .hero-media { max-height: none; width: 100%; }
   .hero-caption { font-size: 1.08rem; padding: 0.8rem 1.15rem 1rem; }
-  section { padding: 4.5rem 1.15rem; }
+  section { padding: 2.1rem 1.15rem; }
+  .what-is-text h2, .what-is-text h3 { font-size: 2.55rem; }
+  .gallery-stage { min-height: 0; grid-template-columns: 1fr; align-items: start; padding: 4.6rem 1.15rem 1rem; }
+  .photo-card img, .photo-card.wide img { max-height: 68vh; max-width: 100%; margin-inline: auto; }
+  .gallery .section-title { font-size: 2.55rem; }
+  .process-steps, .pricing-cards { grid-template-columns: 1fr; }
+  .story-content .highlight { font-size: 2rem; }
   .visualizer { padding-inline: 0; }
   .visualizer .container { padding-inline: 0; }
   .viz-stage { width: 100%; }
   .viz-controls { grid-template-columns: 1fr; padding-inline: 1.15rem; }
   .gallery .section-title,
-  .gallery .section-subtitle { padding-inline: 1.15rem; }
+  .gallery .section-subtitle { padding-inline: 0; }
   .site-header .nav-links.open {
     transform: none;
     opacity: 1;
