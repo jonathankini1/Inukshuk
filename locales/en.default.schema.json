@@ -133,6 +133,10 @@
         "height": {
           "label": "Illustration height"
         },
+        "meters": {
+          "label": "Preview height in metres",
+          "info": "A preview height inside the published range. Garden 1.5, Estate 2.75, Landmark 3.5."
+        },
         "price": {
           "label": "Price"
         },

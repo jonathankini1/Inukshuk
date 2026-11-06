@@ -2,7 +2,7 @@
   class="visualizer"
   id="{{ section.settings.anchor | default: 'visualizer' | handleize }}"
   data-visualizer
-  data-demo-land="{{ 'demo-land-estate.jpg' | asset_url }}"
+  data-demo-land="{{ 'landmark-wide.jpg' | asset_url }}"
   data-sculpture="{{ 'inukshuk-illustration.svg' | asset_url }}"
   data-status-demo="{{ 'sections.visualizer.demo' | t | escape }}"
   data-status-ready="{{ 'sections.visualizer.ready' | t | escape }}"
@@ -23,8 +23,8 @@
         <canvas
           class="viz-canvas"
           data-viz-canvas
-          width="1200"
-          height="750"
+          width="1600"
+          height="1000"
           role="img"
           tabindex="0"
           aria-label="{{ 'sections.visualizer.canvas' | t }}"
@@ -47,6 +47,14 @@
             <legend class="viz-control-title">{{ section.settings.step_two }}</legend>
             {% content_for 'blocks' %}
           </fieldset>
+        </div>
+        <div class="viz-control">
+          <label class="viz-control-title" for="distance-{{ section.id }}">Distance <span data-distance-readout>8 m</span></label>
+          <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="8">
+        </div>
+        <div class="viz-control">
+          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>40%</span></label>
+          <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="58" step="1" value="40">
         </div>
         <div class="viz-button-row">
           <button class="viz-button" data-flip type="button">{{ section.settings.flip_label }}</button>
@@ -81,13 +89,35 @@
       const sculpture = new Image();
       let landPhoto = demoLand;
       let photoUrl = null;
+      const distanceInput = section.querySelector('[data-distance]');
+      const horizonInput = section.querySelector('[data-horizon]');
+      const distanceReadout = section.querySelector('[data-distance-readout]');
+      const horizonReadout = section.querySelector('[data-horizon-readout]');
+      const NEAR_M = 2;
+      const FAR_M = 30;
+      const SCALE_K = 0.42;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * 0.62;
-      let footY = canvas.height * 0.91;
+      let x = canvas.width * 0.78;
+      let distanceM = 8;
+      let horizonRatio = 0.4;
       const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
-      let heightPercent = selected ? Number(selected.dataset.height) : 44;
+      let meters = selected ? Number(selected.dataset.meters) : 2.75;
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const horizonY = () => canvas.height * horizonRatio;
+      const footYForDistance = (distance) => {
+        const bottom = canvas.height - 8;
+        const horizon = horizonY();
+        return clamp(horizon + (bottom - horizon) * (NEAR_M / distance), horizon + 4, bottom);
+      };
+      const distanceForFoot = (footY) => {
+        const bottom = canvas.height - 8;
+        const span = bottom - horizonY();
+        const below = footY - horizonY();
+        if (below <= 1) return FAR_M;
+        return clamp((NEAR_M * span) / below, NEAR_M, FAR_M);
+      };
+      const pixelHeight = () => clamp(canvas.height * SCALE_K * (meters / distanceM), 12, canvas.height * 0.78);
 
       function drawCover(image) {
         const imageRatio = image.naturalWidth / image.naturalHeight;
@@ -116,7 +146,7 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      function drawFallbackSculpture(drawHeight) {
+      function drawFallbackSculpture(drawHeight, footY) {
         ctx.save();
         ctx.translate(x, footY);
         ctx.scale(flipped ? -1 : 1, 1);
@@ -130,22 +160,24 @@
       }
 
       function draw() {
+        const footY = footYForDistance(distanceM);
+        const drawHeight = pixelHeight();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
         else drawFallbackLand();
-        const drawHeight = canvas.height * (heightPercent / 100);
         const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
         const drawWidth = drawHeight * ratio;
-        ctx.save();
-        ctx.globalAlpha = 0.3;
-        ctx.filter = 'blur(7px)';
-        ctx.fillStyle = '#17140f';
+        const lightShift = drawWidth * 0.16;
+        const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
+        shade.addColorStop(0, 'rgba(24, 20, 14, 0.5)');
+        shade.addColorStop(0.42, 'rgba(24, 20, 14, 0.18)');
+        shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
+        ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x, footY + 3, drawWidth * 0.28, drawHeight * 0.035, 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 1, Math.max(10, drawWidth * 0.48), Math.max(3, drawHeight * 0.04), 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
           ctx.translate(x, footY);
@@ -153,8 +185,14 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
           ctx.restore();
         } else {
-          drawFallbackSculpture(drawHeight);
+          drawFallbackSculpture(drawHeight, footY);
         }
+        canvas.dataset.distance = String(distanceM);
+        canvas.dataset.meters = String(meters);
+        canvas.dataset.drawHeight = String(Math.round(drawHeight));
+        canvas.dataset.footY = String(Math.round(footY));
+        if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
+        if (horizonReadout) horizonReadout.textContent = Math.round(horizonRatio * 100) + '%';
       }
 
       function defaultSize() {
@@ -164,9 +202,12 @@
       function resetPosition() {
         const estate = defaultSize();
         sizeInputs.forEach((input) => { input.checked = input === estate; });
-        heightPercent = estate ? Number(estate.dataset.height) : 44;
-        x = canvas.width * 0.62;
-        footY = canvas.height * 0.91;
+        meters = estate ? Number(estate.dataset.meters) : 2.75;
+        distanceM = 8;
+        horizonRatio = 0.4;
+        if (distanceInput) distanceInput.value = '8';
+        if (horizonInput) horizonInput.value = '40';
+        x = canvas.width * 0.78;
         flipped = false;
         tip.classList.remove('hidden');
         draw();
@@ -182,9 +223,9 @@
 
       function placeAt(event) {
         const point = canvasPoint(event);
-        const drawHeight = canvas.height * (heightPercent / 100);
         x = clamp(point.x, 0, canvas.width);
-        footY = clamp(point.y, drawHeight * 0.55, canvas.height);
+        distanceM = Math.round(distanceForFoot(point.y));
+        if (distanceInput) distanceInput.value = String(distanceM);
         tip.classList.add('hidden');
         draw();
       }
@@ -238,12 +279,13 @@
         const movement = event.shiftKey ? 20 : 6;
         if (event.key === 'ArrowLeft') x -= movement;
         else if (event.key === 'ArrowRight') x += movement;
-        else if (event.key === 'ArrowUp') footY -= movement;
-        else if (event.key === 'ArrowDown') footY += movement;
+        else if (event.key === 'ArrowUp') distanceM += event.shiftKey ? 5 : 1;
+        else if (event.key === 'ArrowDown') distanceM -= event.shiftKey ? 5 : 1;
         else return;
         event.preventDefault();
         x = clamp(x, 0, canvas.width);
-        footY = clamp(footY, 0, canvas.height);
+        distanceM = clamp(distanceM, NEAR_M, FAR_M);
+        if (distanceInput) distanceInput.value = String(distanceM);
         tip.classList.add('hidden');
         draw();
       });
@@ -251,12 +293,25 @@
       sizeInputs.forEach((input) => {
         input.addEventListener('change', () => {
           if (!input.checked) return;
-          heightPercent = Number(input.dataset.height);
+          meters = Number(input.dataset.meters) || meters;
           status.textContent = message('data-status-size').replace('__NAME__', input.value);
           tip.classList.add('hidden');
           draw();
         });
       });
+      if (distanceInput) {
+        distanceInput.addEventListener('input', () => {
+          distanceM = clamp(Number(distanceInput.value), NEAR_M, FAR_M);
+          tip.classList.add('hidden');
+          draw();
+        });
+      }
+      if (horizonInput) {
+        horizonInput.addEventListener('input', () => {
+          horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.58);
+          draw();
+        });
+      }
       section.querySelector('[data-flip]').addEventListener('click', () => {
         flipped = !flipped;
         draw();
@@ -324,12 +379,12 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Take a photo or choose one from your library. Pick one of the three sizes, then drag the illustrated Inukshuk into place." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "The sample is one of our photographs. The figure you move is an illustration. Your own photo stays on this device and is never uploaded." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },
     { "type": "text", "id": "choose_photo", "label": "t:sections.visualizer.settings.choose_photo.label", "default": "Choose a photo" },
-    { "type": "textarea", "id": "privacy", "label": "t:sections.visualizer.settings.privacy.label", "default": "Your photo stays on this device. It is never uploaded." },
+    { "type": "textarea", "id": "privacy", "label": "t:sections.visualizer.settings.privacy.label", "default": "Your photo stays on this device. It is never uploaded. There is no background-removal service." },
     { "type": "text", "id": "step_two", "label": "t:sections.visualizer.settings.step_two.label", "default": "2. Choose a size" },
     { "type": "text", "id": "flip_label", "label": "t:sections.visualizer.settings.flip_label.label", "default": "Flip" },
     { "type": "text", "id": "reset_label", "label": "t:sections.visualizer.settings.reset_label.label", "default": "Reset position" },

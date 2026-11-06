@@ -116,6 +116,7 @@
             "price": "\u00a35k",
             "value": "Garden",
             "height": 30,
+            "meters": "1.5",
             "selected": false
           }
         },
@@ -127,6 +128,7 @@
             "price": "\u00a37.5k",
             "value": "Estate",
             "height": 44,
+            "meters": "2.75",
             "selected": true
           }
         },
@@ -138,6 +140,7 @@
             "price": "\u00a310k",
             "value": "Landmark",
             "height": 60,
+            "meters": "3.5",
             "selected": false
           }
         }

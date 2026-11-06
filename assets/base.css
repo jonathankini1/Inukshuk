@@ -467,6 +467,12 @@ section { padding: 6rem 2rem; }
   touch-action: none;
 }
 
+.viz-control input[type="range"] {
+  width: 100%;
+  min-height: 48px;
+  accent-color: #1d1d1f;
+}
+
 .viz-canvas.dragging { cursor: grabbing; }
 
 .viz-tip {

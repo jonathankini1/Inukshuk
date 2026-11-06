@@ -675,11 +675,11 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Take a photo or choose one from your library. Pick one of the three sizes, then drag the illustrated Inukshuk into place.</p>
+      <p class="section-subtitle">The sample is one of our photographs. The figure you move is an illustration. Your own photo stays on this device and is never uploaded.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1200" height="750" role="img" tabindex="0" aria-label="Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys."></canvas>
-          <p class="viz-tip" id="viz-tip">Drag the Inukshuk to position it</p>
+          <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away."></canvas>
+          <p class="viz-tip" id="viz-tip">Drag the base of the illustration. It gets smaller as it moves toward the horizon.</p>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
@@ -690,24 +690,32 @@
             </div>
             <input class="visually-hidden" id="camera-input" type="file" accept="image/*" capture="environment">
             <input class="visually-hidden" id="photo-input" type="file" accept="image/*">
-            <p class="privacy-note">Your photo stays on this device. It is never uploaded.</p>
+            <p class="privacy-note">Your photo stays on this device. It is never uploaded. There is no background-removal service.</p>
           </div>
           <div class="viz-control">
             <fieldset class="size-options">
               <legend class="viz-control-title">2. Choose a size</legend>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Garden" data-height="30">
+                <input type="radio" name="visual-size" value="Garden" data-height="30" data-meters="1.5">
                 <span class="size-card"><strong>Garden</strong><small>Up to 1.5m</small><b>£5k</b></span>
               </label>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Estate" data-height="44" checked>
+                <input type="radio" name="visual-size" value="Estate" data-height="44" data-meters="2.75" checked>
                 <span class="size-card"><strong>Estate</strong><small>2 to 3.5m</small><b>£7.5k</b></span>
               </label>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Landmark" data-height="60">
+                <input type="radio" name="visual-size" value="Landmark" data-height="60" data-meters="3.5">
                 <span class="size-card"><strong>Landmark</strong><small>3.5m+</small><b>£10k</b></span>
               </label>
             </fieldset>
+          </div>
+          <div class="viz-control">
+            <label class="viz-control-title" for="distance-input">Distance <span id="distance-readout">8 m</span></label>
+            <input id="distance-input" type="range" min="2" max="30" step="1" value="8">
+          </div>
+          <div class="viz-control">
+            <label class="viz-control-title" for="horizon-input">Horizon <span id="horizon-readout">40%</span></label>
+            <input id="horizon-input" type="range" min="28" max="58" step="1" value="40">
           </div>
           <div class="viz-button-row">
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
@@ -715,7 +723,7 @@
             <button class="viz-button" id="demo-btn" type="button">Use demo land</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Illustration of demo land loaded. Add your own photo when you are ready.</p>
+          <p class="viz-status" id="viz-status" role="status">Sample photograph loaded. The movable figure is an illustration, not another sculpture in that photo.</p>
         </aside>
       </div>
     </div>
@@ -1189,11 +1197,33 @@
       const sculpture = new Image();
       let landPhoto = demoLand;
       let photoUrl = null;
+      const distanceInput = document.getElementById('distance-input');
+      const horizonInput = document.getElementById('horizon-input');
+      const distanceReadout = document.getElementById('distance-readout');
+      const horizonReadout = document.getElementById('horizon-readout');
+      const NEAR_M = 2;
+      const FAR_M = 30;
+      const SCALE_K = 0.42;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * 0.62;
-      let footY = canvas.height * 0.91;
-      let heightPercent = Number(sizeInputs.find(input => input.checked).dataset.height);
+      let x = canvas.width * 0.78;
+      let distanceM = 8;
+      let horizonRatio = 0.4;
+      let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
+      const horizonY = () => canvas.height * horizonRatio;
+      const footYForDistance = (distance) => {
+        const bottom = canvas.height - 8;
+        const horizon = horizonY();
+        return clamp(horizon + (bottom - horizon) * (NEAR_M / distance), horizon + 4, bottom);
+      };
+      const distanceForFoot = (footY) => {
+        const bottom = canvas.height - 8;
+        const span = bottom - horizonY();
+        const below = footY - horizonY();
+        if (below <= 1) return FAR_M;
+        return clamp((NEAR_M * span) / below, NEAR_M, FAR_M);
+      };
+      const pixelHeight = () => clamp(canvas.height * SCALE_K * (meters / distanceM), 12, canvas.height * 0.78);
 
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -1230,7 +1260,7 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      function drawFallbackSculpture(drawWidth, drawHeight) {
+      function drawFallbackSculpture(drawWidth, drawHeight, footY) {
         ctx.save();
         ctx.translate(x, footY);
         ctx.scale(flipped ? -1 : 1, 1);
@@ -1252,6 +1282,8 @@
       }
 
       function draw() {
+        const footY = footYForDistance(distanceM);
+        const drawHeight = pixelHeight();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
@@ -1259,20 +1291,19 @@
         if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
         else drawFallbackLand();
 
-        const drawHeight = canvas.height * (heightPercent / 100);
         const ratio = sculpture.naturalWidth && sculpture.naturalHeight
           ? sculpture.naturalWidth / sculpture.naturalHeight
           : 0.76;
         const drawWidth = drawHeight * ratio;
-
-        ctx.save();
-        ctx.globalAlpha = 0.3;
-        ctx.filter = 'blur(7px)';
-        ctx.fillStyle = '#17140f';
+        const lightShift = drawWidth * 0.16;
+        const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
+        shade.addColorStop(0, 'rgba(24, 20, 14, 0.5)');
+        shade.addColorStop(0.42, 'rgba(24, 20, 14, 0.18)');
+        shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
+        ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x, footY + 3, drawWidth * 0.28, drawHeight * 0.035, 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 1, Math.max(10, drawWidth * 0.48), Math.max(3, drawHeight * 0.04), 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
 
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
@@ -1281,15 +1312,24 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
           ctx.restore();
         } else {
-          drawFallbackSculpture(drawWidth, drawHeight);
+          drawFallbackSculpture(drawWidth, drawHeight, footY);
         }
+        canvas.dataset.distance = String(distanceM);
+        canvas.dataset.meters = String(meters);
+        canvas.dataset.drawHeight = String(Math.round(drawHeight));
+        canvas.dataset.footY = String(Math.round(footY));
+        if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
+        if (horizonReadout) horizonReadout.textContent = Math.round(horizonRatio * 100) + '%';
       }
 
       function resetPosition() {
-        x = canvas.width * 0.62;
-        footY = canvas.height * 0.91;
-        heightPercent = 44;
+        x = canvas.width * 0.78;
+        distanceM = 8;
+        horizonRatio = 0.4;
+        meters = 2.75;
         flipped = false;
+        if (distanceInput) distanceInput.value = '8';
+        if (horizonInput) horizonInput.value = '40';
         sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');
         draw();
@@ -1305,9 +1345,9 @@
 
       function placeAt(event) {
         const point = canvasPoint(event);
-        const drawHeight = canvas.height * (heightPercent / 100);
         x = clamp(point.x, 0, canvas.width);
-        footY = clamp(point.y, drawHeight * 0.55, canvas.height);
+        distanceM = Math.round(distanceForFoot(point.y));
+        if (distanceInput) distanceInput.value = String(distanceM);
         tip.classList.add('hidden');
         draw();
       }
@@ -1361,12 +1401,13 @@
         const movement = event.shiftKey ? 20 : 6;
         if (event.key === 'ArrowLeft') x -= movement;
         else if (event.key === 'ArrowRight') x += movement;
-        else if (event.key === 'ArrowUp') footY -= movement;
-        else if (event.key === 'ArrowDown') footY += movement;
+        else if (event.key === 'ArrowUp') distanceM += event.shiftKey ? 5 : 1;
+        else if (event.key === 'ArrowDown') distanceM -= event.shiftKey ? 5 : 1;
         else return;
         event.preventDefault();
         x = clamp(x, 0, canvas.width);
-        footY = clamp(footY, 0, canvas.height);
+        distanceM = clamp(distanceM, NEAR_M, FAR_M);
+        if (distanceInput) distanceInput.value = String(distanceM);
         tip.classList.add('hidden');
         draw();
       });
@@ -1374,8 +1415,8 @@
       sizeInputs.forEach(input => {
         input.addEventListener('change', () => {
           if (!input.checked) return;
-          heightPercent = Number(input.dataset.height);
-          status.textContent = `${input.value} size selected. Drag the illustration to position it.`;
+          meters = Number(input.dataset.meters);
+          status.textContent = `${input.value} preview height selected. Drag the base of the illustration.`;
           tip.classList.add('hidden');
           draw();
         });
@@ -1391,7 +1432,7 @@
       demoButton.addEventListener('click', () => {
         landPhoto = demoLand;
         resetPosition();
-        status.textContent = 'Illustration of demo land loaded. Add your own photo when you are ready.';
+        status.textContent = 'Sample photograph loaded. The movable figure is an illustration, not another sculpture in that photo.';
       });
       downloadButton.addEventListener('click', () => {
         canvas.toBlob(blob => {
@@ -1427,7 +1468,16 @@
 
       demoLand.onload = draw;
       sculpture.onload = draw;
-      demoLand.src = 'assets/visualizer/demo-land-estate.jpg';
+      demoLand.src = 'assets/gallery/landmark-wide.jpg';
+      distanceInput.addEventListener('input', () => {
+        distanceM = clamp(Number(distanceInput.value), NEAR_M, FAR_M);
+        tip.classList.add('hidden');
+        draw();
+      });
+      horizonInput.addEventListener('input', () => {
+        horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.58);
+        draw();
+      });
       sculpture.src = 'assets/visualizer/inukshuk-illustration.svg';
       draw();
     })();

@@ -53,10 +53,10 @@
       "next": "Next photograph"
     },
     "visualizer": {
-      "canvas": "Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys.",
-      "tip": "Drag the Inukshuk to position it",
-      "demo": "Illustration of demo land loaded. Add your own photo when you are ready.",
-      "ready": "Your land is ready. Drag the illustrated Inukshuk into position.",
+      "canvas": "Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away.",
+      "tip": "Drag the base of the illustration. It gets smaller as it moves toward the horizon.",
+      "demo": "Sample photograph loaded. The movable figure is an illustration, not another sculpture in that photo.",
+      "ready": "Your photo is on this device only. Drag the base of the illustration.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
       "size": "{{ name }} size selected. Drag the illustration to position it.",
