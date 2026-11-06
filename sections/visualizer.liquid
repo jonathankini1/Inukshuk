@@ -2,8 +2,7 @@
   class="visualizer"
   id="{{ section.settings.anchor | default: 'visualizer' | handleize }}"
   data-visualizer
-  data-sample-mown="{{ 'crossbank-base-9056-crop.jpg' | asset_url }}"
-  data-sample-meadow="{{ 'crossbank-base-9055-crop.jpg' | asset_url }}"
+  data-backdrop="{{ 'preston-place.jpg' | asset_url }}"
   data-sculpture="{{ 'inukshuk-cutout.webp' | asset_url }}"
   data-status-demo="{{ 'sections.visualizer.demo' | t | escape }}"
   data-status-ready="{{ 'sections.visualizer.ready' | t | escape }}"
@@ -25,7 +24,7 @@
           class="viz-canvas"
           data-viz-canvas
           width="1600"
-          height="1000"
+          height="1200"
           role="img"
           tabindex="0"
           aria-label="{{ 'sections.visualizer.canvas' | t }}"
@@ -50,26 +49,31 @@
           </fieldset>
         </div>
         <div class="viz-control">
-          <label class="viz-control-title" for="distance-{{ section.id }}">Indicative distance <span data-distance-readout>4 m</span></label>
-          <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="4">
-          <p class="privacy-note">Estimated indicative height visualization, not actual measurements.</p>
-        </div>
-        <div class="viz-control">
-          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>12%</span></label>
-          <input id="horizon-{{ section.id }}" data-horizon type="range" min="8" max="62" step="1" value="12">
-        </div>
-        <div class="viz-control">
-          <span class="viz-control-title">Sample crop</span>
+          <label class="viz-control-title" for="distance-{{ section.id }}">Distance on this ground plane <span data-distance-readout>15 m</span></label>
+          <input id="distance-{{ section.id }}" data-distance type="range" min="6" max="80" step="1" value="15">
           <div class="viz-button-row">
-            <button class="viz-button" data-sample="mown" type="button" aria-pressed="true">Mown field</button>
-            <button class="viz-button" data-sample="meadow" type="button" aria-pressed="false">Meadow</button>
+            <button class="viz-button" data-preset="12" type="button">Near 12 m</button>
+            <button class="viz-button" data-preset="40" type="button">House 40 m</button>
+            <button class="viz-button" data-preset="80" type="button">Far 80 m</button>
           </div>
+        </div>
+        <div class="viz-control">
+          <label class="viz-control-title" for="ref-height-{{ section.id }}">Assumed reference height <span data-ref-height-readout>8 m</span></label>
+          <input id="ref-height-{{ section.id }}" data-ref-height type="range" min="2" max="20" step="0.5" value="8">
+          <label class="viz-control-title" for="ref-distance-{{ section.id }}">Assumed reference distance <span data-ref-distance-readout>40 m</span></label>
+          <input id="ref-distance-{{ section.id }}" data-ref-distance type="range" min="10" max="120" step="1" value="40">
+          <label class="viz-control-title" for="horizon-{{ section.id }}">Assumed horizon <span data-horizon-readout>43%</span></label>
+          <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="46" step="1" value="43">
+          <p class="privacy-note">The marked span beside the house is not a measured height. 8 m and 40 m are assumptions. On a photograph you upload, the same numbers are assumptions too. They are not the size of anything in that photograph.</p>
+          <p class="privacy-note">Same ground plane: apparent height = reference pixel height × (sculpture metres ÷ reference metres) × (reference distance ÷ sculpture distance). The camera file records 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). That record does not measure the house.</p>
+          <p class="privacy-note viz-math" data-viz-math></p>
         </div>
         <div class="viz-button-row">
           <button class="viz-button" data-flip type="button">{{ section.settings.flip_label }}</button>
           <button class="viz-button" data-reset type="button">{{ section.settings.reset_label }}</button>
           <button class="viz-button primary" data-download type="button">{{ section.settings.download_label }}</button>
         </div>
+        <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. GPS was not imported.</p>
         <p class="viz-status" data-viz-status role="status">{{ 'sections.visualizer.demo' | t }}</p>
       </aside>
     </div>
@@ -87,179 +91,213 @@
       const stage = section.querySelector('[data-viz-stage]');
       const tip = section.querySelector('[data-viz-tip]');
       const status = section.querySelector('[data-viz-status]');
+      const math = section.querySelector('[data-viz-math]');
       if (!canvas || !canvas.getContext) return;
       const ctx = canvas.getContext('2d');
       const sizeInputs = [...section.querySelectorAll('input[type="radio"]')];
       const cameraInput = section.querySelector('[data-camera]');
       const photoInput = section.querySelector('[data-photo]');
+      const distanceInput = section.querySelector('[data-distance]');
+      const horizonInput = section.querySelector('[data-horizon]');
+      const refHeightInput = section.querySelector('[data-ref-height]');
+      const refDistanceInput = section.querySelector('[data-ref-distance]');
+      const distanceReadout = section.querySelector('[data-distance-readout]');
+      const horizonReadout = section.querySelector('[data-horizon-readout]');
+      const refHeightReadout = section.querySelector('[data-ref-height-readout]');
+      const refDistanceReadout = section.querySelector('[data-ref-distance-readout]');
       const message = (name) => section.getAttribute(name) || '';
+
+      const REF_TOP = 890 / 2448;
+      const REF_FOOT = 1190 / 2448;
+      const HOUSE_LEFT = 1980 / 3264;
+      const DEFAULT_HORIZON = 0.43;
+      const DEFAULT_X = 0.38;
+      const DEFAULT_REF_H = 8;
+      const DEFAULT_REF_D = 40;
+      const OPEN_M = 15;
+      const NEAR_LIMIT = 6;
+      const FAR_LIMIT = 80;
+
       const demoLand = new Image();
       const sculpture = new Image();
       let landPhoto = demoLand;
       let photoUrl = null;
       let usingSample = true;
-      let cropAnchor = 0.5;
-      const samples = {
-        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.58, horizon: 0.12, x: 0.6 },
-        meadow: { src: section.getAttribute('data-sample-meadow'), anchor: 0.33, horizon: 0.38, x: 0.68 }
-      };
-      let sampleKey = 'mown';
-      const distanceInput = section.querySelector('[data-distance]');
-      const horizonInput = section.querySelector('[data-horizon]');
-      const distanceReadout = section.querySelector('[data-distance-readout]');
-      const horizonReadout = section.querySelector('[data-horizon-readout]');
-      const NEAR_M = 2;
-      const FAR_M = 30;
-      const DEPTH_POW = 0.85;
-      const NEAR_DROP = 0.9;
-      const FAR_DROP = 0.52;
-      const PX_PER_METRE_DEPTH = 0.194;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * samples.mown.x;
-      let distanceM = 4;
-      let horizonRatio = samples.mown.horizon;
+      let horizonRatio = DEFAULT_HORIZON;
+      let refHeightM = DEFAULT_REF_H;
+      let refDistanceM = DEFAULT_REF_D;
+      let distanceM = OPEN_M;
       const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
       let meters = selected ? Number(selected.dataset.meters) : 2.75;
+      let x = canvas.width * DEFAULT_X;
+      let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-      const horizonY = () => canvas.height * horizonRatio;
-      const depthT = (distance) => clamp((distance - NEAR_M) / (FAR_M - NEAR_M), 0, 1);
-      const footYForDistance = (distance) => {
-        const bottom = canvas.height - 8;
-        const horizon = horizonY();
-        const span = Math.max(48, bottom - horizon);
-        const eased = Math.pow(depthT(distance), DEPTH_POW);
-        const drop = NEAR_DROP + (FAR_DROP - NEAR_DROP) * eased;
-        return horizon + span * drop;
-      };
-      const distanceForFoot = (footY) => {
-        const bottom = canvas.height - 8;
-        const horizon = horizonY();
-        const span = Math.max(48, bottom - horizon);
-        const drop = clamp((footY - horizon) / span, FAR_DROP, NEAR_DROP);
-        const eased = (drop - NEAR_DROP) / (FAR_DROP - NEAR_DROP);
-        const t = Math.pow(clamp(eased, 0, 1), 1 / DEPTH_POW);
-        return clamp(NEAR_M + t * (FAR_M - NEAR_M), NEAR_M, FAR_M);
-      };
-      const pixelHeight = () => {
-        const below = Math.max(24, footYForDistance(distanceM) - horizonY());
-        const height = (canvas.height / 1000) * PX_PER_METRE_DEPTH * meters * below;
-        return clamp(height, 36, canvas.height * 0.72);
-      };
 
-      function drawCover(image) {
+      function fitRect(image) {
+        if (!image || !image.naturalWidth) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
         const imageRatio = image.naturalWidth / image.naturalHeight;
         const canvasRatio = canvas.width / canvas.height;
-        let sourceX = 0;
-        let sourceY = 0;
-        let sourceWidth = image.naturalWidth;
-        let sourceHeight = image.naturalHeight;
-        const anchor = usingSample ? cropAnchor : 0.5;
+        if (Math.abs(imageRatio - canvasRatio) < 0.02) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
         if (imageRatio > canvasRatio) {
-          sourceWidth = image.naturalHeight * canvasRatio;
-          sourceX = (image.naturalWidth - sourceWidth) * anchor;
-        } else {
-          sourceHeight = image.naturalWidth / canvasRatio;
-          sourceY = (image.naturalHeight - sourceHeight) * anchor;
+          const w = canvas.width;
+          const h = canvas.width / imageRatio;
+          return { x: 0, y: (canvas.height - h) / 2, w, h };
         }
-        ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+        const h = canvas.height;
+        const w = canvas.height * imageRatio;
+        return { x: (canvas.width - w) / 2, y: 0, w, h };
       }
 
-      function drawFallbackLand() {
-        const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        sky.addColorStop(0, '#8bb7d2');
-        sky.addColorStop(0.58, '#d5d8ca');
-        sky.addColorStop(0.59, '#71845f');
-        sky.addColorStop(1, '#394c35');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const horizonY = () => landRect.y + landRect.h * horizonRatio;
+      const refFootY = () => landRect.y + landRect.h * REF_FOOT;
+      const refPixelHeight = () => landRect.h * (REF_FOOT - REF_TOP);
+      const apparentHeight = (distance) => clamp(refPixelHeight() * (meters / refHeightM) * (refDistanceM / distance), 4, canvas.height * 0.92);
+      const footYForDistance = (distance) => horizonY() + (refFootY() - horizonY()) * (refDistanceM / distance);
+      const distanceForFoot = (footY) => {
+        const refDrop = refFootY() - horizonY();
+        const drop = footY - horizonY();
+        if (refDrop <= 1 || drop <= 1) return FAR_LIMIT;
+        return clamp(Math.round(refDistanceM * refDrop / drop), NEAR_LIMIT, FAR_LIMIT);
+      };
+
+      function limitX(value, drawWidth) {
+        const half = drawWidth / 2;
+        const minX = half + 4;
+        let maxX = canvas.width - half - 4;
+        if (usingSample) maxX = Math.min(maxX, landRect.x + landRect.w * HOUSE_LEFT - half - 12);
+        if (maxX < minX) return minX;
+        return clamp(value, minX, maxX);
       }
 
-      function drawFallbackSculpture(drawHeight, footY) {
+      function drawMarkers() {
         ctx.save();
-        ctx.translate(x, footY);
-        ctx.scale(flipped ? -1 : 1, 1);
-        const unit = drawHeight / 260;
-        const stones = [[-28, -260, 56, 58], [-112, -204, 224, 24], [-74, -178, 148, 36], [-88, -144, 176, 58], [-61, -87, 47, 87], [14, -87, 47, 87]];
-        stones.forEach(([sx, sy, width, height], stoneIndex) => {
-          ctx.fillStyle = stoneIndex % 2 ? '#6f685e' : '#8a8174';
-          ctx.fillRect(sx * unit, sy * unit, width * unit, height * unit);
+        ctx.font = '500 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.lineWidth = 3;
+        ctx.textAlign = 'left';
+        [10, 15, 20, 40, 80].forEach((mark) => {
+          const y = footYForDistance(mark);
+          if (y < horizonY() + 10 || y > landRect.y + landRect.h - 16) return;
+          ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+          ctx.beginPath();
+          ctx.moveTo(16, y);
+          ctx.lineTo(34, y);
+          ctx.stroke();
+          ctx.strokeText(mark + ' m', 40, y + 6);
+          ctx.fillStyle = '#f5f5f7';
+          ctx.fillText(mark + ' m', 40, y + 6);
         });
         ctx.restore();
       }
 
+      function drawBracket() {
+        if (!usingSample) return;
+        const bx = landRect.x + landRect.w * 0.60;
+        const y1 = landRect.y + landRect.h * REF_TOP;
+        const y2 = landRect.y + landRect.h * REF_FOOT;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255,255,255,0.92)';
+        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(bx - 10, y1); ctx.lineTo(bx + 10, y1);
+        ctx.moveTo(bx, y1); ctx.lineTo(bx, y2);
+        ctx.moveTo(bx - 10, y2); ctx.lineTo(bx + 10, y2);
+        ctx.stroke();
+        ctx.font = '600 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.textAlign = 'right';
+        ctx.strokeStyle = 'rgba(0,0,0,0.45)';
+        ctx.lineWidth = 4;
+        const label = 'assumed ' + refHeightM + ' m';
+        ctx.strokeText(label, bx - 14, (y1 + y2) / 2);
+        ctx.fillText(label, bx - 14, (y1 + y2) / 2);
+        ctx.restore();
+      }
+
       function draw() {
+        landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
         const footY = footYForDistance(distanceM);
-        const drawHeight = pixelHeight();
+        const drawHeight = apparentHeight(distanceM);
+        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
+        const drawWidth = drawHeight * ratio;
+        x = limitX(x, drawWidth);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
-        else drawFallbackLand();
-        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
-        const drawWidth = drawHeight * ratio;
-        const lightShift = drawWidth * 0.36;
+        if (landPhoto.complete && landPhoto.naturalWidth) ctx.drawImage(landPhoto, landRect.x, landRect.y, landRect.w, landRect.h);
+        else {
+          ctx.fillStyle = '#6d8a55';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        drawMarkers();
+        drawBracket();
+        const lightShift = drawWidth * 0.28;
         const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
-        shade.addColorStop(0, 'rgba(24, 20, 14, 0.5)');
-        shade.addColorStop(0.42, 'rgba(24, 20, 14, 0.18)');
+        shade.addColorStop(0, 'rgba(24, 20, 14, 0.42)');
+        shade.addColorStop(0.45, 'rgba(24, 20, 14, 0.14)');
         shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
         ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.55), Math.max(4, drawHeight * 0.035), 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.5), Math.max(4, drawHeight * 0.03), 0, 0, Math.PI * 2);
         ctx.fill();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
           ctx.translate(x, footY);
           ctx.scale(flipped ? -1 : 1, 1);
-          const footFrac = 1104 / 1117;
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * footFrac, drawWidth, drawHeight);
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
-        } else {
-          drawFallbackSculpture(drawHeight, footY);
         }
         canvas.dataset.distance = String(distanceM);
         canvas.dataset.meters = String(meters);
         canvas.dataset.drawHeight = String(Math.round(drawHeight));
         canvas.dataset.footY = String(Math.round(footY));
+        canvas.dataset.refPx = String(Math.round(refPixelHeight()));
+        canvas.dataset.calibration = usingSample ? 'sample-assumption' : 'upload-assumption';
         if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
         if (horizonReadout) horizonReadout.textContent = Math.round(horizonRatio * 100) + '%';
+        if (refHeightReadout) refHeightReadout.textContent = refHeightM + ' m';
+        if (refDistanceReadout) refDistanceReadout.textContent = refDistanceM + ' m';
+        if (math) {
+          const doubled = Math.round(apparentHeight(distanceM * 2));
+          const atHouse = Math.round(apparentHeight(refDistanceM));
+          const span = Math.round(refPixelHeight());
+          const mode = usingSample ? 'Sample photograph.' : 'Your photograph. These metres are assumed, not known.';
+          math.textContent = mode + ' ' + meters + ' m guide height at ' + distanceM + ' m draws at ' + Math.round(drawHeight) + ' px. At ' + refDistanceM + ' m it would be ' + atHouse + ' px, against an assumed ' + refHeightM + ' m span of ' + span + ' px. At ' + (distanceM * 2) + ' m it would be ' + doubled + ' px. Twice the distance is half the height. Illustration only, not a measurement.';
+        }
+      }
+
+      function setDistance(value) {
+        distanceM = clamp(Math.round(Number(value)), NEAR_LIMIT, FAR_LIMIT);
+        if (distanceInput) distanceInput.value = String(distanceM);
+        if (tip) tip.classList.add('hidden');
+        draw();
       }
 
       function defaultSize() {
         return sizeInputs.find((input) => input.hasAttribute('data-default')) || sizeInputs.find((input) => input.value === 'Estate') || sizeInputs[0];
       }
 
-      function applySample(key) {
-        const sample = samples[key] || samples.mown;
-        sampleKey = samples[key] ? key : 'mown';
-        usingSample = true;
-        cropAnchor = sample.anchor;
-        horizonRatio = sample.horizon;
-        x = canvas.width * sample.x;
-        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
-        section.querySelectorAll('[data-sample]').forEach((button) => {
-          button.setAttribute('aria-pressed', button.getAttribute('data-sample') === sampleKey ? 'true' : 'false');
-        });
-        landPhoto = demoLand;
-        if (demoLand.dataset.key !== sampleKey) {
-          demoLand.dataset.key = sampleKey;
-          demoLand.src = sample.src;
-        } else draw();
-      }
-
       function resetPosition() {
+        usingSample = true;
+        landPhoto = demoLand;
         const estate = defaultSize();
         sizeInputs.forEach((input) => { input.checked = input === estate; });
         meters = estate ? Number(estate.dataset.meters) : 2.75;
-        distanceM = 4;
-        if (distanceInput) distanceInput.value = '4';
-        const sample = samples[sampleKey] || samples.mown;
-        horizonRatio = sample.horizon;
-        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
-        x = canvas.width * sample.x;
+        distanceM = OPEN_M;
+        horizonRatio = DEFAULT_HORIZON;
+        refHeightM = DEFAULT_REF_H;
+        refDistanceM = DEFAULT_REF_D;
         flipped = false;
-        tip.classList.remove('hidden');
-        draw();
+        x = canvas.width * DEFAULT_X;
+        if (distanceInput) distanceInput.value = String(OPEN_M);
+        if (horizonInput) horizonInput.value = '43';
+        if (refHeightInput) refHeightInput.value = String(DEFAULT_REF_H);
+        if (refDistanceInput) refDistanceInput.value = String(DEFAULT_REF_D);
+        if (tip) tip.classList.remove('hidden');
+        const src = section.getAttribute('data-backdrop');
+        if (demoLand.getAttribute('src') !== src) demoLand.src = src;
+        else draw();
       }
 
       function canvasPoint(event) {
@@ -272,10 +310,12 @@
 
       function placeAt(event) {
         const point = canvasPoint(event);
-        x = clamp(point.x, 0, canvas.width);
-        distanceM = Math.round(distanceForFoot(point.y));
+        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
+        x = point.x;
+        distanceM = distanceForFoot(point.y);
         if (distanceInput) distanceInput.value = String(distanceM);
-        tip.classList.add('hidden');
+        x = limitX(x, apparentHeight(distanceM) * ratio);
+        if (tip) tip.classList.add('hidden');
         draw();
       }
 
@@ -292,12 +332,10 @@
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
           status.textContent = message('data-status-ready');
-          tip.classList.remove('hidden');
+          if (tip) tip.classList.remove('hidden');
           draw();
         };
-        visitorPhoto.onerror = () => {
-          status.textContent = message('data-status-open');
-        };
+        visitorPhoto.onerror = () => { status.textContent = message('data-status-open'); };
         visitorPhoto.src = photoUrl;
       }
 
@@ -315,9 +353,7 @@
         canvas.setPointerCapture(event.pointerId);
         placeAt(event);
       });
-      canvas.addEventListener('pointermove', (event) => {
-        if (dragging) placeAt(event);
-      });
+      canvas.addEventListener('pointermove', (event) => { if (dragging) placeAt(event); });
       const stopDragging = (event) => {
         dragging = false;
         canvas.classList.remove('dragging');
@@ -333,10 +369,9 @@
         else if (event.key === 'ArrowDown') distanceM -= event.shiftKey ? 5 : 1;
         else return;
         event.preventDefault();
-        x = clamp(x, 0, canvas.width);
-        distanceM = clamp(distanceM, NEAR_M, FAR_M);
+        distanceM = clamp(distanceM, NEAR_LIMIT, FAR_LIMIT);
         if (distanceInput) distanceInput.value = String(distanceM);
-        tip.classList.add('hidden');
+        if (tip) tip.classList.add('hidden');
         draw();
       });
 
@@ -345,37 +380,17 @@
           if (!input.checked) return;
           meters = Number(input.dataset.meters) || meters;
           status.textContent = message('data-status-size').replace('__NAME__', input.value);
-          tip.classList.add('hidden');
+          if (tip) tip.classList.add('hidden');
           draw();
         });
       });
-      if (distanceInput) {
-        distanceInput.addEventListener('input', () => {
-          distanceM = clamp(Number(distanceInput.value), NEAR_M, FAR_M);
-          tip.classList.add('hidden');
-          draw();
-        });
-      }
-      if (horizonInput) {
-        horizonInput.addEventListener('input', () => {
-          horizonRatio = clamp(Number(horizonInput.value) / 100, 0.08, 0.62);
-          draw();
-        });
-      }
-      section.querySelector('[data-flip]').addEventListener('click', () => {
-        flipped = !flipped;
-        draw();
-      });
+      section.querySelector('[data-flip]').addEventListener('click', () => { flipped = !flipped; draw(); });
       section.querySelector('[data-reset]').addEventListener('click', () => {
         resetPosition();
         status.textContent = message('data-status-reset');
       });
-      section.querySelectorAll('[data-sample]').forEach((button) => {
-        button.addEventListener('click', () => {
-          applySample(button.getAttribute('data-sample'));
-          status.textContent = message('data-status-demo');
-          tip.classList.remove('hidden');
-        });
+      section.querySelectorAll('[data-preset]').forEach((button) => {
+        button.addEventListener('click', () => setDistance(button.getAttribute('data-preset')));
       });
       section.querySelector('[data-download]').addEventListener('click', () => {
         canvas.toBlob((blob) => {
@@ -392,28 +407,23 @@
           status.textContent = message('data-status-downloaded');
         }, 'image/png');
       });
-
-      ['dragenter', 'dragover'].forEach((type) => {
-        stage.addEventListener(type, (event) => {
-          event.preventDefault();
-          stage.classList.add('dragover');
+      if (stage) {
+        ['dragenter', 'dragover'].forEach((type) => {
+          stage.addEventListener(type, (event) => { event.preventDefault(); stage.classList.add('dragover'); });
         });
-      });
-      ['dragleave', 'drop'].forEach((type) => {
-        stage.addEventListener(type, (event) => {
-          event.preventDefault();
-          stage.classList.remove('dragover');
+        ['dragleave', 'drop'].forEach((type) => {
+          stage.addEventListener(type, (event) => { event.preventDefault(); stage.classList.remove('dragover'); });
         });
-      });
-      stage.addEventListener('drop', (event) => {
-        loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]);
-      });
-
+        stage.addEventListener('drop', (event) => { loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]); });
+      }
+      if (distanceInput) distanceInput.addEventListener('input', () => setDistance(distanceInput.value));
+      if (horizonInput) horizonInput.addEventListener('input', () => { horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.46); draw(); });
+      if (refHeightInput) refHeightInput.addEventListener('input', () => { refHeightM = clamp(Number(refHeightInput.value), 2, 20); draw(); });
+      if (refDistanceInput) refDistanceInput.addEventListener('input', () => { refDistanceM = clamp(Number(refDistanceInput.value), 10, 120); draw(); });
       demoLand.onload = draw;
       sculpture.onload = draw;
-      if (horizonInput) horizonInput.value = String(Math.round(samples.mown.horizon * 100));
-      applySample('mown');
       sculpture.src = section.getAttribute('data-sculpture');
+      demoLand.src = section.getAttribute('data-backdrop');
       draw();
     });
   };
@@ -432,7 +442,7 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "A scale illustration on one photograph. Twice the distance is half the height. It is not a survey, and it is not a measurement of the house." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },

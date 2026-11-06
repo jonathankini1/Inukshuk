@@ -52,7 +52,7 @@
         decoding="async"
       >
     {% endif %}
-    <span class="photo-caption">{{ block.settings.caption }}</span>
+    <span class="photo-caption">{{ block.settings.caption }}{% if block.settings.fallback_asset == 'summer-landmark.jpg' %} <em class="inuktitut">inuksuk</em>{% endif %}</span>
     <span class="photo-view">{{ 'sections.gallery.view' | t }}</span>
   </button>
 </figure>

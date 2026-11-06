@@ -53,15 +53,15 @@
       "next": "Next photograph"
     },
     "visualizer": {
-      "canvas": "Crossbank field with a sculpture illustration to preview size and position. Estimated indicative height, not a measurement.",
-      "tip": "Drag the base of the illustration. It gets smaller as it moves toward the horizon.",
-      "demo": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.",
-      "ready": "Your photo is on this device only. Drag the base of the illustration.",
+      "canvas": "A licensed garden photograph with a sculpture illustration. The height follows a stated same-plane formula. It is not a measurement.",
+      "tip": "Drag the base. The figure moves toward the horizon and its height follows the distance.",
+      "demo": "Illustration only. Not a measurement of this house.",
+      "ready": "Your photograph stays on this device. The calibration is assumed until you edit it. It is not a measurement of your photograph.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
-      "size": "{{ name }} size selected. Drag the illustration to position it.",
-      "reset": "Estate size and position reset.",
-      "downloaded": "Preview downloaded.",
+      "size": "{{ name }} guide height selected. Illustration only, not a measurement.",
+      "reset": "Estate size and the sample photograph are reset. The 8 m and 40 m figures are assumptions again.",
+      "downloaded": "Preview downloaded. It is an illustration, not a measurement.",
       "download_failed": "The preview could not be downloaded. Please try again."
     },
     "pricing": {

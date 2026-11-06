@@ -46,69 +46,25 @@
     "gallery": {
       "type": "gallery",
       "blocks": {
-        "photo_wide": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "landmark-wide.jpg",
-            "alt": "Wide view of an Inukshuk overlooking rolling hills",
-            "caption": "Rooted in its landscape",
-            "open_label": "Open wide landscape photograph",
-            "layout": "wide"
-          }
-        },
-        "photo_front": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "hillside-landmark.jpg",
-            "alt": "An Inukshuk on open grassland with the hills behind it",
-            "caption": "The long view",
-            "open_label": "Open hillside photograph",
-            "layout": "wide"
-          }
-        },
         "photo_summer": {
           "type": "gallery-photo",
           "settings": {
             "fallback_asset": "summer-landmark.jpg",
-            "alt": "Inukshuk standing in a green summer field",
-            "caption": "Through every season",
+            "alt": "Stone landmark in summer grass under a blue sky",
+            "caption": "Summer grass.",
             "open_label": "Open summer photograph",
-            "layout": "normal"
-          }
-        },
-        "photo_detail": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "stone-detail.jpg",
-            "alt": "Close view showing the scale and texture of the stone",
-            "caption": "Local stone, monumental scale",
-            "open_label": "Open stone detail photograph",
-            "layout": "normal"
-          }
-        },
-        "photo_moon": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "moonlit-landmark.jpg",
-            "alt": "Illuminated Inukshuk beneath the moon at night",
-            "caption": "A landmark after dark",
-            "open_label": "Open moonlit photograph",
             "layout": "normal"
           }
         }
       },
       "block_order": [
-        "photo_wide",
-        "photo_front",
-        "photo_summer",
-        "photo_detail",
-        "photo_moon"
+        "photo_summer"
       ]
     },
     "visualizer": {
       "type": "visualizer",
       "settings": {
-        "subheading": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements."
+        "subheading": "A scale illustration on one photograph. Twice the distance is half the height. It is not a survey, and it is not a measurement of the house."
       },
       "blocks": {
         "size_garden": {
@@ -185,8 +141,8 @@
           "type": "process-step",
           "settings": {
             "number": "04",
-            "title": "Standing Forever",
-            "text": "Engineered to last generations. Your Inukshuk becomes a permanent landmark and a story in stone that outlives all of us."
+            "title": "After the build",
+            "text": "A foundation is set before the stones go up. The landmark stays where it is raised."
           }
         }
       },
