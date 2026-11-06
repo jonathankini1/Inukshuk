@@ -155,8 +155,7 @@ summary:focus-visible {
 .menu-toggle[aria-expanded="true"] .menu-toggle-lines::after { transform: translateY(-2px) rotate(-45deg); }
 
 .hero {
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -166,32 +165,31 @@ summary:focus-visible {
   text-align: center;
 }
 
-.hero-stage { position: relative; margin: 0; flex: 1 1 auto; width: 100%; min-height: 420px; }
+.hero-stage { position: relative; margin: 0; flex: none; width: 100%; height: min(56.25vw, calc(100dvh - 300px)); min-height: 420px; }
 .hero-stage picture { display: block; height: 100%; }
 
 .hero-media {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
+  inset: 0;
+  transform: none;
+  width: 100%;
   height: 100%;
-  max-width: 100%;
-  object-fit: contain;
+  max-width: none;
+  object-fit: cover;
   object-position: center bottom;
   display: block;
   background: #000;
 }
 
 .hero-copy {
-  max-width: 980px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 1.7rem 1.5rem 0.85rem;
+  padding: 3.4rem 1.5rem 2rem;
 }
 
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2.7rem, 5.2vw, 4.5rem);
+  font-size: clamp(3rem, 6.2vw, 5.5rem);
   font-weight: 600;
   line-height: 1.02;
   margin: 0 auto 0.45rem;
@@ -355,15 +353,17 @@ section { padding: 5rem 2rem; }
 .photo-card.wide,
 .photo-card.tall { width: 100%; }
 
-.photo-card img {
-  width: min(100%, 980px);
+.gallery .container { max-width: 1600px; }
+
+.photo-card img,
+.photo-card.wide img {
+  width: 100%;
+  max-width: none;
   height: auto;
   object-fit: contain;
   display: block;
   margin-inline: auto;
 }
-
-.photo-card.wide img { width: 100%; max-width: none; }
 
 .photo-caption {
   position: static;
@@ -464,7 +464,7 @@ section { padding: 5rem 2rem; }
 .viz-control input[type="range"] {
   width: 100%;
   min-height: 48px;
-  accent-color: #1d1d1f;
+  accent-color: #f5f5f7;
 }
 
 .viz-canvas.dragging { cursor: grabbing; }
@@ -1030,8 +1030,12 @@ section { padding: 5rem 2rem; }
   .trust-strip { padding: 0.15rem 1.15rem 0.85rem; }
   .trust-list { grid-template-columns: 1fr 1fr; gap: 0.1rem 0.5rem; }
   .trust-list li { padding: 0.1rem 0.2rem; line-height: 1.25; }
+  .hero-copy { padding: 2.2rem 1.15rem 1.15rem; }
+  .hero-stage { height: auto; min-height: 0; }
   .hero-stage, .hero-stage picture, .hero-media { position: static; inset: auto; width: 100%; height: auto; transform: none; }
-  .hero-media { aspect-ratio: 3 / 4; object-fit: cover; object-position: center center; }
+  .hero-media { height: min(68vh, 620px); aspect-ratio: auto; object-fit: cover; object-position: center bottom; }
+  .gallery { padding-inline: 0; }
+  .gallery .section-title, .gallery .section-subtitle { padding-inline: 1.15rem; }
   .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
   .footer-grid > div:last-child { grid-column: 1 / -1; }
   .catalog-grid, .product-layout { grid-template-columns: 1fr 1fr; }

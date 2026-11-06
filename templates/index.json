@@ -59,11 +59,11 @@
         "photo_front": {
           "type": "gallery-photo",
           "settings": {
-            "fallback_asset": "landmark-front.jpg",
-            "alt": "Front view of a handbuilt stone Inukshuk",
-            "caption": "Built stone by stone",
-            "open_label": "Open front view photograph",
-            "layout": "tall"
+            "fallback_asset": "hillside-landmark.jpg",
+            "alt": "An Inukshuk on open grassland with the hills behind it",
+            "caption": "The long view",
+            "open_label": "Open hillside photograph",
+            "layout": "wide"
           }
         },
         "photo_summer": {
