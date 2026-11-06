@@ -20,20 +20,13 @@
     ]
   },
   {
-    "name": "t:settings.typography.name",
-    "settings": [
-      { "type": "font_picker", "id": "type_heading_font", "label": "t:settings.typography.heading", "default": "inter_n6" },
-      { "type": "font_picker", "id": "type_body_font", "label": "t:settings.typography.body", "default": "inter_n4" }
-    ]
-  },
-  {
     "name": "t:settings.social.name",
     "settings": [
       {
         "type": "textarea",
         "id": "meta_description",
         "label": "t:settings.social.description",
-        "default": "Bespoke Inukshuk stone sculptures, built with your people and rooted in your land."
+        "default": "Commission a stone landmark for a garden, an estate, or open ground in the UK."
       }
     ]
   }
