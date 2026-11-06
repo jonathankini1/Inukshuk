@@ -675,7 +675,7 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Each sample is a crop of a real photograph. The sculpture stood outside the frame. The figure is a 2D illustration for size and position, not a survey. Your own photo stays on this device and is never uploaded.</p>
+      <p class="section-subtitle">Each sample is a crop from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site. The figure is a 2D illustration for size and position. Your own photo stays on this device and is never uploaded.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away."></canvas>
@@ -729,7 +729,7 @@
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Sample crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.</p>
+          <p class="viz-status" id="viz-status" role="status">Sample crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.</p>
         </aside>
       </div>
     </div>
@@ -1465,12 +1465,12 @@
       });
       mownButton.addEventListener('click', () => {
         applySample('mown');
-        status.textContent = 'Mown field crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.';
+        status.textContent = 'Mown field crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.';
         tip.classList.remove('hidden');
       });
       meadowButton.addEventListener('click', () => {
         applySample('meadow');
-        status.textContent = 'Meadow crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.';
+        status.textContent = 'Meadow crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.';
         tip.classList.remove('hidden');
       });
       downloadButton.addEventListener('click', () => {

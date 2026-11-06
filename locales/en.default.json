@@ -55,7 +55,7 @@
     "visualizer": {
       "canvas": "Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away.",
       "tip": "Drag the base of the illustration. It gets smaller as it moves toward the horizon.",
-      "demo": "Sample crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.",
+      "demo": "Sample crop loaded. It comes from a real Crossbank photograph of the sculpture. The existing stone stood outside this frame. This is not a simulation of a finished site.",
       "ready": "Your photo is on this device only. Drag the base of the illustration.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
