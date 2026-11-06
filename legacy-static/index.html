@@ -622,6 +622,7 @@
     .photo-card img, .photo-card.wide img { width: auto; max-width: 100%; max-height: 72vh; height: auto; object-fit: contain; }
     .what-is-grid { grid-template-columns: minmax(0, 42rem); justify-content: center; }
     em.inuktitut { font-style: italic; font-weight: 500; }
+    .viz-output-title { margin: -0.5rem auto 1rem; text-align: center; color: #f5f5f7; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; }
     .viz-credit, .viz-credit a { color: #a1a1a6; font-size: 0.82rem; line-height: 1.4; }
     .viz-credit a { text-decoration: underline; }
     .viz-button-row { flex-wrap: wrap; }
@@ -728,7 +729,8 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">An illustrative example. The birch is the height reference. The figure starts beside it, then moves back toward the house. Twice the distance is half the size. Nothing here was measured.</p>
+      <p class="section-subtitle">Compare the sculpture with the tree. Move it back towards the house.</p>
+      <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. A garden photograph with the birch marked as an example height. The sculpture starts beside the tree. It is not a measurement."></canvas>
@@ -771,11 +773,11 @@
             </div>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="tree-height-input">Example tree height <span id="tree-height-readout">10 m</span></label>
-            <input id="tree-height-input" type="range" min="4" max="20" step="0.5" value="10">
+            <label class="viz-control-title" for="tree-height-input">Reference tree: set its height <span id="tree-height-readout">Illustrative 6 m tree (not measured)</span></label>
+            <input id="tree-height-input" type="range" min="3" max="18" step="0.5" value="6" aria-describedby="tree-height-readout">
             <label class="viz-control-title" for="tree-distance-input">Example distance to the tree <span id="tree-distance-readout">8 m</span></label>
             <input id="tree-distance-input" type="range" min="4" max="16" step="1" value="8">
-            <p class="privacy-note">Illustrative example. The birch in the foreground is the reference. The marked span is an example height, not a measurement. The crown continues past the top of the frame. Camera file: 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). Illustrative camera height 1.6 m. The horizon is the distant lawn line. The same height at twice the distance is half the size.</p>
+            <p class="privacy-note">The bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. Illustrative 6 m tree, not measured. The same depth sets the scale. Camera file: 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). Illustrative camera height 1.6 m. The horizon is the distant lawn line. The same height at twice the distance is half the size.</p>
             <p class="privacy-note viz-math" id="viz-math"></p>
           </div>
           <div class="viz-button-row">
@@ -1263,13 +1265,13 @@
       const presetHouse = document.getElementById('preset-house');
 
       const SAMPLE_SRC = 'assets/visualizer/preston-place.jpg';
-      const TREE_X = 0.28;
-      const TREE_TOP = 100 / 1500;
-      const TREE_FOOT = 1330 / 1500;
+      const TREE_X = 1780 / 2000;
+      const TREE_TOP = 20 / 1500;
+      const TREE_FOOT = 900 / 1500;
       const HOUSE_FOOT = 730 / 1500;
       const HORIZON = 644 / 1500;
-      const PLACE_X = 0.42;
-      const DEFAULT_TREE_H = 10;
+      const PLACE_X = 0.62;
+      const DEFAULT_TREE_H = 6;
       const DEFAULT_TREE_D = 8;
       const demoLand = new Image();
       const sculpture = new Image();
@@ -1320,8 +1322,8 @@
 
       function limitX(value, drawWidth) {
         const half = drawWidth / 2;
-        const minX = landRect.x + landRect.w * (TREE_X + 0.06) + half;
-        const maxX = landRect.x + landRect.w * 0.58 - half;
+        const minX = landRect.x + landRect.w * 0.36 + half;
+        const maxX = landRect.x + landRect.w * (TREE_X - 0.04) - half;
         if (maxX < minX) return minX;
         return clamp(value, minX, maxX);
       }
@@ -1362,9 +1364,9 @@
         const bx = landRect.x + landRect.w * TREE_X;
         const y1 = landRect.y + landRect.h * TREE_TOP;
         const y2 = landRect.y + landRect.h * TREE_FOOT;
-        drawBracket(bx, y1, y2, 'example ' + treeHeightM + ' m', 'left');
+        drawBracket(bx, y1, y2, 'Illustrative ' + treeHeightM + ' m', 'right');
         const houseY = landRect.y + landRect.h * HOUSE_FOOT;
-        const hx = landRect.x + landRect.w * 0.62;
+        const hx = landRect.x + landRect.w * 0.36;
         ctx.save();
         ctx.strokeStyle = 'rgba(255,255,255,0.8)';
         ctx.fillStyle = '#f5f5f7';
@@ -1375,8 +1377,10 @@
         ctx.font = '600 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
         ctx.strokeStyle = 'rgba(0,0,0,0.55)';
         ctx.lineWidth = 4;
-        ctx.strokeText('house ground', hx + 24, houseY + 6);
-        ctx.fillText('house ground', hx + 24, houseY + 6);
+        if (Math.abs(distanceM - treeDistanceM) >= 2) {
+          ctx.strokeText('house ground', hx + 24, houseY + 6);
+          ctx.fillText('house ground', hx + 24, houseY + 6);
+        }
         ctx.restore();
       }
 
@@ -1387,8 +1391,11 @@
         const mode = usingSample
           ? 'Illustrative example.'
           : 'Your photograph has no known scale. These metres are the illustrative example until you edit them.';
+        const title = document.getElementById('viz-title');
+        const beside = Math.abs(distanceM - treeDistanceM) < 1;
+        if (title) title.textContent = beside ? 'Illustrative example: beside the tree' : 'Illustrative example: toward the house';
         if (math) {
-          math.textContent = mode + ' Example tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m. ' + meters + ' m guide height at ' + distanceM + ' m draws at ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m. Not a measurement.';
+          math.textContent = mode + ' Reference tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m, not measured. ' + meters + ' m guide height at ' + distanceM + ' m is ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px, ' + Math.round(100 * meters / treeHeightM) + '% of the tree. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m.';
         }
         canvas.dataset.calibration = usingSample ? 'illustrative-example' : 'upload-illustrative';
         canvas.dataset.treePx = String(Math.round(treePixelHeight()));
@@ -1431,12 +1438,34 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
         }
+        if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
+          const top = footY - drawHeight * (1104 / 1117);
+          const treeX = landRect.x + landRect.w * TREE_X;
+          ctx.save();
+          ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+          ctx.fillStyle = '#f5f5f7';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 5]);
+          ctx.beginPath();
+          ctx.moveTo(x + drawWidth / 2 + 8, top);
+          ctx.lineTo(treeX - 12, top);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.font = '600 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+          ctx.textAlign = 'right';
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+          const compare = meters + ' m';
+          ctx.strokeText(compare, x - drawWidth / 2 - 8, top - 10);
+          ctx.fillText(compare, x - drawWidth / 2 - 8, top - 10);
+          ctx.restore();
+        }
         canvas.dataset.distance = String(distanceM);
         canvas.dataset.meters = String(meters);
         canvas.dataset.drawHeight = String(Math.round(drawHeight));
         canvas.dataset.footY = String(Math.round(footY));
         if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
-        if (treeHeightReadout) treeHeightReadout.textContent = treeHeightM + ' m';
+        if (treeHeightReadout) treeHeightReadout.textContent = 'Illustrative ' + treeHeightM + ' m tree (not measured)';
         if (treeDistanceReadout) treeDistanceReadout.textContent = treeDistanceM + ' m';
         writeMath(drawHeight);
       }
@@ -1543,7 +1572,7 @@
       flipButton.addEventListener('click', () => { flipped = !flipped; draw(); });
       resetButton.addEventListener('click', () => {
         resetPosition();
-        status.textContent = 'Reset beside the tree. Example height 10 m, example distance 8 m. Not a measurement.';
+        status.textContent = 'Reset beside the tree. Illustrative 6 m tree, example distance 8 m. Not a measurement.';
       });
       presetNear.addEventListener('click', () => setDistance(treeDistanceM));
       presetHouse.addEventListener('click', () => setDistance(houseDistance()));

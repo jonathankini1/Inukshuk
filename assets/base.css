@@ -1223,6 +1223,7 @@ body,
 .footer-heading { color: #f5f5f7; }
 .footer-links a { color: #a1a1a6; }
 em, em.inuktitut { font-style: italic; }
+.viz-output-title { margin: -0.5rem auto 1rem; text-align: center; color: #f5f5f7; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; }
 .viz-credit, .viz-credit a { color: #a1a1a6; font-size: 0.82rem; line-height: 1.45; }
 .viz-credit a { text-decoration: underline; }
 .viz-button-row { flex-wrap: wrap; }

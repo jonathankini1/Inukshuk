@@ -60,7 +60,7 @@
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
       "size": "{{ name }} guide height selected. Illustration only, not a measurement.",
-      "reset": "Reset beside the tree. Example height 10 m, example distance 8 m. Not a measurement.",
+      "reset": "Reset beside the tree. Illustrative 6 m tree, example distance 8 m. Not a measurement.",
       "downloaded": "Preview downloaded. The file is the picture on screen, including the tree mark. CC BY-SA 2.0. Not a measurement.",
       "download_failed": "The preview could not be downloaded. Please try again."
     },

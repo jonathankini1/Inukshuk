@@ -64,7 +64,7 @@
     "visualizer": {
       "type": "visualizer",
       "settings": {
-        "subheading": "An illustrative example. The birch is the height reference. The figure starts beside it, then moves back toward the house. Twice the distance is half the size. Nothing here was measured."
+        "subheading": "Compare the sculpture with the tree. Move it back towards the house."
       },
       "blocks": {
         "size_garden": {
