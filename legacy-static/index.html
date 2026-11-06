@@ -748,6 +748,242 @@
         font-size: 1.05rem;
       }
     }
+
+    /* Image-led sequence. The photograph is the first screen. */
+    nav { background: #000; backdrop-filter: none; }
+    .hero {
+      position: relative;
+      display: block;
+      height: 100svh;
+      min-height: 100svh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+      text-align: left;
+    }
+    .hero-stage, .hero-stage picture { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; display: block; }
+    .hero-stage::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 46%;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+      pointer-events: none;
+    }
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+      object-position: center 42%;
+      transform: none;
+    }
+    .hero-copy {
+      position: absolute;
+      z-index: 2;
+      top: auto;
+      bottom: 7.4rem;
+      left: clamp(1.25rem, 5vw, 4.5rem);
+      right: auto;
+      max-width: 28rem;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+    .hero h1 {
+      max-width: 12ch;
+      margin: 0 0 0.3rem;
+      color: #f5f5f7;
+      font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      line-height: 0.94;
+      text-align: left;
+    }
+    .hero p {
+      max-width: 28ch;
+      margin: 0 0 0.7rem;
+      color: #f5f5f7;
+      font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+      line-height: 1.3;
+      text-align: left;
+    }
+    .hero-actions { justify-content: flex-start; gap: 1.25rem; }
+    .hero-cta, .hero-cta.secondary {
+      min-height: 36px;
+      color: #f5f5f7;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(245, 245, 247, 0.7);
+      text-decoration: none;
+    }
+    .hero-cta::after { color: #f5f5f7; }
+    .hero-caption {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: 46rem;
+      margin: 0;
+      padding: 0 clamp(1.25rem, 5vw, 4.5rem) 1.3rem;
+      background: none;
+      color: #f5f5f7;
+      font-size: clamp(1.05rem, 1.45vw, 1.28rem);
+      line-height: 1.35;
+      letter-spacing: -0.015em;
+      text-align: left;
+    }
+    .trust-strip { margin: 0; padding: 0.9rem clamp(1.25rem, 5vw, 4.5rem); background: #000; }
+    .trust-list { max-width: none; display: flex; justify-content: space-between; gap: 1.5rem; }
+    .trust-list li { padding: 0; text-align: left; font-size: 0.82rem; letter-spacing: 0.01em; }
+    .what-is {
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 18vh clamp(1.25rem, 7vw, 6rem) 12vh;
+      background: #000;
+    }
+    .what-is .container, .what-is-grid, .what-is-text { max-width: none; }
+    .what-is-text h3 {
+      max-width: 8ch;
+      margin: 0 0 1.25rem;
+      font-size: clamp(3.4rem, 8vw, 7.4rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+    .what-is-text p { max-width: 34rem; font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.4; }
+    .gallery { padding: 0; background: #000; }
+    .gallery-stage { display: block; position: relative; min-height: 100svh; height: 100svh; padding: 0; background: #000; overflow: hidden; }
+    .gallery-intro {
+      position: absolute;
+      z-index: 2;
+      top: auto;
+      bottom: 5.2rem;
+      left: clamp(1.25rem, 6vw, 5rem);
+      right: auto;
+      max-width: 26rem;
+      padding: 0;
+    }
+    .gallery .section-title {
+      margin: 0 0 0.35rem;
+      padding: 0;
+      color: #f5f5f7;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+      text-shadow: none;
+    }
+    .gallery .section-subtitle { margin: 0; padding: 0; max-width: 28ch; color: #f5f5f7; font-size: 1.05rem; }
+    .photo-grid, .photo-card, .photo-card button { width: 100%; height: 100%; min-height: 100svh; }
+    .photo-card button { position: relative; display: block; }
+    .photo-card img, .photo-card.wide img {
+      width: 100%;
+      height: 100svh;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      object-fit: cover;
+      object-position: center 58%;
+    }
+    .photo-card figcaption {
+      position: absolute;
+      left: clamp(1.25rem, 6vw, 5rem);
+      right: auto;
+      bottom: 1.2rem;
+      max-width: 28rem;
+      margin: 0;
+      padding: 0;
+      background: none;
+      color: #f5f5f7;
+      text-align: left;
+    }
+    .visualizer { padding: 4.5rem 0 2.5rem; background: #000; }
+    .process { padding: 4.5rem clamp(1.25rem, 6vw, 5rem) 2rem; }
+    .process .container { max-width: none; }
+    .process .section-title { font-size: clamp(2.6rem, 5vw, 4.4rem); max-width: 10ch; }
+    .process-steps { display: block; margin-top: 1.5rem; }
+    .step {
+      display: grid;
+      grid-template-columns: 4.5rem minmax(9rem, 14rem) minmax(0, 36rem);
+      gap: 1rem 1.5rem;
+      align-items: baseline;
+      padding: 1.35rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .step-number { margin: 0; font-size: 0.85rem; letter-spacing: 0.14em; }
+    .step h4 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+    .step p { margin: 0; max-width: 42rem; }
+    .pricing { padding: 3.5rem clamp(1.25rem, 5vw, 4rem) 3rem; }
+    .pricing .container { max-width: none; }
+    .pricing .section-title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+    .pricing-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 3rem; align-items: start; }
+    .price-amount { font-size: clamp(3.2rem, 5.4vw, 5.6rem); letter-spacing: -0.05em; }
+    .price-card ul { max-width: 26rem; }
+    .story {
+      min-height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 16vh clamp(1.25rem, 8vw, 7rem) 10vh;
+    }
+    .story .container, .story-content { max-width: none; }
+    .story .section-title {
+      margin: 0 0 1rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #a1a1a6;
+    }
+    .story-content .highlight {
+      max-width: 12ch;
+      margin: 0 0 1.5rem;
+      font-size: clamp(2.8rem, 6.2vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.045em;
+    }
+    .story-content p { max-width: 38rem; font-size: 1.08rem; }
+    .faq { padding: 4rem clamp(1.25rem, 8vw, 8rem); }
+    .faq .container, .faq-list { max-width: 980px; }
+    .faq .section-title { font-size: clamp(2.4rem, 4vw, 3.6rem); text-align: left; }
+    .faq .section-subtitle { text-align: left; margin-left: 0; }
+    .faq summary { font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 500; padding: 1.35rem 0; }
+    .contact { padding: 4rem clamp(1.25rem, 6vw, 5rem) 5rem; }
+    .contact .container { max-width: 1180px; }
+    .contact .section-title { font-size: clamp(2.6rem, 5vw, 4.2rem); text-align: left; max-width: 12ch; }
+    .contact .section-subtitle { text-align: left; margin-left: 0; }
+    .contact-layout { grid-template-columns: minmax(16rem, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 4.5rem); max-width: none; }
+    footer { padding: 2.5rem clamp(1.25rem, 5vw, 4rem) 1.5rem; }
+    .footer-grid { max-width: none; margin-bottom: 1.5rem; align-items: start; }
+    .footer-bottom { max-width: none; }
+    @media (max-width: 800px) {
+      .hero-copy { left: 1.15rem; bottom: 8.2rem; max-width: 16rem; }
+      .hero h1 { font-size: 2.45rem; }
+      .hero-caption { left: 1.15rem; right: 1.15rem; font-size: 1.02rem; padding: 0 0 1.1rem; }
+      .photo-card figcaption { left: 1.15rem; bottom: 1rem; }
+      .photo-card img, .photo-card.wide img { object-position: center center; height: auto; }
+      .trust-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
+      .what-is { min-height: 0; align-items: flex-start; padding: 4.5rem 1.15rem 3rem; }
+      .what-is-text h3 { font-size: 3.1rem; }
+      .gallery-stage { height: auto; overflow: visible; }
+      .photo-grid, .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; }
+      .photo-card img, .photo-card.wide img { display: block; width: 100%; height: auto; max-height: none; object-fit: contain; }
+      .gallery-intro { top: 1.25rem; bottom: auto; left: 1.15rem; }
+      .gallery .section-title { font-size: 2.4rem; }
+      .step { grid-template-columns: 3rem 1fr; }
+      .step p { grid-column: 1 / -1; }
+      .pricing-cards, .contact-layout, .footer-grid { grid-template-columns: 1fr; }
+      .story { min-height: 0; padding: 3.5rem 1.15rem; }
+      .story-content .highlight { font-size: 2.5rem; }
+      .process, .pricing, .faq, .contact { padding-left: 1.15rem; padding-right: 1.15rem; }
+    }
   </style>
 </head>
 <body>
@@ -775,6 +1011,12 @@
   <main id="main-content">
 
   <section class="hero" id="top">
+    <figure class="hero-stage">
+      <picture>
+        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, with hills and sky behind it" width="2000" height="1125" fetchpriority="high" loading="eager">
+      </picture>
+      <figcaption class="hero-caption">Every stone chosen for its place. Stacked by hand, balanced without mortar. Made with you, for the land that will hold it.</figcaption>
+    </figure>
     <div class="hero-copy">
       <h1>Raised on open ground</h1>
       <p>See it where it will stand.</p>
@@ -783,12 +1025,6 @@
         <a href="#contact" class="hero-cta secondary">Begin Your Build</a>
       </div>
     </div>
-    <figure class="hero-stage">
-      <picture>
-        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, with hills and sky behind it" width="2000" height="1125" fetchpriority="high" loading="eager">
-      </picture>
-      <figcaption class="hero-caption">Every stone chosen for its place. Stacked by hand, balanced without mortar. Made with you, for the land that will hold it.</figcaption>
-    </figure>
   </section>
 
   <aside class="trust-strip" aria-label="Project principles">
