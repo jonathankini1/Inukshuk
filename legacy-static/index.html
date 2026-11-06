@@ -862,12 +862,12 @@
     }
     .what-is-text p { max-width: 34rem; font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.4; }
     .gallery { padding: 0; background: #000; }
-    .gallery-stage { display: block; position: relative; min-height: 100svh; height: 100svh; padding: 0; background: #000; overflow: hidden; }
+    .gallery-stage { display: block; position: relative; min-height: 0; height: auto; padding: 0; background: #000; overflow: visible; }
     .gallery-intro {
       position: absolute;
       z-index: 2;
-      top: auto;
-      bottom: 5.2rem;
+      top: 4.5rem;
+      bottom: auto;
       left: clamp(1.25rem, 6vw, 5rem);
       right: auto;
       max-width: 26rem;
@@ -884,28 +884,35 @@
       text-shadow: none;
     }
     .gallery .section-subtitle { margin: 0; padding: 0; max-width: 28ch; color: #f5f5f7; font-size: 1.05rem; }
-    .photo-grid, .photo-card, .photo-card button { width: 100%; height: 100%; min-height: 100svh; }
+    .photo-grid, .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; }
     .photo-card button { position: relative; display: block; }
     .photo-card img, .photo-card.wide img {
       width: 100%;
-      height: 100svh;
+      height: calc(100svh - 8.5rem);
       max-width: none;
-      max-height: none;
+      max-height: calc(100svh - 8.5rem);
       margin: 0;
       object-fit: cover;
-      object-position: center 58%;
+      object-position: center 42%;
     }
     .photo-card figcaption {
-      position: absolute;
-      left: clamp(1.25rem, 6vw, 5rem);
+      position: static;
+      display: block;
+      left: auto;
       right: auto;
-      bottom: 1.2rem;
-      max-width: 28rem;
+      bottom: auto;
+      width: 100%;
+      max-width: none;
+      height: auto;
+      overflow: visible;
       margin: 0;
-      padding: 0;
-      background: none;
+      padding: 1rem clamp(1.25rem, 6vw, 5rem) 1.15rem;
+      background: #000;
       color: #f5f5f7;
+      font-size: 1.05rem;
+      line-height: 1.45;
       text-align: left;
+      white-space: normal;
     }
     .visualizer { padding: 4.5rem 0 2.5rem; background: #000; }
     .process { padding: 4.5rem clamp(1.25rem, 6vw, 5rem) 2rem; }
@@ -997,7 +1004,7 @@
         width: 100%;
         height: auto;
         max-width: 100%;
-        max-height: none;
+        max-height: calc(100svh - 48px);
         object-fit: contain;
         object-position: center center;
         transform: none;
@@ -1029,9 +1036,12 @@
         background: none;
         text-align: left;
       }
+      .hero, .hero-copy, .hero h1, .hero p, .hero-actions, .hero-caption { text-align: left; }
       .hero h1 { max-width: 9ch; margin: 0 0 0.25rem; color: #f5f5f7; font-size: 2.45rem; line-height: 0.94; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
       .hero p { max-width: 22ch; margin: 0 0 0.55rem; color: #f5f5f7; font-size: 1.05rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
-      .hero-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
+      .hero-actions { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 0.9rem; }
+      .gallery-stage { min-height: 0; height: auto; overflow: visible; padding: 0; }
+      .photo-card img, .photo-card.wide img { width: 100%; height: auto; max-height: none; object-fit: contain; object-position: center center; }
       .photo-card figcaption { left: 1.15rem; bottom: 1rem; }
       .photo-card img, .photo-card.wide img { object-position: center center; height: auto; }
       .trust-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
@@ -1049,6 +1059,29 @@
       .story-content .highlight { font-size: 2.5rem; }
       .process, .pricing, .faq, .contact { padding-left: 1.15rem; padding-right: 1.15rem; }
     }
+    @media (max-width: 800px) and (max-height: 720px) {
+      .hero h1 { font-size: 1.9rem; }
+      .hero-copy { top: 3.5rem; }
+      .hero p { margin-bottom: 0.3rem; }
+      .hero-media { max-height: calc(100svh - 64px); }
+    }
+    .contact .section-title,
+    .contact .section-subtitle {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .contact-panel p,
+    .contact-promises li,
+    .form-status,
+    .viz-status { color: #f5f5f7; }
+    .field-error { color: #ffb4a8; }
+    .form-group select,
+    .form-group input,
+    .form-group textarea { color: #f5f5f7; background: #1c1c1e; }
+    .form-group select option { color: #1d1d1f; background: #f5f5f7; }
+    #primary-navigation { top: 48px; transform: none; }
+    #primary-navigation.open { top: 48px; transform: none; }
   </style>
 </head>
 <body>
@@ -1502,7 +1535,20 @@
         navigation.classList.toggle('open', willOpen);
         document.body.classList.toggle('menu-open', willOpen);
       });
-      navigationLinks.forEach(link => link.addEventListener('click', closeMenu));
+      navigation.addEventListener('click', event => {
+        const link = event.target.closest('a[href^="#"]');
+        if (!link || !navigation.contains(link)) return;
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        event.preventDefault();
+        closeMenu();
+        window.requestAnimationFrame(() => {
+          target.scrollIntoView({ block: 'start' });
+          if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          if (history.replaceState) history.replaceState(null, '', link.getAttribute('href'));
+        });
+      });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && navigation.classList.contains('open')) {
           closeMenu();
@@ -1556,7 +1602,10 @@
         const item = galleryItems[galleryIndex];
         lightboxImage.src = item.src;
         lightboxImage.alt = item.alt;
-        lightboxCaption.textContent = `${item.caption}. ${galleryIndex + 1} of ${galleryItems.length}`;
+        const count = galleryItems.length;
+        lightboxCaption.textContent = count < 2 ? item.caption : `${item.caption.replace(/\.\s*$/, '')}. ${galleryIndex + 1} of ${count}`;
+        lightboxPrevious.hidden = count < 2;
+        lightboxNext.hidden = count < 2;
       }
 
       galleryButtons.forEach(button => {
@@ -1603,7 +1652,7 @@
       const enquiryStatus = document.getElementById('enquiry-status');
       const packageSelect = document.getElementById('enquiry-package');
       const recipient = enquiryForm.dataset.recipient.trim();
-      enquirySubmit.textContent = recipient ? 'Send Enquiry' : 'Prepare Enquiry';
+      enquirySubmit.textContent = 'Prepare Enquiry';
 
       document.querySelectorAll('.package-enquire').forEach(button => {
         button.addEventListener('click', () => {
@@ -1764,10 +1813,35 @@
         const padY = Math.round(size * 0.38);
         const w = widest + padX * 2;
         const h = lineH * lines.length + padY * 2;
-        let x = align === 'right' ? anchorX - w : anchorX;
+        const avoid = arguments[4];
+        let x = align === 'right' ? anchorX - w : align === 'center' ? anchorX - w / 2 : anchorX;
         let y = anchorY - h / 2;
-        x = clamp(x, 16, canvas.width - w - 16);
-        y = clamp(y, 16, canvas.height - h - 16);
+        if (avoid) {
+          const gap = Math.max(18, Math.round(size * 0.55));
+          const spots = [
+            { x: avoid.x2 + gap, y: anchorY - h / 2 },
+            { x: avoid.x - w - gap, y: anchorY - h / 2 },
+            { x: avoid.x2 + gap, y: avoid.y - h - gap },
+            { x: avoid.x - w - gap, y: avoid.y - h - gap },
+            { x: anchorX - w / 2, y: avoid.y - h - gap },
+            { x: anchorX - w / 2, y: avoid.y2 + gap },
+            { x: 16, y: 16 },
+            { x: canvas.width - w - 16, y: 16 }
+          ];
+          const hits = (plate) => plate.x < avoid.x2 + 8 && plate.x + w > avoid.x - 8 && plate.y < avoid.y2 + 8 && plate.y + h > avoid.y - 8;
+          let placed = null;
+          spots.forEach((spot) => {
+            if (placed) return;
+            const px = clamp(spot.x, 12, canvas.width - w - 12);
+            const py = clamp(spot.y, 12, canvas.height - h - 12);
+            if (!hits({ x: px, y: py })) placed = { x: px, y: py };
+          });
+          x = placed ? placed.x : clamp(avoid.x2 + gap, 12, canvas.width - w - 12);
+          y = placed ? placed.y : clamp(avoid.y - h - gap, 12, canvas.height - h - 12);
+        } else {
+          x = clamp(x, 16, canvas.width - w - 16);
+          y = clamp(y, 16, canvas.height - h - 16);
+        }
         ctx.fillStyle = 'rgba(0,0,0,0.78)';
         fillRound(x, y, w, h, Math.round(size * 0.36));
         ctx.fillStyle = '#f5f5f7';
@@ -1779,6 +1853,7 @@
         });
         ctx.restore();
         canvas.dataset.labelCss = String(Math.round(size * displayedWidth() / canvas.width));
+        if (lines[0] === 'House ground') canvas.dataset.housePlate = [x, y, w, h].map(v => Math.round(v)).join(',');
       }
       function hostedSample(relative) {
         const baseEl = document.querySelector('base');
@@ -1844,7 +1919,7 @@
         }
       }
 
-      function drawAnchors() {
+      function drawAnchors(figure) {
         if (!usingSample) return;
         const bx = landRect.x + landRect.w * TREE_X;
         const y1 = landRect.y + landRect.h * TREE_TOP;
@@ -1860,7 +1935,6 @@
         ctx.moveTo(bx - tick, y2); ctx.lineTo(bx + tick, y2);
         ctx.stroke();
         ctx.restore();
-        drawPlate([treeHeightM + ' m tree', 'illustrative'], bx - tick - 14, y1 + (y2 - y1) * 0.2, 'right');
         if (Math.abs(distanceM - treeDistanceM) >= 2) {
           const houseY = landRect.y + landRect.h * HOUSE_FOOT;
           const hx = landRect.x + landRect.w * 0.36;
@@ -1871,7 +1945,20 @@
           ctx.moveTo(hx - 22, houseY); ctx.lineTo(hx + 22, houseY);
           ctx.stroke();
           ctx.restore();
-          drawPlate(['House ground'], hx + 30, houseY, 'left');
+        }
+      }
+      function drawLabels(figure) {
+        if (!usingSample) return;
+        const bx = landRect.x + landRect.w * TREE_X;
+        const y1 = landRect.y + landRect.h * TREE_TOP;
+        const y2 = landRect.y + landRect.h * TREE_FOOT;
+        const tick = Math.max(12, Math.round(canvas.width / 100));
+        drawPlate([treeHeightM + ' m tree', 'illustrative'], bx - tick - 14, y1 + (y2 - y1) * 0.2, 'right', figure);
+        if (Math.abs(distanceM - treeDistanceM) < 2) canvas.dataset.housePlate = '';
+        if (Math.abs(distanceM - treeDistanceM) >= 2) {
+          const houseY = landRect.y + landRect.h * HOUSE_FOOT;
+          const hx = landRect.x + landRect.w * 0.36;
+          drawPlate(['House ground'], hx, houseY, 'left', figure);
         }
       }
 
@@ -1913,7 +2000,13 @@
           ctx.fillStyle = '#6d8a55';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
-        drawAnchors();
+        const figure = {
+          x: x - drawWidth / 2,
+          y: footY - drawHeight * (1104 / 1117),
+          x2: x + drawWidth / 2,
+          y2: footY + 8
+        };
+        drawAnchors(figure);
         const lightShift = drawWidth * 0.22;
         const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
         shade.addColorStop(0, 'rgba(20, 24, 12, 0.4)');
@@ -1930,6 +2023,8 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
         }
+        drawLabels(figure);
+        canvas.dataset.fig = [figure.x, figure.y, figure.x2, figure.y2].map(v => Math.round(v)).join(',');
         if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
           const top = footY - drawHeight * (1104 / 1117);
           const treeX = landRect.x + landRect.w * TREE_X;
@@ -1943,7 +2038,7 @@
           ctx.lineTo(treeX - 12, top);
           ctx.stroke();
           ctx.restore();
-          drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right');
+          drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right', figure);
         }
         canvas.dataset.x = String(Math.round(x));
         canvas.dataset.distance = String(distanceM);
@@ -2156,7 +2251,7 @@
         products.forEach(product => {
           const node = document.getElementById(product.nodeId);
           if (!node || node.querySelector('.shopify-buy__product')) return;
-          node.innerHTML = '<a class="price-btn" href="#contact">Checkout unavailable. Enquire instead</a>';
+          node.innerHTML = '<a class="price-btn" href="#contact">Enquire about this size</a>';
         });
       }
 
