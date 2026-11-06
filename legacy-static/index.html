@@ -10,8 +10,8 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_GB">
   <meta property="og:url" content="https://inukshuk-plum.vercel.app/">
-  <meta property="og:image" content="https://inukshuk-plum.vercel.app/assets/gallery/hillside-landmark.jpg">
-  <meta property="og:image:alt" content="An Inukshuk stone sculpture overlooking rolling Pennine hills">
+  <meta property="og:image" content="https://inukshuk-plum.vercel.app/assets/gallery/summer-landmark.jpg">
+  <meta property="og:image:alt" content="A stone landmark in summer grass, with a young tree to its right">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="light">
@@ -1105,17 +1105,16 @@
     .form-group select[aria-invalid="true"]:focus { background: #3a1210; color: #fff; border-color: #fff; }
     .consent-row, .consent-row a { color: #f5f5f7; }
     .viz-stage { overflow: visible; }
-    .viz-detail { margin: 0.85rem auto 0; max-width: 280px; }
-    .viz-detail canvas { width: 100%; height: auto; display: block; background: transparent; }
-    .viz-detail figcaption {
+    .viz-guide {
+      max-width: 34rem;
+      margin: 0.7rem auto 0;
+      padding: 0 1.15rem;
       color: #f5f5f7;
-      font-size: 0.78rem;
-      font-weight: 600;
-      line-height: 1.35;
-      letter-spacing: 0.01em;
+      font-size: 1rem;
+      line-height: 1.4;
       text-align: center;
-      padding: 0 0 0.4rem;
     }
+    .viz-guide[hidden] { display: none; }
     #enquiry-form #enquiry-submit,
     #enquiry-form:invalid #enquiry-submit,
     #enquiry-form #enquiry-submit:disabled,
@@ -1159,6 +1158,98 @@
         bottom: auto;
         transform: none;
         margin: 0;
+      }
+    }
+    .gallery { padding: 0; background: #000; }
+    .gallery-stage {
+      display: grid;
+      grid-template-columns: minmax(16rem, 0.9fr) auto;
+      gap: 1.5rem 4rem;
+      align-items: end;
+      height: auto;
+      min-height: 0;
+      padding: 4.5rem clamp(1.5rem, 6vw, 5.5rem);
+      background: #000;
+      position: relative;
+    }
+    .gallery-intro {
+      position: static;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      max-width: 28rem;
+      padding: 0 0 0.5rem;
+      z-index: auto;
+    }
+    .gallery .section-title {
+      color: #f5f5f7;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      line-height: 0.96;
+      max-width: 12ch;
+      text-shadow: none;
+    }
+    .gallery .section-subtitle { color: #f5f5f7; max-width: 28ch; margin: 0; }
+    .photo-grid, .photo-card, .photo-card button { width: auto; height: auto; min-height: 0; }
+    .photo-card { margin: 0; }
+    .photo-card button { display: block; padding: 0; background: transparent; }
+    .photo-card img, .photo-card.wide img {
+      display: block;
+      width: auto;
+      height: min(74vh, 780px);
+      max-width: min(42vw, 480px);
+      max-height: none;
+      margin: 0;
+      object-fit: contain;
+      object-position: center center;
+    }
+    .photo-card figcaption {
+      position: static;
+      display: block;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: auto;
+      max-width: 36ch;
+      height: auto;
+      margin: 0.85rem 0 0;
+      padding: 0;
+      overflow: visible;
+      background: transparent;
+      color: #f5f5f7;
+      font-size: 1.05rem;
+      line-height: 1.4;
+      text-align: left;
+    }
+    @media (max-width: 800px) {
+      .gallery-stage {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.85rem;
+        padding: 2.5rem 1.15rem 1.75rem;
+      }
+      .gallery-intro { position: static; max-width: none; padding: 0; }
+      .gallery .section-title { font-size: 2.4rem; }
+      .photo-grid, .photo-card, .photo-card button { width: 100%; }
+      .photo-card { display: flex; flex-direction: column; }
+      .photo-card button { order: 0; }
+      .photo-card img, .photo-card.wide img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: none;
+        object-fit: contain;
+        object-position: center center;
+      }
+      .photo-card figcaption {
+        order: -1;
+        position: static;
+        max-width: none;
+        margin: 0 0 0.85rem;
+        padding: 0;
+        background: transparent;
+        color: #f5f5f7;
       }
     }
   </style>
@@ -1233,14 +1324,12 @@
         <h2 class="section-title">Photographs</h2>
         <p class="section-subtitle">The first landmark, in the weather it was built in.</p>
       </div>
-      <div class="photo-grid">
-        <figure class="photo-card">
-          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the open-ground photograph">
-            <img src="assets/gallery/hillside-landmark.jpg" alt="Handbuilt stone landmark on open ground, the whole figure from head to feet, with hills behind" width="2000" height="1125" loading="lazy" decoding="async">
-            <figcaption>The whole figure, from the head to the feet, on open ground.</figcaption>
-          </button>
-        </figure>
-      </div>
+      <figure class="photo-card">
+        <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the summer photograph">
+          <img src="assets/gallery/summer-landmark.jpg" alt="Stone landmark in summer grass, the whole figure from head to feet, with a young tree to its right" width="1125" height="2000" loading="lazy" decoding="async">
+        </button>
+        <figcaption>Later in the summer, the same figure, with a young tree to its right.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -1248,7 +1337,7 @@
     <div class="lightbox-frame">
       <button class="lightbox-close" type="button" aria-label="Close image viewer">&times;</button>
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photograph">&#8249;</button>
-      <img id="lightbox-image" src="assets/gallery/landmark-wide.jpg" alt="">
+      <img id="lightbox-image" src="assets/gallery/summer-landmark.jpg" alt="">
       <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photograph">&#8250;</button>
       <p class="lightbox-caption" id="lightbox-caption"></p>
     </div>
@@ -1263,11 +1352,8 @@
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. The height bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. The sculpture starts beside that trunk. The white birch on the left is not the reference. It is not a measurement."></canvas>
         </div>
-        <p class="viz-tip" id="viz-tip">Drag the base. The figure moves toward the horizon and its height follows the distance.</p>
-        <figure class="viz-detail" id="viz-detail-wrap" hidden>
-          <figcaption id="viz-detail-caption">Detail · distance unchanged</figcaption>
-          <canvas id="viz-detail" width="640" height="900" aria-label="Detail of the same figure. The distance is unchanged. Not a larger sculpture."></canvas>
-        </figure>
+        <p class="viz-tip" id="viz-tip">Drag the base across the ground or back towards the house. Its height follows the distance.</p>
+        <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
             <span class="viz-control-title">1. Add your land</span>
@@ -1688,10 +1774,12 @@
       const lightboxNext = lightbox.querySelector('.lightbox-next');
       const galleryItems = galleryButtons.map(button => {
         const image = button.querySelector('img');
+        const figure = button.closest('figure');
+        const caption = figure ? figure.querySelector('figcaption') : null;
         return {
           src: image.getAttribute('src'),
           alt: image.getAttribute('alt'),
-          caption: button.querySelector('figcaption').textContent
+          caption: caption ? caption.textContent : ''
         };
       });
       let galleryIndex = 0;
@@ -2117,43 +2205,16 @@
         canvas.dataset.houseDistance = String(Math.round(houseD));
         canvas.dataset.atTree = String(Math.round(atTree));
         canvas.dataset.doubled = String(Math.round(doubled));
-      }
-
-      function drawDetail(figure, source) {
-        const wrap = document.getElementById('viz-detail-wrap');
-        const detail = document.getElementById('viz-detail');
-        const caption = document.getElementById('viz-detail-caption');
-        if (!wrap || !detail || !source) return;
-        const shown = displayedWidth();
-        const onScreen = (figure.y2 - figure.y) * (shown / canvas.width);
-        if (!usingSample || onScreen >= 150) {
-          wrap.hidden = true;
-          return;
-        }
-        wrap.hidden = false;
-        const dctx = detail.getContext('2d');
-        const fh = Math.max(12, figure.y2 - figure.y);
-        const aspect = detail.width / detail.height;
-        let cropH = Math.min(canvas.height, Math.max(fh / 0.72, fh + 36));
-        let cropW = cropH * aspect;
-        if (cropW > canvas.width) {
-          cropW = canvas.width;
-          cropH = cropW / aspect;
-        }
-        const cx = (figure.x + figure.x2) / 2;
-        const cy = (figure.y + figure.y2) / 2;
-        let sx = clamp(cx - cropW / 2, 0, Math.max(0, canvas.width - cropW));
-        let sy = clamp(cy - cropH / 2, 0, Math.max(0, canvas.height - cropH));
-        if (figure.y < sy) sy = Math.max(0, figure.y - 6);
-        if (figure.y2 > sy + cropH) sy = Math.max(0, Math.min(figure.y2 + 6 - cropH, Math.max(0, canvas.height - cropH)));
-        if (figure.x < sx) sx = Math.max(0, figure.x - 6);
-        if (figure.x2 > sx + cropW) sx = Math.max(0, Math.min(figure.x2 + 6 - cropW, Math.max(0, canvas.width - cropW)));
-        dctx.imageSmoothingEnabled = true;
-        dctx.imageSmoothingQuality = 'high';
-        dctx.clearRect(0, 0, detail.width, detail.height);
-        dctx.drawImage(source, sx, sy, cropW, cropH, 0, 0, detail.width, detail.height);
-        if (caption) {
-          caption.textContent = 'Detail · distance unchanged. Same ' + meters + ' m figure at ' + distanceM + ' m, magnified. Not a larger sculpture.';
+        const guide = document.getElementById('viz-guide');
+        if (guide) {
+          const onScreen = drawHeight * (displayedWidth() / canvas.width);
+          if (usingSample && onScreen < 150) {
+            guide.hidden = false;
+            guide.textContent = 'At ' + distanceM + ' m a ' + meters + ' m figure will look small. Illustrative estimate, not a measurement. Try Beside the tree to explore near scale.';
+          } else {
+            guide.hidden = true;
+            guide.textContent = '';
+          }
         }
       }
 
@@ -2182,15 +2243,15 @@
           y2: footY + 8
         };
         drawAnchors(figure);
-        const lightShift = drawWidth * 0.22;
-        const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
-        shade.addColorStop(0, 'rgba(20, 24, 12, 0.4)');
-        shade.addColorStop(0.5, 'rgba(20, 24, 12, 0.12)');
-        shade.addColorStop(1, 'rgba(20, 24, 12, 0)');
-        ctx.fillStyle = shade;
+        const cssPx = canvas.width / Math.max(1, displayedWidth());
+        const contactH = Math.min(cssPx * 4, Math.max(cssPx * 2, drawHeight * 0.028));
+        const contactW = Math.min(drawWidth * 0.36, Math.max(drawWidth * 0.16, cssPx * 8));
+        ctx.save();
+        ctx.fillStyle = 'rgba(14, 20, 8, 0.72)';
         ctx.beginPath();
-        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.48), Math.max(4, drawHeight * 0.028), 0, 0, Math.PI * 2);
+        ctx.ellipse(x + drawWidth * 0.05, footY + contactH * 0.2, contactW, contactH, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
           ctx.translate(x, footY);
@@ -2198,13 +2259,8 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
         }
-        const bare = document.createElement('canvas');
-        bare.width = canvas.width;
-        bare.height = canvas.height;
-        bare.getContext('2d').drawImage(canvas, 0, 0);
         drawLabels(figure);
         canvas.dataset.fig = [figure.x, figure.y, figure.x2, figure.y2].join(',');
-        try { drawDetail(figure, bare); } catch (error) { /* The main picture remains usable if the detail cannot be copied. */ }
         if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
           const top = footY - drawHeight * (1104 / 1117);
           const treeX = landRect.x + landRect.w * TREE_X;
@@ -2258,16 +2314,19 @@
 
       function canvasPoint(event) {
         const bounds = canvas.getBoundingClientRect();
+        const width = bounds.width > 1 ? bounds.width : (canvas.clientWidth || canvas.width);
+        const height = bounds.height > 1 ? bounds.height : (canvas.clientHeight || canvas.height);
         return {
-          x: (event.clientX - bounds.left) * (canvas.width / bounds.width),
-          y: (event.clientY - bounds.top) * (canvas.height / bounds.height)
+          x: (event.clientX - bounds.left) * (canvas.width / width),
+          y: (event.clientY - bounds.top) * (canvas.height / height)
         };
       }
 
+      let grabDx = 0;
       let grabDy = 0;
       function placeAt(event) {
         const point = canvasPoint(event);
-        x = point.x;
+        x = point.x - grabDx;
         userMoved = true;
         const foot = point.y - grabDy;
         const minD = Math.round(treeDistanceM);
@@ -2311,18 +2370,26 @@
         });
       });
       canvas.addEventListener('pointerdown', event => {
+        if (event.button != null && event.button !== 0) return;
         dragging = true;
         canvas.classList.add('dragging');
-        try { canvas.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
         const point = canvasPoint(event);
+        grabDx = point.x - x;
         grabDy = point.y - footYForDistance(distanceM);
-        placeAt(event);
+        try { canvas.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
+        event.preventDefault();
       });
-      canvas.addEventListener('pointermove', event => { if (dragging) placeAt(event); });
+      canvas.addEventListener('pointermove', event => {
+        if (!dragging) return;
+        placeAt(event);
+        event.preventDefault();
+      });
       const stopDragging = event => {
         dragging = false;
         canvas.classList.remove('dragging');
-        if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        try {
+          if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        } catch (error) { /* The pointer may already be released. */ }
       };
       canvas.addEventListener('pointerup', stopDragging);
       canvas.addEventListener('pointercancel', stopDragging);
