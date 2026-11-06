@@ -312,9 +312,11 @@
       letter-spacing: 0; text-transform: none;
       border: 0; cursor: pointer; border-radius: 8px;
     }
-    .price-btn:hover { background: var(--earth); border-color: var(--earth); }
+    .price-btn:hover,
+    .price-btn:focus-visible { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
     .price-btn.secondary { background: transparent; color: var(--dark); border: 1px solid var(--line); }
-    .price-btn.secondary:hover { background: transparent; color: var(--earth); }
+    .price-btn.secondary:hover,
+    .price-btn.secondary:focus-visible { background: transparent; color: #1d1d1f; }
 
     /* STORY */
     .story { background: var(--cream); color: var(--dark); }
@@ -384,10 +386,13 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 600;
       font-size: 0.95rem; letter-spacing: 0;
       text-transform: none; border-radius: 8px;
-      transition: background 0.3s;
+      transition: none;
     }
-    .submit-btn:hover { background: var(--sky); }
-    .submit-btn[disabled] { cursor: wait; opacity: 0.72; }
+    .submit-btn:hover,
+    .submit-btn:focus-visible { background: #1d1d1f; color: #fff; }
+    .submit-btn[disabled],
+    .submit-btn[disabled]:hover,
+    .submit-btn[disabled]:focus-visible { cursor: pointer; opacity: 1; background: #f5f5f7; color: #1d1d1f; }
     .form-status { min-height: 1.6em; margin-top: 0.8rem; color: var(--earth); font-size: 0.82rem; text-align: center; }
 
     /* FOOTER */
@@ -889,12 +894,12 @@
     .photo-card button { position: relative; display: block; }
     .photo-card img, .photo-card.wide img {
       width: 100%;
-      height: calc(100svh - 8.5rem);
-      max-width: none;
-      max-height: calc(100svh - 8.5rem);
+      height: auto;
+      max-width: 100%;
+      max-height: none;
       margin: 0;
-      object-fit: cover;
-      object-position: center 42%;
+      object-fit: contain;
+      object-position: center center;
     }
     .photo-card figcaption {
       position: static;
@@ -934,7 +939,7 @@
     .pricing { padding: 3.5rem clamp(1.25rem, 5vw, 4rem) 3rem; }
     .pricing .container { max-width: none; }
     .pricing .section-title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
-    .pricing-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 3rem; align-items: start; }
+    .pricing-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 3rem; align-items: stretch; }
     .price-amount { font-size: clamp(3.2rem, 5.4vw, 5.6rem); letter-spacing: -0.05em; }
     .price-card ul { max-width: 26rem; }
     .story {
@@ -1099,9 +1104,52 @@
     .form-group textarea[aria-invalid="true"]:focus,
     .form-group select[aria-invalid="true"]:focus { background: #3a1210; color: #fff; border-color: #fff; }
     .consent-row, .consent-row a { color: #f5f5f7; }
-    .viz-detail { margin: 0.8rem auto 0; max-width: 920px; }
-    .viz-detail canvas { width: 100%; height: auto; display: block; background: #111; }
-    .viz-detail figcaption { color: #f5f5f7; font-size: 0.95rem; line-height: 1.4; padding: 0.55rem 0.15rem 0; }
+    .viz-stage { overflow: visible; }
+    .viz-detail { margin: 0.85rem auto 0; max-width: 280px; }
+    .viz-detail canvas { width: 100%; height: auto; display: block; background: transparent; }
+    .viz-detail figcaption {
+      color: #f5f5f7;
+      font-size: 0.78rem;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+      text-align: center;
+      padding: 0 0 0.4rem;
+    }
+    #enquiry-form #enquiry-submit,
+    #enquiry-form:invalid #enquiry-submit,
+    #enquiry-form #enquiry-submit:disabled,
+    #enquiry-form #enquiry-submit:disabled:hover,
+    #enquiry-form #enquiry-submit:disabled:focus-visible {
+      background: #fff;
+      color: #1d1d1f;
+      opacity: 1;
+      font-size: 1.15rem;
+      font-weight: 600;
+      min-height: 52px;
+      letter-spacing: -0.015em;
+      transition: none;
+    }
+    #enquiry-form #enquiry-submit:hover,
+    #enquiry-form #enquiry-submit:focus-visible,
+    #enquiry-form:invalid #enquiry-submit:hover,
+    #enquiry-form:invalid #enquiry-submit:focus-visible {
+      background: #1d1d1f;
+      color: #fff;
+      opacity: 1;
+      transition: none;
+    }
+    .pricing-cards { align-items: stretch; }
+    .price-card { display: flex; flex-direction: column; height: auto; min-height: 100%; }
+    .deposit-note { min-height: 6.8rem; margin-top: auto; }
+    .price-btn:hover,
+    .price-btn:focus-visible { background: #1d1d1f; color: #fff; }
+    .price-btn.secondary:hover,
+    .price-btn.secondary:focus-visible { background: transparent; color: #fff; }
+    @media (max-width: 800px) {
+      .pricing-cards { grid-template-columns: 1fr; }
+      .deposit-note { min-height: 0; }
+    }
     @media (max-width: 960px) {
       #primary-navigation, #primary-navigation.open {
         position: fixed;
@@ -1173,7 +1221,7 @@
           <h3>What is an inuksuk?</h3>
           <p>An <em class="inuktitut">inuksuk</em> is a stone figure built without mortar by Inuit in the Arctic. It marks a route or a place. The stones are lifted by a group, not by one person.</p>
           <p>We commission the same kind of landmark for private land in the UK. Local stone where the ground allows it. A site visit before any build.</p>
-          <p class="origin-badge"><em class="inuktitut">inuksuk</em>. Inuktitut for a figure in the likeness of a person.</p>
+          <p class="origin-badge"><em class="inuktitut">inuksuk</em>. <em class="inuktitut">Inuktitut</em> for a figure in the likeness of a person.</p>
         </div>
       </div>
     </div>
@@ -1187,9 +1235,9 @@
       </div>
       <div class="photo-grid">
         <figure class="photo-card">
-          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open summer photograph">
-            <img src="assets/gallery/summer-landmark.jpg" alt="Stone landmark in summer grass under a blue sky" width="1125" height="2000" loading="lazy" decoding="async">
-            <figcaption>Later in the summer, the same figure, with a young tree to its right.</figcaption>
+          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the open-ground photograph">
+            <img src="assets/gallery/hillside-landmark.jpg" alt="Handbuilt stone landmark on open ground, the whole figure from head to feet, with hills behind" width="2000" height="1125" loading="lazy" decoding="async">
+            <figcaption>The whole figure, from the head to the feet, on open ground.</figcaption>
           </button>
         </figure>
       </div>
@@ -1214,12 +1262,12 @@
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. The height bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. The sculpture starts beside that trunk. The white birch on the left is not the reference. It is not a measurement."></canvas>
-          <p class="viz-tip" id="viz-tip">Drag the base. The figure moves toward the horizon and its height follows the distance.</p>
-          <figure class="viz-detail" id="viz-detail-wrap" hidden>
-            <canvas id="viz-detail" width="800" height="520" aria-label="Magnified detail of the same figure. The distance is unchanged."></canvas>
-            <figcaption id="viz-detail-caption"></figcaption>
-          </figure>
         </div>
+        <p class="viz-tip" id="viz-tip">Drag the base. The figure moves toward the horizon and its height follows the distance.</p>
+        <figure class="viz-detail" id="viz-detail-wrap" hidden>
+          <figcaption id="viz-detail-caption">Detail · distance unchanged</figcaption>
+          <canvas id="viz-detail" width="640" height="900" aria-label="Detail of the same figure. The distance is unchanged. Not a larger sculpture."></canvas>
+        </figure>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
             <span class="viz-control-title">1. Add your land</span>
@@ -1709,12 +1757,19 @@
       const recipient = enquiryForm.dataset.recipient.trim();
       enquirySubmit.textContent = 'Prepare Enquiry';
 
-      document.querySelectorAll('.package-enquire').forEach(button => {
-        button.addEventListener('click', () => {
-          packageSelect.value = button.dataset.package;
-          document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-          setTimeout(() => document.getElementById('enquiry-name').focus(), 450);
-        });
+      document.addEventListener('click', event => {
+        const button = event.target.closest('.package-enquire');
+        if (!button || !packageSelect) return;
+        event.preventDefault();
+        const packageName = button.getAttribute('data-package') || '';
+        if (packageName) packageSelect.value = packageName;
+        const contact = document.getElementById('contact');
+        if (contact) contact.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        window.setTimeout(() => {
+          const name = document.getElementById('enquiry-name');
+          if (name) name.focus({ preventScroll: true });
+        }, 450);
+        if (history.replaceState) history.replaceState(null, '', '#contact');
       });
 
       function fieldError(field, message) {
@@ -1766,7 +1821,6 @@
           data.get('vision')
         ].join('\n');
 
-        enquirySubmit.disabled = true;
         if (!recipient && navigator.clipboard) {
           try { await navigator.clipboard.writeText(`${subject}\n\n${body}`); } catch (_) { /* Email draft remains available. */ }
         }
@@ -1775,7 +1829,6 @@
         enquiryStatus.textContent = recipient
           ? 'Your email app is opening with the enquiry ready to send.'
           : 'Your enquiry is ready and copied. Add the recipient in your email app, then send.';
-        setTimeout(() => { enquirySubmit.disabled = false; }, 900);
       });
     })();
 
@@ -1869,34 +1922,62 @@
         const w = widest + padX * 2;
         const h = lineH * lines.length + padY * 2;
         const avoid = arguments[4];
-        let x = align === 'right' ? anchorX - w : align === 'center' ? anchorX - w / 2 : anchorX;
-        let y = anchorY - h / 2;
+        const prefX = align === 'right' ? anchorX - w : align === 'center' ? anchorX - w / 2 : anchorX;
+        const prefY = anchorY - h / 2;
+        const obstacles = (canvas._plates || []).map(plate => ({ x: plate.x, y: plate.y, x2: plate.x + plate.w, y2: plate.y + plate.h }));
         if (avoid) {
-          const gap = Math.max(18, Math.round(size * 0.55));
-          const spots = [
-            { x: avoid.x2 + gap, y: anchorY - h / 2 },
-            { x: avoid.x - w - gap, y: anchorY - h / 2 },
+          const pad = Math.max(22, Math.round(size * 0.45));
+          obstacles.push({ x: avoid.x - pad, y: avoid.y - pad, x2: avoid.x2 + pad, y2: avoid.y2 + pad });
+        }
+        const overlaps = (px, py) => obstacles.some(ob => px < ob.x2 && px + w > ob.x && py < ob.y2 && py + h > ob.y);
+        const gap = Math.max(28, Math.round(size * 0.8));
+        const spots = [{ x: prefX, y: prefY }];
+        if (avoid) {
+          const midX = (avoid.x + avoid.x2) / 2 - w / 2;
+          spots.push(
+            { x: avoid.x2 + gap, y: prefY },
+            { x: avoid.x - w - gap, y: prefY },
             { x: avoid.x2 + gap, y: avoid.y - h - gap },
             { x: avoid.x - w - gap, y: avoid.y - h - gap },
-            { x: anchorX - w / 2, y: avoid.y - h - gap },
-            { x: anchorX - w / 2, y: avoid.y2 + gap },
-            { x: 16, y: 16 },
-            { x: canvas.width - w - 16, y: 16 }
-          ];
-          const hits = (plate) => plate.x < avoid.x2 + 8 && plate.x + w > avoid.x - 8 && plate.y < avoid.y2 + 8 && plate.y + h > avoid.y - 8;
-          let placed = null;
-          spots.forEach((spot) => {
-            if (placed) return;
-            const px = clamp(spot.x, 12, canvas.width - w - 12);
-            const py = clamp(spot.y, 12, canvas.height - h - 12);
-            if (!hits({ x: px, y: py })) placed = { x: px, y: py };
-          });
-          x = placed ? placed.x : clamp(avoid.x2 + gap, 12, canvas.width - w - 12);
-          y = placed ? placed.y : clamp(avoid.y - h - gap, 12, canvas.height - h - 12);
-        } else {
-          x = clamp(x, 16, canvas.width - w - 16);
-          y = clamp(y, 16, canvas.height - h - 16);
+            { x: midX, y: avoid.y - h - gap },
+            { x: midX, y: avoid.y2 + gap },
+            { x: avoid.x2 + gap, y: avoid.y2 + gap },
+            { x: avoid.x - w - gap, y: avoid.y2 + gap },
+            { x: avoid.x - w - gap, y: avoid.y - h * 2 - gap },
+            { x: avoid.x2 + gap, y: avoid.y - h * 2 - gap }
+          );
         }
+        spots.push(
+          { x: 16, y: 16 },
+          { x: canvas.width - w - 16, y: 16 },
+          { x: 16, y: canvas.height - h - 16 },
+          { x: canvas.width - w - 16, y: canvas.height - h - 16 }
+        );
+        let placed = null;
+        spots.forEach(spot => {
+          if (placed) return;
+          const px = clamp(spot.x, 12, Math.max(12, canvas.width - w - 12));
+          const py = clamp(spot.y, 12, Math.max(12, canvas.height - h - 12));
+          if (!overlaps(px, py)) placed = { x: px, y: py };
+        });
+        if (!placed) {
+          let best = null;
+          let bestScore = Infinity;
+          const stepX = Math.max(36, Math.round(w / 4));
+          const stepY = Math.max(28, Math.round(h / 2));
+          for (let py = 12; py <= canvas.height - h - 12; py += stepY) {
+            for (let px = 12; px <= canvas.width - w - 12; px += stepX) {
+              if (overlaps(px, py)) continue;
+              const score = (px - prefX) * (px - prefX) + (py - prefY) * (py - prefY);
+              if (score < bestScore) { bestScore = score; best = { x: px, y: py }; }
+            }
+          }
+          placed = best || { x: clamp(prefX, 12, Math.max(12, canvas.width - w - 12)), y: clamp(prefY, 12, Math.max(12, canvas.height - h - 12)) };
+        }
+        const x = placed.x;
+        const y = placed.y;
+        canvas._plates = canvas._plates || [];
+        canvas._plates.push({ x, y, w, h });
         ctx.fillStyle = 'rgba(0,0,0,0.78)';
         fillRound(x, y, w, h, Math.round(size * 0.36));
         ctx.fillStyle = '#f5f5f7';
@@ -2052,22 +2133,32 @@
         wrap.hidden = false;
         const dctx = detail.getContext('2d');
         const fh = Math.max(12, figure.y2 - figure.y);
-        const cropH = Math.min(canvas.height, Math.max(fh / 0.42, 80));
-        const cropW = Math.min(canvas.width, cropH * (detail.width / detail.height));
+        const aspect = detail.width / detail.height;
+        let cropH = Math.min(canvas.height, Math.max(fh / 0.72, fh + 36));
+        let cropW = cropH * aspect;
+        if (cropW > canvas.width) {
+          cropW = canvas.width;
+          cropH = cropW / aspect;
+        }
         const cx = (figure.x + figure.x2) / 2;
         const cy = (figure.y + figure.y2) / 2;
-        const sx = clamp(cx - cropW / 2, 0, Math.max(0, canvas.width - cropW));
-        const sy = clamp(cy - cropH / 2, 0, Math.max(0, canvas.height - cropH));
+        let sx = clamp(cx - cropW / 2, 0, Math.max(0, canvas.width - cropW));
+        let sy = clamp(cy - cropH / 2, 0, Math.max(0, canvas.height - cropH));
+        if (figure.y < sy) sy = Math.max(0, figure.y - 6);
+        if (figure.y2 > sy + cropH) sy = Math.max(0, Math.min(figure.y2 + 6 - cropH, Math.max(0, canvas.height - cropH)));
+        if (figure.x < sx) sx = Math.max(0, figure.x - 6);
+        if (figure.x2 > sx + cropW) sx = Math.max(0, Math.min(figure.x2 + 6 - cropW, Math.max(0, canvas.width - cropW)));
         dctx.imageSmoothingEnabled = true;
         dctx.imageSmoothingQuality = 'high';
         dctx.clearRect(0, 0, detail.width, detail.height);
         dctx.drawImage(source, sx, sy, cropW, cropH, 0, 0, detail.width, detail.height);
         if (caption) {
-          caption.textContent = 'Detail of the same ' + meters + ' m figure at ' + distanceM + ' m. Magnified from the picture above so it can be seen. The distance is unchanged. Not a larger sculpture.';
+          caption.textContent = 'Detail · distance unchanged. Same ' + meters + ' m figure at ' + distanceM + ' m, magnified. Not a larger sculpture.';
         }
       }
 
       function draw() {
+        canvas._plates = [];
         landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
         syncDistanceRange();
         const footY = footYForDistance(distanceM);
@@ -2129,6 +2220,7 @@
           ctx.restore();
           drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right', figure);
         }
+        canvas.dataset.plates = JSON.stringify(canvas._plates || []);
         canvas.dataset.x = String(Math.round(x));
         canvas.dataset.distance = String(distanceM);
         canvas.dataset.meters = String(meters);
@@ -2353,8 +2445,16 @@
       function showCheckoutError() {
         products.forEach(product => {
           const node = document.getElementById(product.nodeId);
-          if (!node || node.querySelector('.shopify-buy__product')) return;
-          node.innerHTML = '<a class="price-btn" href="#contact">Enquire about this size</a>';
+          if (!node || node.querySelector('.shopify-buy__product, .package-enquire')) return;
+          const packageName = product.nodeId.replace('shopify-buy-', '');
+          const label = packageName.charAt(0).toUpperCase() + packageName.slice(1);
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'price-btn package-enquire';
+          button.setAttribute('data-package', label);
+          button.textContent = 'Enquire about this size';
+          button.setAttribute('aria-label', 'Enquire about ' + label);
+          node.replaceChildren(button);
         });
       }
 
