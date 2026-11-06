@@ -150,6 +150,7 @@
   },
   "labels": {
     "anchor": "Anchor",
+    "caption": "Caption",
     "heading": "Heading",
     "image": "Image",
     "image_alt": "Image alt text",
@@ -272,6 +273,12 @@
         },
         "image": {
           "label": "Image"
+        },
+        "study_alt": {
+          "label": "Study alt text"
+        },
+        "study_caption": {
+          "label": "Study caption"
         },
         "primary_label": {
           "label": "Primary label"

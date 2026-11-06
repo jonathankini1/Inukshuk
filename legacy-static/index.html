@@ -47,13 +47,14 @@
     html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
     :root {
-      --stone: #8B8680;
-      --earth: #5C4A3A;
-      --sky: #2C3E50;
-      --warm: #D4A574;
-      --cream: #F5F0EB;
-      --white: #FFFFFF;
-      --dark: #1a1a1a;
+      --stone: #6E675E;
+      --earth: #3E342C;
+      --sky: #231F1A;
+      --warm: #8A7358;
+      --cream: #F6F1E8;
+      --white: #FBF8F3;
+      --dark: #231F1A;
+      --line: rgba(35, 31, 26, 0.14);
     }
 
     body {
@@ -82,16 +83,15 @@
     /* NAV */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(245,240,235,0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(139,134,128,0.15);
-      padding: 1rem 2rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+      padding: 1.05rem clamp(1.25rem, 3vw, 2.5rem);
       display: flex; justify-content: space-between; align-items: center;
     }
     nav .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 700; color: var(--earth);
-      letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.05rem; font-weight: 400; color: var(--dark);
+      letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
     }
     nav .nav-links { display: flex; gap: 1.55rem; list-style: none; align-items: center; }
     nav .nav-links a {
@@ -100,10 +100,10 @@
     }
     nav .nav-links a:hover, nav .nav-links a[aria-current="true"] { color: var(--earth); }
     .nav-cta {
-      padding: 0.55rem 0.9rem; color: var(--white) !important;
-      background: var(--earth); border-radius: 2px;
+      padding: 0.35rem 0; color: var(--dark) !important;
+      background: transparent; border-radius: 0; border-bottom: 1px solid var(--dark);
     }
-    .nav-cta:hover { background: var(--sky); }
+    .nav-cta:hover { background: transparent; color: var(--earth) !important; }
     .menu-toggle {
       display: none; width: 46px; height: 44px; border: 0; background: transparent;
       color: var(--earth); cursor: pointer; align-items: center; justify-content: center;
@@ -120,71 +120,53 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 8rem 2rem 4rem;
-      background:
-        linear-gradient(180deg, rgba(22,35,47,0.48) 0%, rgba(22,35,47,0.64) 55%, rgba(26,26,26,0.82) 100%),
-        url('assets/gallery/hillside-landmark.jpg') center 48% / cover no-repeat;
-      color: var(--white);
-      position: relative; overflow: hidden;
+      min-height: 100vh; min-height: 100dvh;
+      display: grid; grid-template-columns: minmax(260px, 0.9fr) minmax(300px, 0.86fr);
+      column-gap: clamp(2rem, 5vw, 5.5rem); align-items: end;
+      text-align: left; padding: 7.25rem clamp(1.25rem, 4vw, 4.5rem) 2.5rem;
+      background: var(--cream); color: var(--dark);
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 80%, rgba(212,165,116,0.15) 0%, transparent 60%);
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-plate, .hero-study { margin: 0; }
+    .hero-plate { align-self: end; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; }
+    .hero-media { width: auto; height: min(64vh, 640px); max-width: 100%; object-fit: contain; display: block; }
+    .hero-plate figcaption { margin-top: 0.7rem; color: var(--stone); font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 0.98rem; }
+    .hero-study { width: 118px; margin-bottom: 1.6rem; }
+    .hero-study img { width: 100%; height: auto; display: block; filter: drop-shadow(0 16px 10px rgba(35, 31, 26, 0.22)); }
+    .hero-study figcaption { margin-top: 0.45rem; font-family: Inter, sans-serif; font-style: normal; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+    .hero-copy { max-width: 34rem; padding-bottom: 0.4rem; }
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem;
-      letter-spacing: -0.5px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.7rem, 4.5vw, 4.35rem);
+      font-weight: 400; line-height: 0.98; margin-bottom: 1.15rem;
+      letter-spacing: -0.03em; color: var(--dark);
     }
-    .hero p {
-      font-size: 1.2rem; font-weight: 300; opacity: 0.9;
-      max-width: 600px; margin: 0 auto 2.5rem;
-    }
+    .hero p { font-size: 1.02rem; font-weight: 400; line-height: 1.6; color: #3c362f; max-width: 36ch; margin: 0 0 1.75rem; }
     .hero-cta {
-      display: inline-block; padding: 1rem 2.5rem;
-      background: var(--warm); color: var(--white);
-      text-decoration: none; font-weight: 600; font-size: 0.95rem;
-      letter-spacing: 1px; text-transform: uppercase;
-      border-radius: 2px; transition: all 0.3s;
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0.15rem 0;
+      background: transparent; color: var(--dark);
+      text-decoration: none; font-weight: 500; font-size: 0.82rem;
+      letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid var(--dark); border-radius: 0;
     }
-    .hero-cta:hover { background: var(--earth); transform: translateY(-2px); }
-    .hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
-    .hero-cta.secondary {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.6);
-      backdrop-filter: blur(8px);
-    }
-    .hero-cta.secondary:hover { background: var(--white); color: var(--earth); }
+    .hero-cta:hover { color: var(--earth); }
+    .hero-actions { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .hero-cta.secondary { background: transparent; border-bottom-color: transparent; text-decoration: underline; text-underline-offset: 0.35em; }
+    .hero-cta.secondary:hover { color: var(--earth); }
 
-    /* CREDIBILITY STRIP */
-    .trust-strip {
-      background: var(--earth); color: var(--white); padding: 1rem 2rem;
-    }
-    .trust-list {
-      max-width: 1100px; margin: 0 auto; display: grid;
-      grid-template-columns: repeat(4, 1fr); list-style: none;
-    }
-    .trust-list li {
-      padding: 0.25rem 1rem; text-align: center; font-size: 0.78rem;
-      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      border-right: 1px solid rgba(255,255,255,0.2);
-    }
-    .trust-list li:last-child { border-right: 0; }
+    .trust-strip { background: transparent; color: var(--dark); padding: 0 clamp(1.25rem, 4vw, 4.5rem) 3.25rem; border-bottom: 1px solid var(--line); }
+    .trust-list { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; }
+    .trust-list li { padding: 0.35rem 0; text-align: left; font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 1rem; font-weight: 400; letter-spacing: 0; text-transform: none; border: 0; }
 
     /* SECTIONS */
     section { padding: 6rem 2rem; }
     .container { max-width: 1100px; margin: 0 auto; }
     .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem; text-align: center; margin-bottom: 1rem;
-      color: var(--sky);
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3.15rem); text-align: left; margin-bottom: 0.85rem;
+      color: var(--dark); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05;
     }
     .section-subtitle {
-      text-align: center; color: var(--stone); font-weight: 300;
-      max-width: 600px; margin: 0 auto 3rem; font-size: 1.05rem;
+      text-align: left; color: #4a453f; font-weight: 400;
+      max-width: 38rem; margin: 0 0 2.75rem; font-size: 1.02rem; line-height: 1.6;
     }
 
     /* WHAT IS */
@@ -202,50 +184,23 @@
       background: var(--cream); border-left: 3px solid var(--warm);
       font-size: 0.85rem; color: var(--earth); font-style: italic;
     }
-    .stone-visual {
-      background: var(--stone);
-      border-radius: 4px; height: 400px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .stone-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .stone-visual { background: transparent; }
+    .stone-visual img { width: 100%; height: auto; display: block; }
 
     /* GALLERY */
     .gallery { background: var(--cream); }
-    .photo-grid {
-      display: grid; grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 230px; gap: 1rem;
-    }
-    .photo-card {
-      grid-column: span 4; position: relative; overflow: hidden;
-      border-radius: 4px; background: var(--stone);
-    }
-    .photo-card button {
-      width: 100%; height: 100%; padding: 0; border: 0; background: transparent;
-      color: inherit; cursor: zoom-in; text-align: left;
-    }
-    .photo-card.wide { grid-column: span 8; }
-    .photo-card.tall { grid-row: span 2; }
-    .photo-card img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.6s ease;
-    }
-    .photo-card:hover img { transform: scale(1.025); }
+    .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.25rem 1.75rem; align-items: start; counter-reset: fig; }
+    .photo-card { position: relative; overflow: visible; background: transparent; counter-increment: fig; }
+    .photo-card button { width: 100%; height: auto; padding: 0; border: 0; background: transparent; color: inherit; cursor: zoom-in; text-align: left; display: block; }
+    .photo-card.wide { grid-column: 1 / -1; }
+    .photo-card img { width: 100%; height: auto; display: block; }
     .photo-card figcaption {
-      position: absolute; inset: auto 0 0; padding: 2.5rem 1rem 0.8rem;
-      color: var(--white); font-size: 0.8rem; letter-spacing: 0.04em;
-      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      position: static; padding: 0.7rem 0 0; color: var(--stone);
+      font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 1rem; background: none;
     }
-    .photo-card button::after {
-      content: 'View'; position: absolute; top: 1rem; right: 1rem;
-      padding: 0.35rem 0.65rem; border: 1px solid rgba(255,255,255,0.65);
-      border-radius: 99px; color: var(--white); background: rgba(26,26,26,0.45);
-      backdrop-filter: blur(6px); font-size: 0.7rem; letter-spacing: 0.08em;
-      text-transform: uppercase; opacity: 0; transform: translateY(-4px);
-      transition: opacity 0.25s, transform 0.25s;
-    }
-    .photo-card button:hover::after, .photo-card button:focus-visible::after {
-      opacity: 1; transform: translateY(0);
+    .photo-card figcaption::before {
+      content: "Fig. " counter(fig, decimal-leading-zero) "  ";
+      font-family: Inter, sans-serif; font-style: normal; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
     }
     .lightbox {
       width: min(1100px, calc(100vw - 2rem)); max-width: none; max-height: 92vh;
@@ -344,61 +299,28 @@
     .viz-status { min-height: 2.3em; margin-top: 0.75rem; color: var(--earth); }
 
     /* PROCESS */
-    .process { background: var(--cream); }
-    .process-steps {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
-    }
-    .step {
-      text-align: center; padding: 2rem 1.5rem;
-      background: var(--white); border-radius: 4px;
-      border-top: 3px solid var(--warm);
-    }
-    .step-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem; color: var(--warm); font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .step h4 { font-size: 1rem; color: var(--sky); margin-bottom: 0.75rem; font-weight: 600; }
-    .step p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+    .process { background: var(--white); }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
+    .step { text-align: left; padding: 1.15rem 0 0; background: transparent; border-radius: 0; border-top: 1px solid var(--line); }
+    .step-number { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; color: var(--stone); font-weight: 400; margin-bottom: 0.65rem; }
+    .step h4 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; color: var(--dark); margin-bottom: 0.7rem; font-weight: 400; }
+    .step p { font-size: 0.92rem; color: #4a453f; line-height: 1.6; }
 
     /* PRICING */
     .pricing { background: var(--white); }
-    .pricing-cards {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
-    }
-    .price-card {
-      padding: 2.5rem 2rem; border: 1px solid rgba(139,134,128,0.2);
-      border-radius: 4px; text-align: center; transition: all 0.3s;
-      position: relative;
-    }
-    .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-    .price-card.featured {
-      border-color: var(--warm);
-      background: linear-gradient(180deg, rgba(212,165,116,0.05) 0%, var(--white) 100%);
-    }
-    .price-card.featured::before {
-      content: 'Most Popular'; position: absolute; top: -12px; left: 50%;
-      transform: translateX(-50%); background: var(--warm); color: var(--white);
-      padding: 0.3rem 1rem; font-size: 0.7rem; letter-spacing: 1px;
-      text-transform: uppercase; font-weight: 600; border-radius: 2px;
-    }
-    .price-card h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; color: var(--sky); margin-bottom: 0.5rem;
-    }
-    .price-amount {
-      font-size: 2.2rem; font-weight: 700; color: var(--earth);
-      margin: 1rem 0;
-    }
+    .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+    .price-card { padding: 2rem 1.5rem 2.4rem 0; border: 0; border-right: 1px solid var(--line); border-radius: 0; text-align: left; position: relative; background: transparent; }
+    .price-card:last-child { border-right: 0; }
+    .price-card:hover { transform: none; box-shadow: none; }
+    .price-card.featured { background: transparent; box-shadow: inset 0 2px 0 var(--dark); }
+    .price-card h4 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.7rem; color: var(--dark); margin-bottom: 0.35rem; font-weight: 400; }
+    .price-amount { font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; font-weight: 400; color: var(--dark); margin: 1rem 0; }
     .price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--stone); }
     .price-card ul {
       list-style: none; text-align: left; margin: 1.5rem 0;
     }
-    .price-card li {
-      padding: 0.5rem 0; font-size: 0.9rem; color: #555;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .price-card li::before { content: '\2713\00a0\00a0'; color: var(--warm); font-weight: 700; }
+    .price-card li { padding: 0.32rem 0; font-size: 0.92rem; color: #3c362f; border-bottom: 0; }
+    .price-card li::before { content: none; }
     .deposit-note {
       min-height: 4.25rem; margin: 1.1rem 0 0.9rem; padding: 0.85rem 1rem;
       background: var(--cream); color: #555; border-radius: 3px;
@@ -413,29 +335,24 @@
     }
     .price-btn {
       display: inline-block; width: 100%; padding: 0.85rem;
-      background: var(--sky); color: var(--white);
-      text-decoration: none; font-weight: 600; font-size: 0.85rem;
-      letter-spacing: 1px; text-transform: uppercase;
-      border: none; cursor: pointer; border-radius: 2px;
-      transition: background 0.3s;
+      background: var(--dark); color: var(--cream);
+      text-decoration: none; font-weight: 500; font-size: 0.78rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      border: 1px solid var(--dark); cursor: pointer; border-radius: 0;
     }
-    .price-btn:hover { background: var(--earth); }
-    .price-btn.secondary {
-      background: transparent; color: var(--earth); border: 1px solid rgba(92,74,58,0.38);
-    }
-    .price-btn.secondary:hover { background: var(--cream); }
+    .price-btn:hover { background: var(--earth); border-color: var(--earth); }
+    .price-btn.secondary { background: transparent; color: var(--dark); border: 1px solid var(--line); }
+    .price-btn.secondary:hover { background: transparent; color: var(--earth); }
 
     /* STORY */
-    .story { background: var(--sky); color: var(--white); }
-    .story .section-title { color: var(--white); }
-    .story-content {
-      max-width: 700px; margin: 0 auto; text-align: center;
-    }
-    .story-content p { opacity: 0.85; margin-bottom: 1.5rem; font-weight: 300; }
+    .story { background: var(--cream); color: var(--dark); }
+    .story .section-title { color: var(--dark); }
+    .story-content { max-width: 40rem; margin: 0; text-align: left; }
+    .story-content p { margin-bottom: 1.25rem; font-weight: 400; color: #3c362f; }
     .story-content .highlight {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-style: italic; opacity: 1;
-      color: var(--warm); margin: 2rem 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 3vw, 2.15rem); font-style: italic; font-weight: 400;
+      line-height: 1.25; color: var(--dark); margin: 1.75rem 0;
     }
 
     /* FAQ */
@@ -458,17 +375,12 @@
       display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
       gap: 2rem; align-items: start; max-width: 980px; margin: 0 auto;
     }
-    .contact-panel { padding: 2.25rem; background: var(--sky); color: var(--white); border-radius: 4px; }
-    .contact-panel h3 { font-family: 'Playfair Display', serif; font-size: 1.55rem; margin-bottom: 1rem; }
-    .contact-panel p { color: rgba(255,255,255,0.78); margin-bottom: 1.25rem; }
+    .contact-panel { padding: 0 2rem 0 0; background: transparent; color: var(--dark); border-radius: 0; }
+    .contact-panel h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; margin-bottom: 1rem; font-weight: 400; }
+    .contact-panel p { color: #4a453f; margin-bottom: 1.25rem; }
     .contact-promises { list-style: none; }
-    .contact-promises li { padding: 0.7rem 0; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.88rem; }
-    .contact-promises li::before { content: '✓'; color: var(--warm); font-weight: 700; margin-right: 0.65rem; }
-    .contact-form {
-      margin: 0;
-      background: var(--white); padding: 3rem;
-      border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
+    .contact-promises li { padding: 0.7rem 0; border-top: 1px solid var(--line); font-size: 0.92rem; }
+    .contact-form { margin: 0; background: transparent; padding: 0 0 0 2rem; border-radius: 0; box-shadow: none; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group { margin-bottom: 1.5rem; }
@@ -551,19 +463,21 @@
       nav .nav-links.open { transform: translateY(0); opacity: 1; visibility: visible; }
       nav .nav-links a { display: block; padding: 0.8rem 0; color: var(--earth); border-bottom: 1px solid rgba(139,134,128,0.16); }
       nav .nav-links li:last-child a { margin-top: 0.75rem; border-bottom: 0; text-align: center; }
-      .trust-list { grid-template-columns: 1fr 1fr; }
-      .trust-list li:nth-child(2) { border-right: 0; }
-      .trust-list li:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.2); }
+      .trust-list { grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; min-height: 0; align-items: start; padding-top: 6.25rem; }
+      .hero-study { display: none; }
+      .hero-media { width: min(64vw, 240px); height: auto; max-height: none; margin-inline: auto; }
       .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
       .footer-grid > div:last-child { grid-column: 1 / -1; }
     }
     @media (max-width: 768px) {
       .what-is-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
-      .pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .price-card, .price-card:last-child { border-right: 0; border-top: 1px solid var(--line); padding: 1.75rem 0; }
       .visualizer-shell { grid-template-columns: 1fr; }
-      .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
-      .photo-card, .photo-card.wide { grid-column: span 1; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-card.wide { grid-column: 1 / -1; }
       .contact-layout { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid > div:last-child { grid-column: auto; }
@@ -571,15 +485,14 @@
     @media (max-width: 480px) {
       section { padding: 4.5rem 1.25rem; }
       .hero { padding-inline: 1.25rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .hero-cta { width: 100%; padding-inline: 1rem; }
-      .trust-strip { padding-inline: 0.75rem; }
+      .hero h1 { margin-bottom: 0.75rem; }
+      .hero p { margin-bottom: 1.1rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+      .trust-strip { padding-inline: 1.25rem; }
       .trust-list { grid-template-columns: 1fr; }
-      .trust-list li { border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
-      .trust-list li:last-child { border-bottom: 0; }
       .process-steps { grid-template-columns: 1fr; }
       .photo-grid { grid-template-columns: 1fr; }
-      .photo-card.tall { grid-row: span 1; }
+      .contact-panel, .contact-form { padding: 0; }
       .upload-grid { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
@@ -622,7 +535,15 @@
   <main id="main-content">
 
   <section class="hero" id="top">
-    <div class="hero-content">
+    <figure class="hero-plate">
+      <img class="hero-media" src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" width="1200" height="1600" fetchpriority="high" loading="eager">
+      <figcaption>Built stone by stone</figcaption>
+    </figure>
+    <div class="hero-copy">
+      <figure class="hero-study">
+        <img src="assets/gallery/inukshuk-study.webp" alt="The same stone Inukshuk, lifted from a photograph and set on the page. Not a site view and not to scale." width="854" height="1117" loading="eager" decoding="async">
+        <figcaption>Not to scale</figcaption>
+      </figure>
       <h1>A Monument Built By Your Own Hands</h1>
       <p>Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story.</p>
       <div class="hero-actions">
@@ -665,31 +586,31 @@
       <div class="photo-grid">
         <figure class="photo-card wide">
           <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open wide landscape photograph">
-            <img src="assets/gallery/landmark-wide.jpg" alt="Wide view of an Inukshuk overlooking rolling hills" loading="lazy" decoding="async">
+            <img src="assets/gallery/landmark-wide.jpg" alt="Wide view of an Inukshuk overlooking rolling hills" width="2000" height="1125" loading="lazy" decoding="async">
             <figcaption>Rooted in its landscape</figcaption>
           </button>
         </figure>
         <figure class="photo-card tall">
           <button type="button" class="gallery-open" data-gallery-index="1" aria-label="Open front view photograph">
-            <img src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" loading="lazy" decoding="async">
+            <img src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" width="1200" height="1600" loading="lazy" decoding="async">
             <figcaption>Built stone by stone</figcaption>
           </button>
         </figure>
         <figure class="photo-card">
           <button type="button" class="gallery-open" data-gallery-index="2" aria-label="Open summer photograph">
-            <img src="assets/gallery/summer-landmark.jpg" alt="Inukshuk standing in a green summer field" loading="lazy" decoding="async">
+            <img src="assets/gallery/summer-landmark.jpg" alt="Inukshuk standing in a green summer field" width="1125" height="2000" loading="lazy" decoding="async">
             <figcaption>Through every season</figcaption>
           </button>
         </figure>
         <figure class="photo-card">
           <button type="button" class="gallery-open" data-gallery-index="3" aria-label="Open stone detail photograph">
-            <img src="assets/gallery/stone-detail.jpg" alt="Close view showing the scale and texture of the stone" loading="lazy" decoding="async">
+            <img src="assets/gallery/stone-detail.jpg" alt="Close view showing the scale and texture of the stone" width="1500" height="2000" loading="lazy" decoding="async">
             <figcaption>Local stone, monumental scale</figcaption>
           </button>
         </figure>
-        <figure class="photo-card wide">
+        <figure class="photo-card">
           <button type="button" class="gallery-open" data-gallery-index="4" aria-label="Open moonlit photograph">
-            <img src="assets/gallery/moonlit-landmark.jpg" alt="Illuminated Inukshuk beneath the moon at night" loading="lazy" decoding="async">
+            <img src="assets/gallery/moonlit-landmark.jpg" alt="Illuminated Inukshuk beneath the moon at night" width="1500" height="2000" loading="lazy" decoding="async">
             <figcaption>A landmark after dark</figcaption>
           </button>
         </figure>
@@ -750,7 +671,7 @@
             <button class="viz-button" id="demo-btn" type="button">Use demo land</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Demo land loaded. Add your own photo when you are ready.</p>
+          <p class="viz-status" id="viz-status" role="status">Illustration of demo land loaded. Add your own photo when you are ready.</p>
         </aside>
       </div>
     </div>
@@ -816,7 +737,6 @@
             <li>Structural engineering review</li>
             <li>Digger and machinery on site</li>
             <li>Full-day community build event</li>
-            <li>Drone footage and film</li>
           </ul>
           <p class="deposit-note"><strong>Reserve with £750</strong>Your booking deposit is credited against the £7,500 project price.</p>
           <div class="price-actions">
@@ -1427,7 +1347,7 @@
       demoButton.addEventListener('click', () => {
         landPhoto = demoLand;
         resetPosition();
-        status.textContent = 'Demo land loaded. Add your own photo when you are ready.';
+        status.textContent = 'Illustration of demo land loaded. Add your own photo when you are ready.';
       });
       downloadButton.addEventListener('click', () => {
         canvas.toBlob(blob => {

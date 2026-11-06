@@ -55,7 +55,7 @@
     "visualizer": {
       "canvas": "Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys.",
       "tip": "Drag the Inukshuk to position it",
-      "demo": "Demo land loaded. Add your own photo when you are ready.",
+      "demo": "Illustration of demo land loaded. Add your own photo when you are ready.",
       "ready": "Your land is ready. Drag the illustrated Inukshuk into position.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",

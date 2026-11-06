@@ -10,19 +10,19 @@
   {
     "name": "t:settings.colors.name",
     "settings": [
-      { "type": "color", "id": "color_stone", "label": "t:settings.colors.stone", "default": "#8B8680" },
-      { "type": "color", "id": "color_earth", "label": "t:settings.colors.earth", "default": "#5C4A3A" },
-      { "type": "color", "id": "color_sky", "label": "t:settings.colors.sky", "default": "#2C3E50" },
-      { "type": "color", "id": "color_warm", "label": "t:settings.colors.warm", "default": "#D4A574" },
-      { "type": "color", "id": "color_cream", "label": "t:settings.colors.cream", "default": "#F5F0EB" },
-      { "type": "color", "id": "color_white", "label": "t:settings.colors.white", "default": "#FFFFFF" },
-      { "type": "color", "id": "color_dark", "label": "t:settings.colors.dark", "default": "#1A1A1A" }
+      { "type": "color", "id": "color_stone", "label": "t:settings.colors.stone", "default": "#6E675E" },
+      { "type": "color", "id": "color_earth", "label": "t:settings.colors.earth", "default": "#3E342C" },
+      { "type": "color", "id": "color_sky", "label": "t:settings.colors.sky", "default": "#231F1A" },
+      { "type": "color", "id": "color_warm", "label": "t:settings.colors.warm", "default": "#8A7358" },
+      { "type": "color", "id": "color_cream", "label": "t:settings.colors.cream", "default": "#F6F1E8" },
+      { "type": "color", "id": "color_white", "label": "t:settings.colors.white", "default": "#FBF8F3" },
+      { "type": "color", "id": "color_dark", "label": "t:settings.colors.dark", "default": "#231F1A" }
     ]
   },
   {
     "name": "t:settings.typography.name",
     "settings": [
-      { "type": "font_picker", "id": "type_heading_font", "label": "t:settings.typography.heading", "default": "playfair_display_n7" },
+      { "type": "font_picker", "id": "type_heading_font", "label": "t:settings.typography.heading", "default": "playfair_display_n4" },
       { "type": "font_picker", "id": "type_body_font", "label": "t:settings.typography.body", "default": "inter_n4" }
     ]
   },

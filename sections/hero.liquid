@@ -1,22 +1,39 @@
 <section class="hero" id="{{ section.settings.anchor | handleize }}">
-  {% if section.settings.image != blank %}
-    {% if section.index == 1 %}
-      {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-media', alt: '', loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000', sizes: '100vw' }}
+  <figure class="hero-plate">
+    {% if section.settings.image != blank %}
+      {% if section.index == 1 %}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 46vw, 78vw' }}
+      {% else %}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'lazy', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 46vw, 78vw' }}
+      {% endif %}
     {% else %}
-      {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-media', alt: '', loading: 'lazy', widths: '600, 900, 1200, 1600, 2000', sizes: '100vw' }}
+      <img
+        class="hero-media"
+        src="{{ 'landmark-front.jpg' | asset_url }}"
+        alt="{{ section.settings.image_alt | escape }}"
+        width="1200"
+        height="1600"
+        {% if section.index == 1 %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+      >
     {% endif %}
-  {% else %}
-    <img
-      class="hero-media"
-      src="{{ 'hillside-landmark.jpg' | asset_url }}"
-      alt=""
-      width="2000"
-      height="1125"
-      {% if section.index == 1 %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
-    >
-  {% endif %}
-  <div class="hero-shade" aria-hidden="true"></div>
-  <div class="hero-content">
+    {% if section.settings.caption != blank %}
+      <figcaption>{{ section.settings.caption }}</figcaption>
+    {% endif %}
+  </figure>
+  <div class="hero-copy">
+    <figure class="hero-study">
+      <img
+        src="{{ 'inukshuk-study.webp' | asset_url }}"
+        alt="{{ section.settings.study_alt | escape }}"
+        width="854"
+        height="1117"
+        loading="eager"
+        decoding="async"
+      >
+      {% if section.settings.study_caption != blank %}
+        <figcaption>{{ section.settings.study_caption }}</figcaption>
+      {% endif %}
+    </figure>
     <h1>{{ section.settings.heading }}</h1>
     <p>{{ section.settings.text }}</p>
     <div class="hero-actions">
@@ -28,7 +45,11 @@
 
 {% if template.name == 'index' and section.index == 1 %}
   {% liquid
-    assign hero_image = 'hillside-landmark.jpg' | asset_url
+    if section.settings.image != blank
+      assign hero_image = section.settings.image | image_url: width: 1600
+    else
+      assign hero_image = 'landmark-front.jpg' | asset_url
+    endif
     unless hero_image contains 'https:'
       assign hero_image = hero_image | prepend: 'https:'
     endunless
@@ -96,6 +117,30 @@
       "type": "image_picker",
       "id": "image",
       "label": "t:sections.hero.settings.image.label"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "t:labels.image_alt",
+      "default": "Front view of a handbuilt stone Inukshuk"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:labels.caption",
+      "default": "Built stone by stone"
+    },
+    {
+      "type": "text",
+      "id": "study_alt",
+      "label": "t:sections.hero.settings.study_alt.label",
+      "default": "The same stone Inukshuk, lifted from a photograph and set on the page. Not a site view and not to scale."
+    },
+    {
+      "type": "text",
+      "id": "study_caption",
+      "label": "t:sections.hero.settings.study_caption.label",
+      "default": "Not to scale"
     }
   ],
   "presets": [

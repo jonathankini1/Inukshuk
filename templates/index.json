@@ -93,7 +93,7 @@
             "alt": "Illuminated Inukshuk beneath the moon at night",
             "caption": "A landmark after dark",
             "open_label": "Open moonlit photograph",
-            "layout": "wide"
+            "layout": "normal"
           }
         }
       },
@@ -206,7 +206,7 @@
             "enquire_label": "Ask about Garden",
             "package_value": "Garden",
             "featured": false,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "garden-inukshuk-booking-deposit",
             "product_handle": "garden-inukshuk-booking-deposit"
           }
@@ -217,13 +217,13 @@
             "title": "Estate",
             "size_label": "2 to 3.5 metres tall",
             "guide_price": "\u00a37,500",
-            "features": "Everything in Garden\nStructural engineering review\nDigger and machinery on site\nFull-day community build event\nDrone footage and film",
+            "features": "Everything in Garden\nStructural engineering review\nDigger and machinery on site\nFull-day community build event",
             "deposit_title": "Reserve with \u00a3750",
             "deposit_text": "Your booking deposit is credited against the \u00a37,500 project price.",
             "enquire_label": "Ask about Estate",
             "package_value": "Estate",
             "featured": true,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "estate-inukshuk-booking-deposit",
             "product_handle": "estate-inukshuk-booking-deposit"
           }
@@ -240,7 +240,7 @@
             "enquire_label": "Ask about Landmark",
             "package_value": "Landmark",
             "featured": false,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "landmark-inukshuk-booking-deposit",
             "product_handle": "landmark-inukshuk-booking-deposit"
           }
