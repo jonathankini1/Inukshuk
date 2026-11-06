@@ -20,7 +20,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <title>Inukshuk | Bespoke Stone Sculptures for Your Land</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -505,6 +505,55 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     }
+    body { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; background: #f5f5f7; color: #1d1d1f; }
+    nav { height: 48px; padding: 0 1.25rem; background: rgba(0,0,0,0.92); border-bottom: 0; backdrop-filter: none; }
+    nav .logo { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.02em; text-transform: none; color: #f5f5f7; }
+    nav .nav-links a { color: rgba(245,245,247,0.82); font-size: 0.75rem; font-weight: 400; min-height: 48px; display: inline-flex; align-items: center; }
+    nav .nav-links a:hover, nav .nav-links a[aria-current="true"] { color: #fff; }
+    .nav-cta { color: #fff !important; background: transparent; border: 0; border-radius: 0; padding: 0; }
+    .menu-toggle { color: #fff; width: 48px; height: 48px; }
+    .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: stretch; padding: 48px 0 0; background: #000; color: #f5f5f7; text-align: center; }
+    .hero-stage { position: relative; margin: 0; flex: 1 1 auto; width: 100%; min-height: 420px; }
+    .hero-stage picture { display: block; height: 100%; }
+    .hero-copy { max-width: 980px; margin: 0 auto; padding: 1.7rem 1.5rem 0.85rem; }
+    .hero h1 { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: clamp(2.7rem, 5.2vw, 4.5rem); line-height: 1.02; letter-spacing: -0.035em; color: #f5f5f7; max-width: 14ch; margin: 0 auto 0.45rem; }
+    .hero p { color: #d2d2d7; font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 400; line-height: 1.35; max-width: 38rem; margin: 0 auto 0.55rem; }
+    .hero-actions { justify-content: center; }
+    .hero-cta { min-height: 48px; padding: 0 0.35rem; background: transparent; color: #fff; border: 0; border-radius: 0; letter-spacing: 0; text-transform: none; font-weight: 500; font-size: 1.05rem; }
+    .hero-cta::after { content: "›"; margin-left: 0.35rem; }
+    .hero-cta.secondary { background: transparent; color: #fff; }
+    .hero-actions { gap: 1.35rem; }
+    .hero-media { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: auto; height: 100%; max-width: 100%; object-fit: contain; object-position: center bottom; display: block; background: #000; }
+    .trust-strip { background: #000; color: #a1a1a6; border: 0; padding: 1.1rem 1.5rem 2.75rem; }
+    .trust-list li { color: #a1a1a6; font-family: Inter, sans-serif; font-style: normal; font-size: 0.8rem; text-align: center; }
+    .section-title { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; letter-spacing: -0.03em; text-align: center; font-size: clamp(2.4rem, 5vw, 4rem); color: #1d1d1f; }
+    .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; color: #6e6e73; font-size: 1.15rem; }
+    .gallery { background: #000; }
+    .gallery .section-title { color: #f5f5f7; }
+    .gallery .section-subtitle { color: #a1a1a6; }
+    .photo-grid { display: flex; flex-direction: column; gap: 4.5rem; align-items: center; }
+    .photo-card { width: 100%; }
+    .photo-card img { width: min(100%, 980px); height: auto; margin-inline: auto; object-fit: contain; }
+    .photo-card.wide img { width: 100%; }
+    .photo-card figcaption { position: static; background: none; color: #a1a1a6; text-align: center; font-family: Inter, sans-serif; font-style: normal; padding: 0.85rem 0 0; }
+    .photo-card figcaption::before { color: #86868b; }
+    .story { background: #000; color: #f5f5f7; }
+    .story .section-title { color: #f5f5f7; }
+    .story-content { max-width: 46rem; margin: 0 auto; text-align: center; }
+    .story-content p { color: #d2d2d7; }
+    .story-content .highlight { color: #fff; font-family: Inter, sans-serif; font-style: normal; font-weight: 600; letter-spacing: -0.03em; font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+    .what-is-text h3, .step h4, .price-card h4 { font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    @media (max-width: 960px) {
+      nav { padding: 0 0.75rem; }
+      nav .nav-links { background: #000; inset: 48px 0 auto; }
+      nav .nav-links a { color: #f5f5f7; }
+      .hero { min-height: 0; display: block; padding-top: 48px; }
+      .hero-copy { padding: 1.35rem 1.15rem 0.85rem; }
+      .hero h1 { font-size: 2.35rem; }
+      .hero p { font-size: 1.02rem; }
+      .hero-stage, .hero-stage picture, .hero-media { position: static; inset: auto; width: 100%; height: auto; min-height: 0; transform: none; }
+      .hero-media { aspect-ratio: 3 / 4; object-fit: cover; object-position: center center; }
+    }
   </style>
 </head>
 <body>
@@ -532,18 +581,20 @@
   <main id="main-content">
 
   <section class="hero" id="top">
-    <figure class="hero-plate">
-      <img class="hero-media" src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" width="1200" height="1600" fetchpriority="high" loading="eager">
-      <figcaption>Built stone by stone</figcaption>
-    </figure>
     <div class="hero-copy">
       <h1>A Monument Built By Your Own Hands</h1>
-      <p>Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story.</p>
+      <p>A bespoke stone sculpture for your estate, garden, or land. Raised as a gathering of people, stone, and story.</p>
       <div class="hero-actions">
         <a href="#visualizer" class="hero-cta">See It on Your Land</a>
         <a href="#contact" class="hero-cta secondary">Begin Your Build</a>
       </div>
     </div>
+    <figure class="hero-stage">
+      <picture>
+        <source media="(min-width: 961px)" srcset="assets/gallery/landmark-wide.jpg" width="2000" height="1125">
+        <img class="hero-media" src="assets/gallery/landmark-front.jpg" alt="A handbuilt stone Inukshuk standing on open land" width="1200" height="1600" fetchpriority="high" loading="eager">
+      </picture>
+    </figure>
   </section>
 
   <aside class="trust-strip" aria-label="Project principles">

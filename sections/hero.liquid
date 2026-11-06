@@ -1,25 +1,4 @@
 <section class="hero" id="{{ section.settings.anchor | handleize }}">
-  <figure class="hero-plate">
-    {% if section.settings.image != blank %}
-      {% if section.index == 1 %}
-        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'eager', fetchpriority: 'high', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 42vw, 88vw' }}
-      {% else %}
-        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'lazy', widths: '400, 700, 1000, 1400, 1600', sizes: '(min-width: 860px) 42vw, 88vw' }}
-      {% endif %}
-    {% else %}
-      <img
-        class="hero-media"
-        src="{{ 'landmark-front.jpg' | asset_url }}"
-        alt="{{ section.settings.image_alt | escape }}"
-        width="1200"
-        height="1600"
-        {% if section.index == 1 %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
-      >
-    {% endif %}
-    {% if section.settings.caption != blank %}
-      <figcaption>{{ section.settings.caption }}</figcaption>
-    {% endif %}
-  </figure>
   <div class="hero-copy">
     <h1>{{ section.settings.heading }}</h1>
     <p>{{ section.settings.text }}</p>
@@ -28,6 +7,27 @@
       <a class="hero-cta secondary" href="{% if section.settings.secondary_link != blank %}{{ section.settings.secondary_link }}{% else %}#contact{% endif %}">{{ section.settings.secondary_label }}</a>
     </div>
   </div>
+  <figure class="hero-stage">
+    {% if section.settings.image != blank %}
+      {% if section.index == 1 %}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'eager', fetchpriority: 'high', widths: '600, 1000, 1400, 1800, 2400', sizes: '100vw' }}
+      {% else %}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'hero-media', alt: section.settings.image_alt, loading: 'lazy', widths: '600, 1000, 1400, 1800, 2400', sizes: '100vw' }}
+      {% endif %}
+    {% else %}
+      <picture>
+        <source media="(min-width: 961px)" srcset="{{ 'landmark-wide.jpg' | asset_url }}" width="2000" height="1125">
+        <img
+          class="hero-media"
+          src="{{ 'landmark-front.jpg' | asset_url }}"
+          alt="{{ section.settings.image_alt | escape }}"
+          width="1200"
+          height="1600"
+          {% if section.index == 1 %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}
+        >
+      </picture>
+    {% endif %}
+  </figure>
 </section>
 
 {% if template.name == 'index' and section.index == 1 %}
@@ -76,7 +76,7 @@
       "type": "textarea",
       "id": "text",
       "label": "t:sections.hero.settings.text.label",
-      "default": "Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story."
+      "default": "A bespoke stone sculpture for your estate, garden, or land. Raised as a gathering of people, stone, and story."
     },
     {
       "type": "text",
@@ -109,7 +109,7 @@
       "type": "text",
       "id": "image_alt",
       "label": "t:labels.image_alt",
-      "default": "Front view of a handbuilt stone Inukshuk"
+      "default": "A handbuilt stone Inukshuk standing on open land"
     },
     {
       "type": "text",

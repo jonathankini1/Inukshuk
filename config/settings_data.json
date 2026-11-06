@@ -1,13 +1,13 @@
 {
   "current": {
-    "color_stone": "#6E675E",
-    "color_earth": "#3E342C",
-    "color_sky": "#231F1A",
-    "color_warm": "#8A7358",
-    "color_cream": "#F6F1E8",
-    "color_white": "#FBF8F3",
-    "color_dark": "#231F1A",
-    "type_heading_font": "playfair_display_n4",
+    "color_stone": "#6E6E73",
+    "color_earth": "#1D1D1F",
+    "color_sky": "#000000",
+    "color_warm": "#1D1D1F",
+    "color_cream": "#F5F5F7",
+    "color_white": "#FFFFFF",
+    "color_dark": "#1D1D1F",
+    "type_heading_font": "inter_n6",
     "type_body_font": "inter_n4",
     "meta_description": "Bespoke Inukshuk stone sculptures, built with your people and rooted in your land."
   }
