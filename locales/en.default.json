@@ -61,7 +61,7 @@
       "bad_file": "That photo could not be opened. Please try another image.",
       "size": "{{ name }} guide height selected. Illustration only, not a measurement.",
       "reset": "Estate size and the sample photograph are reset. The 8 m and 40 m figures are assumptions again.",
-      "downloaded": "Preview downloaded. It is an illustration, not a measurement.",
+      "downloaded": "Preview downloaded. The file is CC BY-SA 2.0: the photograph was resized, metadata was removed, and the sculpture illustration was added. Not an endorsement. It is not a measurement.",
       "download_failed": "The preview could not be downloaded. Please try again."
     },
     "pricing": {

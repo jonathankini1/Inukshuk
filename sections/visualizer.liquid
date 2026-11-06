@@ -73,7 +73,7 @@
           <button class="viz-button" data-reset type="button">{{ section.settings.reset_label }}</button>
           <button class="viz-button primary" data-download type="button">{{ section.settings.download_label }}</button>
         </div>
-        <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. GPS was not imported.</p>
+        <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed; sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. This is not an endorsement by the photographer. GPS was not imported.</p>
         <p class="viz-status" data-viz-status role="status">{{ 'sections.visualizer.demo' | t }}</p>
       </aside>
     </div>
@@ -393,7 +393,20 @@
         button.addEventListener('click', () => setDistance(button.getAttribute('data-preset')));
       });
       section.querySelector('[data-download]').addEventListener('click', () => {
-        canvas.toBlob((blob) => {
+        const note = 'Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.';
+        const bar = 64;
+        const out = document.createElement('canvas');
+        out.width = canvas.width;
+        out.height = canvas.height + bar;
+        const octx = out.getContext('2d');
+        octx.drawImage(canvas, 0, 0);
+        octx.fillStyle = '#000';
+        octx.fillRect(0, canvas.height, out.width, bar);
+        octx.fillStyle = '#f5f5f7';
+        octx.font = '22px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        octx.textBaseline = 'middle';
+        octx.fillText(note, 28, canvas.height + bar / 2);
+        out.toBlob((blob) => {
           if (!blob) {
             status.textContent = message('data-status-failed');
             return;

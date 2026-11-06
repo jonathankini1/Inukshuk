@@ -1,6 +1,16 @@
 # Image credits
 
-The visualiser sample is a metadata-stripped, 2000×1500 resize of a public photograph. The original file’s EXIF, including any location data, was removed before this copy was saved. No GPS coordinates are stored in the repository file or shown on the site.
+The visualiser uses one public photograph and a composite made from it. Credit is required. Neither use is an endorsement by the photographer.
+
+## Resized backdrop
+
+`assets/preston-place.jpg` and `legacy-static/assets/visualizer/preston-place.jpg` are the same metadata-stripped 2000×1500 resize of the Wikimedia file. The original file’s EXIF, including any location data, was removed before this copy was saved. No GPS coordinates are stored in the repository file or shown on the site. The resize and metadata removal are changes to the original.
+
+## Composite illustration
+
+The on-screen tool draws the sculpture illustration on that resized photograph. The downloaded preview is the same composite, with a CC BY-SA 2.0 line in the file: “Vieve Forward, CC BY-SA 2.0. Resized, metadata removed; sculpture illustration added. Not an endorsement.”
+
+That composite is an adaptation. It is distributed under Creative Commons Attribution-ShareAlike 2.0 Generic, the same licence as the photograph. Further adaptations of the composite must stay under that licence or a compatible one. The credit, the licence link, and the statement of changes have to travel with it. The photographer has not endorsed Inukshuk.
 
 | | |
 | --- | --- |
@@ -12,8 +22,10 @@ The visualiser sample is a metadata-stripped, 2000×1500 resize of a public phot
 | Source page | https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg |
 | Source file | https://commons.wikimedia.org/wiki/Special:FilePath/Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg |
 | Also published as | Geograph 4948421 |
-| Licence | Creative Commons Attribution-ShareAlike 2.0 Generic |
+| Licence | Creative Commons Attribution-ShareAlike 2.0 Generic. Applies to the resized backdrop and to the composite. |
 | Licence URL | https://creativecommons.org/licenses/by-sa/2.0/ |
+| Changes | Resized to 2000×1500; metadata removed. The composite also adds the sculpture illustration. |
+| Composite | On-screen drawing and downloaded PNG. Same CC BY-SA 2.0 licence. Not an endorsement by the photographer. |
 
 The 8 m reference height and the 40 m reference distance used in the visualiser are labelled assumptions. They are not a measurement of this house. The camera date and focal length are copied from the photograph’s own file and do not, by themselves, give a measured size.
 
