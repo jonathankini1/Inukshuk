@@ -194,6 +194,7 @@
     }
     .lightbox-close { top: 1rem; right: 1rem; width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem; }
     .lightbox-nav { top: 50%; width: 48px; height: 64px; transform: translateY(-50%); font-size: 1.5rem; }
+    .lightbox-nav[hidden] { display: none !important; }
     .lightbox-prev { left: 1rem; }
     .lightbox-next { right: 1rem; }
 
@@ -1080,8 +1081,38 @@
     .form-group input,
     .form-group textarea { color: #f5f5f7; background: #1c1c1e; }
     .form-group select option { color: #1d1d1f; background: #f5f5f7; }
-    #primary-navigation { top: 48px; transform: none; }
-    #primary-navigation.open { top: 48px; transform: none; }
+    .form-group input[aria-invalid="true"],
+    .form-group textarea[aria-invalid="true"],
+    .form-group select[aria-invalid="true"] {
+      background: #3a1210;
+      color: #fff;
+      border: 2px solid #ffb4a8;
+      caret-color: #fff;
+    }
+    .form-group input[aria-invalid="true"]::placeholder,
+    .form-group textarea[aria-invalid="true"]::placeholder { color: #ffd2cb; opacity: 1; }
+    .form-group select[aria-invalid="true"] option { color: #1d1d1f; background: #fff; }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { background: #1c1c1e; color: #f5f5f7; border-color: #f5f5f7; }
+    .form-group input[aria-invalid="true"]:focus,
+    .form-group textarea[aria-invalid="true"]:focus,
+    .form-group select[aria-invalid="true"]:focus { background: #3a1210; color: #fff; border-color: #fff; }
+    .consent-row, .consent-row a { color: #f5f5f7; }
+    .viz-detail { margin: 0.8rem auto 0; max-width: 920px; }
+    .viz-detail canvas { width: 100%; height: auto; display: block; background: #111; }
+    .viz-detail figcaption { color: #f5f5f7; font-size: 0.95rem; line-height: 1.4; padding: 0.55rem 0.15rem 0; }
+    @media (max-width: 960px) {
+      #primary-navigation, #primary-navigation.open {
+        position: fixed;
+        top: 48px;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        transform: none;
+        margin: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1184,6 +1215,10 @@
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. The height bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. The sculpture starts beside that trunk. The white birch on the left is not the reference. It is not a measurement."></canvas>
           <p class="viz-tip" id="viz-tip">Drag the base. The figure moves toward the horizon and its height follows the distance.</p>
+          <figure class="viz-detail" id="viz-detail-wrap" hidden>
+            <canvas id="viz-detail" width="800" height="520" aria-label="Magnified detail of the same figure. The distance is unchanged."></canvas>
+            <figcaption id="viz-detail-caption"></figcaption>
+          </figure>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
@@ -1535,19 +1570,36 @@
         navigation.classList.toggle('open', willOpen);
         document.body.classList.toggle('menu-open', willOpen);
       });
-      navigation.addEventListener('click', event => {
-        const link = event.target.closest('a[href^="#"]');
-        if (!link || !navigation.contains(link)) return;
-        const target = document.querySelector(link.getAttribute('href'));
-        if (!target) return;
-        event.preventDefault();
+      function sectionHash(link) {
+        const raw = link.getAttribute('href') || '';
+        if (raw.charAt(0) === '#') return raw;
+        if (link.hash && link.hash.length > 1) return link.hash;
+        return '';
+      }
+      function followSection(link) {
+        const hash = sectionHash(link);
+        const target = hash ? document.querySelector(hash) : null;
         closeMenu();
+        if (!target) return;
         window.requestAnimationFrame(() => {
           target.scrollIntoView({ block: 'start' });
           if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
           target.focus({ preventScroll: true });
-          if (history.replaceState) history.replaceState(null, '', link.getAttribute('href'));
+          if (history.replaceState) history.replaceState(null, '', hash);
         });
+      }
+      document.addEventListener('click', event => {
+        const link = event.target.closest && event.target.closest('#primary-navigation a');
+        if (!link) return;
+        event.preventDefault();
+        followSection(link);
+      }, true);
+      window.addEventListener('hashchange', () => {
+        if (!navigation.classList.contains('open')) return;
+        const hash = location.hash;
+        closeMenu();
+        const target = hash ? document.querySelector(hash) : null;
+        if (target) target.scrollIntoView({ block: 'start' });
       });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && navigation.classList.contains('open')) {
@@ -1604,8 +1656,11 @@
         lightboxImage.alt = item.alt;
         const count = galleryItems.length;
         lightboxCaption.textContent = count < 2 ? item.caption : `${item.caption.replace(/\.\s*$/, '')}. ${galleryIndex + 1} of ${count}`;
-        lightboxPrevious.hidden = count < 2;
-        lightboxNext.hidden = count < 2;
+        const single = count < 2;
+        lightboxPrevious.hidden = single;
+        lightboxNext.hidden = single;
+        lightboxPrevious.style.display = single ? 'none' : '';
+        lightboxNext.style.display = single ? 'none' : '';
       }
 
       galleryButtons.forEach(button => {
@@ -1983,6 +2038,35 @@
         canvas.dataset.doubled = String(Math.round(doubled));
       }
 
+      function drawDetail(figure, source) {
+        const wrap = document.getElementById('viz-detail-wrap');
+        const detail = document.getElementById('viz-detail');
+        const caption = document.getElementById('viz-detail-caption');
+        if (!wrap || !detail || !source) return;
+        const shown = displayedWidth();
+        const onScreen = (figure.y2 - figure.y) * (shown / canvas.width);
+        if (!usingSample || onScreen >= 150) {
+          wrap.hidden = true;
+          return;
+        }
+        wrap.hidden = false;
+        const dctx = detail.getContext('2d');
+        const fh = Math.max(12, figure.y2 - figure.y);
+        const cropH = Math.min(canvas.height, Math.max(fh / 0.42, 80));
+        const cropW = Math.min(canvas.width, cropH * (detail.width / detail.height));
+        const cx = (figure.x + figure.x2) / 2;
+        const cy = (figure.y + figure.y2) / 2;
+        const sx = clamp(cx - cropW / 2, 0, Math.max(0, canvas.width - cropW));
+        const sy = clamp(cy - cropH / 2, 0, Math.max(0, canvas.height - cropH));
+        dctx.imageSmoothingEnabled = true;
+        dctx.imageSmoothingQuality = 'high';
+        dctx.clearRect(0, 0, detail.width, detail.height);
+        dctx.drawImage(source, sx, sy, cropW, cropH, 0, 0, detail.width, detail.height);
+        if (caption) {
+          caption.textContent = 'Detail of the same ' + meters + ' m figure at ' + distanceM + ' m. Magnified from the picture above so it can be seen. The distance is unchanged. Not a larger sculpture.';
+        }
+      }
+
       function draw() {
         landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
         syncDistanceRange();
@@ -2023,8 +2107,13 @@
           ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
         }
+        const bare = document.createElement('canvas');
+        bare.width = canvas.width;
+        bare.height = canvas.height;
+        bare.getContext('2d').drawImage(canvas, 0, 0);
         drawLabels(figure);
-        canvas.dataset.fig = [figure.x, figure.y, figure.x2, figure.y2].map(v => Math.round(v)).join(',');
+        canvas.dataset.fig = [figure.x, figure.y, figure.x2, figure.y2].join(',');
+        try { drawDetail(figure, bare); } catch (error) { /* The main picture remains usable if the detail cannot be copied. */ }
         if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
           const top = footY - drawHeight * (1104 / 1117);
           const treeX = landRect.x + landRect.w * TREE_X;
@@ -2083,11 +2172,22 @@
         };
       }
 
+      let grabDy = 0;
       function placeAt(event) {
         const point = canvasPoint(event);
         x = point.x;
         userMoved = true;
-        distanceM = distanceForFoot(point.y);
+        const foot = point.y - grabDy;
+        const minD = Math.round(treeDistanceM);
+        const maxD = Math.round(houseDistance());
+        distanceM = distanceForFoot(foot);
+        if (status && usingSample) {
+          if (distanceM >= maxD && foot < footYForDistance(maxD) - 6) {
+            status.textContent = 'Already at the house ground, about ' + maxD + ' m. Drag down to bring the figure closer. Illustrative, not a measurement.';
+          } else if (distanceM <= minD && foot > footYForDistance(minD) + 6) {
+            status.textContent = 'Already beside the tree, ' + minD + ' m. Drag up, toward the horizon, to move it back. Illustrative, not a measurement.';
+          }
+        }
         tip.classList.add('hidden');
         draw();
       }
@@ -2121,7 +2221,9 @@
       canvas.addEventListener('pointerdown', event => {
         dragging = true;
         canvas.classList.add('dragging');
-        canvas.setPointerCapture(event.pointerId);
+        try { canvas.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
+        const point = canvasPoint(event);
+        grabDy = point.y - footYForDistance(distanceM);
         placeAt(event);
       });
       canvas.addEventListener('pointermove', event => { if (dragging) placeAt(event); });
@@ -2165,7 +2267,8 @@
           'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0, via Wikimedia Commons.',
           'https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg',
           'https://creativecommons.org/licenses/by-sa/2.0/',
-          'Resized, metadata removed; sculpture illustration added. Not an endorsement.'
+          'Resized, metadata removed; sculpture illustration added. Not an endorsement.',
+          'A downloaded composite is also CC BY-SA 2.0. GPS was not imported.'
         ];
       }
       downloadButton.addEventListener('click', () => {
