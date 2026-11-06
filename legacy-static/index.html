@@ -784,8 +784,8 @@
             </fieldset>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="distance-input">Distance <span id="distance-readout">8 m</span></label>
-            <input id="distance-input" type="range" min="2" max="30" step="1" value="8">
+            <label class="viz-control-title" for="distance-input">Distance <span id="distance-readout">4 m</span></label>
+            <input id="distance-input" type="range" min="2" max="30" step="1" value="4">
           </div>
           <div class="viz-control">
             <label class="viz-control-title" for="horizon-input">Horizon <span id="horizon-readout">32%</span></label>
@@ -1281,7 +1281,7 @@
       let usingSample = true;
       let cropAnchor = 0.5;
       const samples = {
-        mown: { src: 'assets/gallery/crossbank-base-9056-crop.jpg', anchor: 0.5, horizon: 0.3, x: 0.55 },
+        mown: { src: 'assets/gallery/crossbank-base-9056-crop.jpg', anchor: 0.58, horizon: 0.32, x: 0.6 },
         meadow: { src: 'assets/gallery/crossbank-base-9055-crop.jpg', anchor: 0.33, horizon: 0.38, x: 0.68 }
       };
       let sampleKey = 'mown';
@@ -1295,7 +1295,7 @@
       let dragging = false;
       let flipped = false;
       let x = canvas.width * samples.mown.x;
-      let distanceM = 8;
+      let distanceM = 4;
       let horizonRatio = samples.mown.horizon;
       let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
       const horizonY = () => canvas.height * horizonRatio;
@@ -1432,11 +1432,11 @@
       function resetPosition() {
         const sample = samples[sampleKey] || samples.mown;
         x = canvas.width * sample.x;
-        distanceM = 8;
+        distanceM = 4;
         horizonRatio = sample.horizon;
         meters = 2.75;
         flipped = false;
-        if (distanceInput) distanceInput.value = '8';
+        if (distanceInput) distanceInput.value = '4';
         if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
         sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');

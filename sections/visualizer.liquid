@@ -50,12 +50,12 @@
           </fieldset>
         </div>
         <div class="viz-control">
-          <label class="viz-control-title" for="distance-{{ section.id }}">Distance <span data-distance-readout>8 m</span></label>
-          <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="8">
+          <label class="viz-control-title" for="distance-{{ section.id }}">Distance <span data-distance-readout>4 m</span></label>
+          <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="4">
         </div>
         <div class="viz-control">
-          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>40%</span></label>
-          <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="58" step="1" value="40">
+          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>32%</span></label>
+          <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="58" step="1" value="32">
         </div>
         <div class="viz-control">
           <span class="viz-control-title">Sample crop</span>
@@ -99,7 +99,7 @@
       let usingSample = true;
       let cropAnchor = 0.5;
       const samples = {
-        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.5, horizon: 0.3, x: 0.55 },
+        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.58, horizon: 0.32, x: 0.6 },
         meadow: { src: section.getAttribute('data-sample-meadow'), anchor: 0.33, horizon: 0.38, x: 0.68 }
       };
       let sampleKey = 'mown';
@@ -113,7 +113,7 @@
       let dragging = false;
       let flipped = false;
       let x = canvas.width * samples.mown.x;
-      let distanceM = 8;
+      let distanceM = 4;
       let horizonRatio = samples.mown.horizon;
       const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
       let meters = selected ? Number(selected.dataset.meters) : 2.75;
@@ -237,8 +237,8 @@
         const estate = defaultSize();
         sizeInputs.forEach((input) => { input.checked = input === estate; });
         meters = estate ? Number(estate.dataset.meters) : 2.75;
-        distanceM = 8;
-        if (distanceInput) distanceInput.value = '8';
+        distanceM = 4;
+        if (distanceInput) distanceInput.value = '4';
         const sample = samples[sampleKey] || samples.mown;
         horizonRatio = sample.horizon;
         if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
