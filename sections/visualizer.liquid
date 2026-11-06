@@ -2,7 +2,8 @@
   class="visualizer"
   id="{{ section.settings.anchor | default: 'visualizer' | handleize }}"
   data-visualizer
-  data-demo-land="{{ 'landmark-wide.jpg' | asset_url }}"
+  data-sample-mown="{{ 'crossbank-base-9056-crop.jpg' | asset_url }}"
+  data-sample-meadow="{{ 'crossbank-base-9055-crop.jpg' | asset_url }}"
   data-sculpture="{{ 'inukshuk-illustration.svg' | asset_url }}"
   data-status-demo="{{ 'sections.visualizer.demo' | t | escape }}"
   data-status-ready="{{ 'sections.visualizer.ready' | t | escape }}"
@@ -56,10 +57,16 @@
           <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>40%</span></label>
           <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="58" step="1" value="40">
         </div>
+        <div class="viz-control">
+          <span class="viz-control-title">Sample crop</span>
+          <div class="viz-button-row">
+            <button class="viz-button" data-sample="mown" type="button" aria-pressed="true">Mown field</button>
+            <button class="viz-button" data-sample="meadow" type="button" aria-pressed="false">Meadow</button>
+          </div>
+        </div>
         <div class="viz-button-row">
           <button class="viz-button" data-flip type="button">{{ section.settings.flip_label }}</button>
           <button class="viz-button" data-reset type="button">{{ section.settings.reset_label }}</button>
-          <button class="viz-button" data-demo type="button">{{ section.settings.demo_label }}</button>
           <button class="viz-button primary" data-download type="button">{{ section.settings.download_label }}</button>
         </div>
         <p class="viz-status" data-viz-status role="status">{{ 'sections.visualizer.demo' | t }}</p>
@@ -89,6 +96,13 @@
       const sculpture = new Image();
       let landPhoto = demoLand;
       let photoUrl = null;
+      let usingSample = true;
+      let cropAnchor = 0.5;
+      const samples = {
+        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.5, horizon: 0.32, x: 0.48 },
+        meadow: { src: section.getAttribute('data-sample-meadow'), anchor: 0.33, horizon: 0.38, x: 0.68 }
+      };
+      let sampleKey = 'mown';
       const distanceInput = section.querySelector('[data-distance]');
       const horizonInput = section.querySelector('[data-horizon]');
       const distanceReadout = section.querySelector('[data-distance-readout]');
@@ -98,9 +112,9 @@
       const SCALE_K = 0.42;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * 0.78;
+      let x = canvas.width * samples.mown.x;
       let distanceM = 8;
-      let horizonRatio = 0.4;
+      let horizonRatio = samples.mown.horizon;
       const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
       let meters = selected ? Number(selected.dataset.meters) : 2.75;
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -126,12 +140,13 @@
         let sourceY = 0;
         let sourceWidth = image.naturalWidth;
         let sourceHeight = image.naturalHeight;
+        const anchor = usingSample ? cropAnchor : 0.5;
         if (imageRatio > canvasRatio) {
           sourceWidth = image.naturalHeight * canvasRatio;
-          sourceX = (image.naturalWidth - sourceWidth) / 2;
+          sourceX = (image.naturalWidth - sourceWidth) * anchor;
         } else {
           sourceHeight = image.naturalWidth / canvasRatio;
-          sourceY = (image.naturalHeight - sourceHeight) / 2;
+          sourceY = (image.naturalHeight - sourceHeight) * anchor;
         }
         ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
       }
@@ -199,15 +214,34 @@
         return sizeInputs.find((input) => input.hasAttribute('data-default')) || sizeInputs.find((input) => input.value === 'Estate') || sizeInputs[0];
       }
 
+      function applySample(key) {
+        const sample = samples[key] || samples.mown;
+        sampleKey = samples[key] ? key : 'mown';
+        usingSample = true;
+        cropAnchor = sample.anchor;
+        horizonRatio = sample.horizon;
+        x = canvas.width * sample.x;
+        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
+        section.querySelectorAll('[data-sample]').forEach((button) => {
+          button.setAttribute('aria-pressed', button.getAttribute('data-sample') === sampleKey ? 'true' : 'false');
+        });
+        landPhoto = demoLand;
+        if (demoLand.dataset.key !== sampleKey) {
+          demoLand.dataset.key = sampleKey;
+          demoLand.src = sample.src;
+        } else draw();
+      }
+
       function resetPosition() {
         const estate = defaultSize();
         sizeInputs.forEach((input) => { input.checked = input === estate; });
         meters = estate ? Number(estate.dataset.meters) : 2.75;
         distanceM = 8;
-        horizonRatio = 0.4;
         if (distanceInput) distanceInput.value = '8';
-        if (horizonInput) horizonInput.value = '40';
-        x = canvas.width * 0.78;
+        const sample = samples[sampleKey] || samples.mown;
+        horizonRatio = sample.horizon;
+        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
+        x = canvas.width * sample.x;
         flipped = false;
         tip.classList.remove('hidden');
         draw();
@@ -238,6 +272,7 @@
         }
         if (photoUrl) URL.revokeObjectURL(photoUrl);
         photoUrl = URL.createObjectURL(file);
+        usingSample = false;
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
@@ -320,10 +355,12 @@
         resetPosition();
         status.textContent = message('data-status-reset');
       });
-      section.querySelector('[data-demo]').addEventListener('click', () => {
-        landPhoto = demoLand;
-        resetPosition();
-        status.textContent = message('data-status-demo');
+      section.querySelectorAll('[data-sample]').forEach((button) => {
+        button.addEventListener('click', () => {
+          applySample(button.getAttribute('data-sample'));
+          status.textContent = message('data-status-demo');
+          tip.classList.remove('hidden');
+        });
       });
       section.querySelector('[data-download]').addEventListener('click', () => {
         canvas.toBlob((blob) => {
@@ -359,7 +396,8 @@
 
       demoLand.onload = draw;
       sculpture.onload = draw;
-      demoLand.src = section.getAttribute('data-demo-land');
+      if (horizonInput) horizonInput.value = String(Math.round(samples.mown.horizon * 100));
+      applySample('mown');
       sculpture.src = section.getAttribute('data-sculpture');
       draw();
     });
@@ -379,7 +417,7 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "The sample is one of our photographs. The figure you move is an illustration. Your own photo stays on this device and is never uploaded." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Each sample is a crop of a real photograph. The sculpture stood outside the frame. The figure is a 2D illustration for size and position, not a survey. Your own photo stays on this device and is never uploaded." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },

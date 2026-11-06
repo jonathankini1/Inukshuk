@@ -530,7 +530,7 @@ section { padding: 6rem 2rem; }
 }
 
 .upload-action:hover, .viz-button:hover { background: var(--earth); color: var(--white); transform: translateY(-1px); }
-.viz-button.primary { background: var(--earth); color: var(--white); }
+.viz-button[aria-pressed="true"], .viz-button.primary { background: var(--earth); color: var(--white); }
 .viz-button.primary:hover { background: var(--sky); }
 .size-options { display: grid; gap: 0.5rem; border: 0; padding: 0; margin: 0; }
 .size-choice { position: relative; display: block; cursor: pointer; }

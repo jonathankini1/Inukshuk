@@ -265,7 +265,7 @@
       transition: background 0.2s, color 0.2s, transform 0.2s;
     }
     .upload-action:hover, .viz-button:hover { background: var(--earth); color: var(--white); transform: translateY(-1px); }
-    .viz-button.primary { background: var(--earth); color: var(--white); }
+    .viz-button[aria-pressed="true"], .viz-button.primary { background: var(--earth); color: var(--white); }
     .viz-button.primary:hover { background: var(--sky); }
     .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .size-options { display: grid; gap: 0.5rem; border: 0; padding: 0; }
@@ -675,7 +675,7 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">The sample is one of our photographs. The figure you move is an illustration. Your own photo stays on this device and is never uploaded.</p>
+      <p class="section-subtitle">Each sample is a crop of a real photograph. The sculpture stood outside the frame. The figure is a 2D illustration for size and position, not a survey. Your own photo stays on this device and is never uploaded.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Sample photograph with an illustrated Inukshuk. Drag its base to place it. Up moves it farther away."></canvas>
@@ -714,16 +714,22 @@
             <input id="distance-input" type="range" min="2" max="30" step="1" value="8">
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="horizon-input">Horizon <span id="horizon-readout">40%</span></label>
-            <input id="horizon-input" type="range" min="28" max="58" step="1" value="40">
+            <label class="viz-control-title" for="horizon-input">Horizon <span id="horizon-readout">32%</span></label>
+            <input id="horizon-input" type="range" min="28" max="58" step="1" value="32">
+          </div>
+          <div class="viz-control">
+            <span class="viz-control-title">Sample crop</span>
+            <div class="viz-button-row">
+              <button class="viz-button" id="sample-mown" type="button" aria-pressed="true">Mown field</button>
+              <button class="viz-button" id="sample-meadow" type="button" aria-pressed="false">Meadow</button>
+            </div>
           </div>
           <div class="viz-button-row">
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
-            <button class="viz-button" id="demo-btn" type="button">Use demo land</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Sample photograph loaded. The movable figure is an illustration, not another sculpture in that photo.</p>
+          <p class="viz-status" id="viz-status" role="status">Sample crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.</p>
         </aside>
       </div>
     </div>
@@ -1190,13 +1196,21 @@
       const photoInput = document.getElementById('photo-input');
       const flipButton = document.getElementById('flip-btn');
       const resetButton = document.getElementById('reset-btn');
-      const demoButton = document.getElementById('demo-btn');
       const downloadButton = document.getElementById('download-btn');
+      const mownButton = document.getElementById('sample-mown');
+      const meadowButton = document.getElementById('sample-meadow');
 
       const demoLand = new Image();
       const sculpture = new Image();
       let landPhoto = demoLand;
       let photoUrl = null;
+      let usingSample = true;
+      let cropAnchor = 0.5;
+      const samples = {
+        mown: { src: 'assets/gallery/crossbank-base-9056-crop.jpg', anchor: 0.5, horizon: 0.32, x: 0.48 },
+        meadow: { src: 'assets/gallery/crossbank-base-9055-crop.jpg', anchor: 0.33, horizon: 0.38, x: 0.68 }
+      };
+      let sampleKey = 'mown';
       const distanceInput = document.getElementById('distance-input');
       const horizonInput = document.getElementById('horizon-input');
       const distanceReadout = document.getElementById('distance-readout');
@@ -1206,9 +1220,9 @@
       const SCALE_K = 0.42;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * 0.78;
+      let x = canvas.width * samples.mown.x;
       let distanceM = 8;
-      let horizonRatio = 0.4;
+      let horizonRatio = samples.mown.horizon;
       let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
       const horizonY = () => canvas.height * horizonRatio;
       const footYForDistance = (distance) => {
@@ -1235,12 +1249,13 @@
         let sourceWidth = image.naturalWidth;
         let sourceHeight = image.naturalHeight;
 
+        const anchor = usingSample ? cropAnchor : 0.5;
         if (imageRatio > canvasRatio) {
           sourceWidth = image.naturalHeight * canvasRatio;
-          sourceX = (image.naturalWidth - sourceWidth) / 2;
+          sourceX = (image.naturalWidth - sourceWidth) * anchor;
         } else {
           sourceHeight = image.naturalWidth / canvasRatio;
-          sourceY = (image.naturalHeight - sourceHeight) / 2;
+          sourceY = (image.naturalHeight - sourceHeight) * anchor;
         }
 
         ctx.drawImage(
@@ -1322,14 +1337,32 @@
         if (horizonReadout) horizonReadout.textContent = Math.round(horizonRatio * 100) + '%';
       }
 
+      function applySample(key) {
+        const sample = samples[key] || samples.mown;
+        sampleKey = samples[key] ? key : 'mown';
+        usingSample = true;
+        cropAnchor = sample.anchor;
+        horizonRatio = sample.horizon;
+        x = canvas.width * sample.x;
+        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
+        mownButton.setAttribute('aria-pressed', sampleKey === 'mown' ? 'true' : 'false');
+        meadowButton.setAttribute('aria-pressed', sampleKey === 'meadow' ? 'true' : 'false');
+        landPhoto = demoLand;
+        if (demoLand.dataset.key !== sampleKey) {
+          demoLand.dataset.key = sampleKey;
+          demoLand.src = sample.src;
+        } else draw();
+      }
+
       function resetPosition() {
-        x = canvas.width * 0.78;
+        const sample = samples[sampleKey] || samples.mown;
+        x = canvas.width * sample.x;
         distanceM = 8;
-        horizonRatio = 0.4;
+        horizonRatio = sample.horizon;
         meters = 2.75;
         flipped = false;
         if (distanceInput) distanceInput.value = '8';
-        if (horizonInput) horizonInput.value = '40';
+        if (horizonInput) horizonInput.value = String(Math.round(sample.horizon * 100));
         sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');
         draw();
@@ -1361,6 +1394,7 @@
 
         if (photoUrl) URL.revokeObjectURL(photoUrl);
         photoUrl = URL.createObjectURL(file);
+        usingSample = false;
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
@@ -1429,10 +1463,15 @@
         resetPosition();
         status.textContent = 'Estate size and position reset.';
       });
-      demoButton.addEventListener('click', () => {
-        landPhoto = demoLand;
-        resetPosition();
-        status.textContent = 'Sample photograph loaded. The movable figure is an illustration, not another sculpture in that photo.';
+      mownButton.addEventListener('click', () => {
+        applySample('mown');
+        status.textContent = 'Mown field crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.';
+        tip.classList.remove('hidden');
+      });
+      meadowButton.addEventListener('click', () => {
+        applySample('meadow');
+        status.textContent = 'Meadow crop loaded. The sculpture stood outside this frame. The figure is an illustration, not a survey.';
+        tip.classList.remove('hidden');
       });
       downloadButton.addEventListener('click', () => {
         canvas.toBlob(blob => {
@@ -1468,7 +1507,7 @@
 
       demoLand.onload = draw;
       sculpture.onload = draw;
-      demoLand.src = 'assets/gallery/landmark-wide.jpg';
+      applySample('mown');
       distanceInput.addEventListener('input', () => {
         distanceM = clamp(Number(distanceInput.value), NEAR_M, FAR_M);
         tip.classList.add('hidden');
