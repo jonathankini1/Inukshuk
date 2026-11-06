@@ -54,8 +54,8 @@
           <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="4">
         </div>
         <div class="viz-control">
-          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>32%</span></label>
-          <input id="horizon-{{ section.id }}" data-horizon type="range" min="28" max="58" step="1" value="32">
+          <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>12%</span></label>
+          <input id="horizon-{{ section.id }}" data-horizon type="range" min="8" max="62" step="1" value="12">
         </div>
         <div class="viz-control">
           <span class="viz-control-title">Sample crop</span>
@@ -99,7 +99,7 @@
       let usingSample = true;
       let cropAnchor = 0.5;
       const samples = {
-        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.58, horizon: 0.32, x: 0.6 },
+        mown: { src: section.getAttribute('data-sample-mown'), anchor: 0.58, horizon: 0.12, x: 0.6 },
         meadow: { src: section.getAttribute('data-sample-meadow'), anchor: 0.33, horizon: 0.38, x: 0.68 }
       };
       let sampleKey = 'mown';
@@ -109,7 +109,10 @@
       const horizonReadout = section.querySelector('[data-horizon-readout]');
       const NEAR_M = 2;
       const FAR_M = 30;
-      const SCALE_K = 0.42;
+      const DEPTH_POW = 0.85;
+      const NEAR_DROP = 0.9;
+      const FAR_DROP = 0.52;
+      const PX_PER_METRE_DEPTH = 0.255;
       let dragging = false;
       let flipped = false;
       let x = canvas.width * samples.mown.x;
@@ -119,19 +122,29 @@
       let meters = selected ? Number(selected.dataset.meters) : 2.75;
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
       const horizonY = () => canvas.height * horizonRatio;
+      const depthT = (distance) => clamp((distance - NEAR_M) / (FAR_M - NEAR_M), 0, 1);
       const footYForDistance = (distance) => {
         const bottom = canvas.height - 8;
         const horizon = horizonY();
-        return clamp(horizon + (bottom - horizon) * (NEAR_M / distance), horizon + 4, bottom);
+        const span = Math.max(48, bottom - horizon);
+        const eased = Math.pow(depthT(distance), DEPTH_POW);
+        const drop = NEAR_DROP + (FAR_DROP - NEAR_DROP) * eased;
+        return horizon + span * drop;
       };
       const distanceForFoot = (footY) => {
         const bottom = canvas.height - 8;
-        const span = bottom - horizonY();
-        const below = footY - horizonY();
-        if (below <= 1) return FAR_M;
-        return clamp((NEAR_M * span) / below, NEAR_M, FAR_M);
+        const horizon = horizonY();
+        const span = Math.max(48, bottom - horizon);
+        const drop = clamp((footY - horizon) / span, FAR_DROP, NEAR_DROP);
+        const eased = (drop - NEAR_DROP) / (FAR_DROP - NEAR_DROP);
+        const t = Math.pow(clamp(eased, 0, 1), 1 / DEPTH_POW);
+        return clamp(NEAR_M + t * (FAR_M - NEAR_M), NEAR_M, FAR_M);
       };
-      const pixelHeight = () => clamp(canvas.height * SCALE_K * (meters / distanceM), 12, canvas.height * 0.78);
+      const pixelHeight = () => {
+        const below = Math.max(24, footYForDistance(distanceM) - horizonY());
+        const height = (canvas.height / 1000) * PX_PER_METRE_DEPTH * meters * below;
+        return clamp(height, 36, canvas.height * 0.72);
+      };
 
       function drawCover(image) {
         const imageRatio = image.naturalWidth / image.naturalHeight;
@@ -344,7 +357,7 @@
       }
       if (horizonInput) {
         horizonInput.addEventListener('input', () => {
-          horizonRatio = clamp(Number(horizonInput.value) / 100, 0.28, 0.58);
+          horizonRatio = clamp(Number(horizonInput.value) / 100, 0.08, 0.62);
           draw();
         });
       }
