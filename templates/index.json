@@ -107,6 +107,9 @@
     },
     "visualizer": {
       "type": "visualizer",
+      "settings": {
+        "subheading": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements."
+      },
       "blocks": {
         "size_garden": {
           "type": "visualizer-size",

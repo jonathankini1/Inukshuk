@@ -53,9 +53,9 @@
       "next": "Next photograph"
     },
     "visualizer": {
-      "canvas": "Crossbank field with a sculpture illustration to preview size and position.",
+      "canvas": "Crossbank field with a sculpture illustration to preview size and position. Estimated indicative height, not a measurement.",
       "tip": "Drag the base of the illustration. It gets smaller as it moves toward the horizon.",
-      "demo": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey.",
+      "demo": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.",
       "ready": "Your photo is on this device only. Drag the base of the illustration.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",

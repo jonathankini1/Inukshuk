@@ -749,10 +749,10 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Crossbank: concept placement on your land. A 2D photo illustration, not a survey.</p>
+      <p class="section-subtitle">Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Crossbank field with a sculpture illustration to preview size and position."></canvas>
+          <canvas id="viz-canvas" width="1600" height="1000" role="img" tabindex="0" aria-label="Crossbank field with a sculpture illustration to preview size and position. Estimated indicative height, not a measurement."></canvas>
           <p class="viz-tip" id="viz-tip">Drag the base of the illustration. It gets smaller as it moves toward the horizon.</p>
         </div>
         <aside class="viz-controls" aria-label="Preview controls">
@@ -784,8 +784,9 @@
             </fieldset>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="distance-input">Distance <span id="distance-readout">4 m</span></label>
+            <label class="viz-control-title" for="distance-input">Indicative distance <span id="distance-readout">4 m</span></label>
             <input id="distance-input" type="range" min="2" max="30" step="1" value="4">
+            <p class="privacy-note">Estimated indicative height visualization, not actual measurements.</p>
           </div>
           <div class="viz-control">
             <label class="viz-control-title" for="horizon-input">Horizon <span id="horizon-readout">12%</span></label>
@@ -803,7 +804,7 @@
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Crossbank: concept placement on your land. A 2D photo illustration, not a survey.</p>
+          <p class="viz-status" id="viz-status" role="status">Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.</p>
         </aside>
       </div>
     </div>
@@ -1294,7 +1295,7 @@
       const DEPTH_POW = 0.85;
       const NEAR_DROP = 0.9;
       const FAR_DROP = 0.52;
-      const PX_PER_METRE_DEPTH = 0.255;
+      const PX_PER_METRE_DEPTH = 0.194;
       let dragging = false;
       let flipped = false;
       let x = canvas.width * samples.mown.x;
@@ -1396,14 +1397,14 @@
           ? sculpture.naturalWidth / sculpture.naturalHeight
           : 0.76;
         const drawWidth = drawHeight * ratio;
-        const lightShift = drawWidth * 0.16;
+        const lightShift = drawWidth * 0.36;
         const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
         shade.addColorStop(0, 'rgba(24, 20, 14, 0.5)');
         shade.addColorStop(0.42, 'rgba(24, 20, 14, 0.18)');
         shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
         ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x + lightShift, footY + 1, Math.max(10, drawWidth * 0.48), Math.max(3, drawHeight * 0.04), 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.55), Math.max(4, drawHeight * 0.035), 0, 0, Math.PI * 2);
         ctx.fill();
 
         if (sculpture.complete && sculpture.naturalWidth) {
@@ -1552,12 +1553,12 @@
       });
       mownButton.addEventListener('click', () => {
         applySample('mown');
-        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey.';
+        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.';
         tip.classList.remove('hidden');
       });
       meadowButton.addEventListener('click', () => {
         applySample('meadow');
-        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey.';
+        status.textContent = 'Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements.';
         tip.classList.remove('hidden');
       });
       downloadButton.addEventListener('click', () => {

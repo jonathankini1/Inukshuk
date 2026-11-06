@@ -135,7 +135,7 @@
         },
         "meters": {
           "label": "Preview height in metres",
-          "info": "A preview height inside the published range. Garden 1.5, Estate 2.75, Landmark 3.5."
+          "info": "Guide height used only to keep Garden, Estate and Landmark in proportion. It is not a measured height in the photograph."
         },
         "price": {
           "label": "Price"

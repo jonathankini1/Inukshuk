@@ -50,8 +50,9 @@
           </fieldset>
         </div>
         <div class="viz-control">
-          <label class="viz-control-title" for="distance-{{ section.id }}">Distance <span data-distance-readout>4 m</span></label>
+          <label class="viz-control-title" for="distance-{{ section.id }}">Indicative distance <span data-distance-readout>4 m</span></label>
           <input id="distance-{{ section.id }}" data-distance type="range" min="2" max="30" step="1" value="4">
+          <p class="privacy-note">Estimated indicative height visualization, not actual measurements.</p>
         </div>
         <div class="viz-control">
           <label class="viz-control-title" for="horizon-{{ section.id }}">Horizon <span data-horizon-readout>12%</span></label>
@@ -112,7 +113,7 @@
       const DEPTH_POW = 0.85;
       const NEAR_DROP = 0.9;
       const FAR_DROP = 0.52;
-      const PX_PER_METRE_DEPTH = 0.255;
+      const PX_PER_METRE_DEPTH = 0.194;
       let dragging = false;
       let flipped = false;
       let x = canvas.width * samples.mown.x;
@@ -197,14 +198,14 @@
         else drawFallbackLand();
         const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
         const drawWidth = drawHeight * ratio;
-        const lightShift = drawWidth * 0.16;
+        const lightShift = drawWidth * 0.36;
         const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
         shade.addColorStop(0, 'rgba(24, 20, 14, 0.5)');
         shade.addColorStop(0.42, 'rgba(24, 20, 14, 0.18)');
         shade.addColorStop(1, 'rgba(24, 20, 14, 0)');
         ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x + lightShift, footY + 1, Math.max(10, drawWidth * 0.48), Math.max(3, drawHeight * 0.04), 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.55), Math.max(4, drawHeight * 0.035), 0, 0, Math.PI * 2);
         ctx.fill();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
@@ -431,7 +432,7 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Crossbank: concept placement on your land. A 2D photo illustration, not a survey. Estimated indicative height visualization, not actual measurements." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },
