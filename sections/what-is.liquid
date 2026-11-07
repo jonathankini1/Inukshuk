@@ -4,23 +4,7 @@
       <div class="what-is-text">
         <h2>{{ section.settings.heading }}</h2>
         {{ section.settings.body }}
-        {% if section.settings.badge != blank %}
-          <div class="origin-badge">{{ section.settings.badge }}</div>
-        {% endif %}
-      </div>
-      <div class="stone-visual">
-        {% if section.settings.image != blank %}
-          {{ section.settings.image | image_url: width: 1200 | image_tag: alt: section.settings.image_alt, loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 768px) 50vw, 100vw' }}
-        {% else %}
-          <img
-            src="{{ 'stone-detail.jpg' | asset_url }}"
-            alt="{{ section.settings.image_alt | escape }}"
-            width="1500"
-            height="2000"
-            loading="lazy"
-            decoding="async"
-          >
-        {% endif %}
+        <p class="origin-badge"><em class="inuktitut">inuksuk</em>. {{ section.settings.badge }}</p>
       </div>
     </div>
   </div>
@@ -41,19 +25,19 @@
       "type": "text",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "What Is an Inukshuk?"
+      "default": "What is an inuksuk?"
     },
     {
       "type": "richtext",
       "id": "body",
       "label": "t:labels.text",
-      "default": "<p>An Inukshuk is a stone landmark built by the Inuit peoples of the Canadian Arctic. Traditionally used as navigation markers across vast, featureless landscapes, they are human-shaped figures assembled from carefully balanced stones. Each one is unique, and none is held together by mortar.</p><p>Today, they stand as symbols of guidance, hope, friendship, and the power of working together. Each Inukshuk is a communal act because the stones are too heavy for one person alone. It takes a gathering to raise one.</p><p>We bring this tradition to private estates across the UK and beyond. Your Inukshuk becomes a permanent landmark on your land, built with your people and your stone.</p>"
+      "default": "<p>An <em>inuksuk</em> is a stone figure built without mortar by Inuit in the Arctic. It marks a route or a place. The stones are lifted by a group, not by one person.</p><p>We commission the same kind of landmark for private land in the UK. Local stone where the ground allows it. A site visit before any build.</p>"
     },
     {
       "type": "text",
       "id": "badge",
       "label": "t:sections.what_is.settings.badge.label",
-      "default": "From the Inuktitut: \"in the likeness of a human\""
+      "default": "Inuktitut for a figure in the likeness of a person."
     },
     {
       "type": "image_picker",

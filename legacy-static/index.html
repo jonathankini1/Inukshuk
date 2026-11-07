@@ -4,60 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Bespoke Inukshuk stone sculptures, built with your people and rooted in your land.">
-  <meta property="og:title" content="Inukshuk: A Monument Built By Your Own Hands">
-  <meta property="og:description" content="Commission a bespoke stone landmark for your estate, garden, or land.">
+  <meta name="description" content="Commission a stone landmark for a garden, an estate, or open ground in the UK.">
+  <meta property="og:title" content="Inukshuk | A stone landmark for your land">
+  <meta property="og:description" content="Three sizes. A site visit before any build. Garden £5,000, Estate £7,500, Landmark £10,000.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_GB">
   <meta property="og:url" content="https://inukshuk-plum.vercel.app/">
-  <meta property="og:image" content="https://inukshuk-plum.vercel.app/assets/gallery/hillside-landmark.jpg">
-  <meta property="og:image:alt" content="An Inukshuk stone sculpture overlooking rolling Pennine hills">
+  <meta property="og:image" content="https://inukshuk-plum.vercel.app/assets/gallery/summer-landmark.jpg">
+  <meta property="og:image:alt" content="A stone landmark in summer grass, with a young tree to its right">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#2C3E50">
+  <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://inukshuk-plum.vercel.app/">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
   <title>Inukshuk | Bespoke Stone Sculptures for Your Land</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Inukshuk",
-      "url": "https://inukshuk-plum.vercel.app/",
-      "image": "https://inukshuk-plum.vercel.app/assets/gallery/hillside-landmark.jpg",
-      "description": "Bespoke Inukshuk stone sculptures for private estates, gardens and land.",
-      "areaServed": {
-        "@type": "Country",
-        "name": "United Kingdom"
-      },
-      "serviceType": [
-        "Bespoke stone sculpture",
-        "Site assessment",
-        "Stone sourcing",
-        "Community build experience"
-      ]
-    }
-  </script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 
     :root {
-      --stone: #8B8680;
-      --earth: #5C4A3A;
-      --sky: #2C3E50;
-      --warm: #D4A574;
-      --cream: #F5F0EB;
-      --white: #FFFFFF;
-      --dark: #1a1a1a;
+      --stone: #6e6e73;
+      --earth: #1d1d1f;
+      --sky: #000;
+      --warm: #1d1d1f;
+      --cream: #f5f5f7;
+      --white: #fff;
+      --dark: #1d1d1f;
+      --line: rgba(0, 0, 0, 0.12);
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--dark);
       background: var(--cream);
       line-height: 1.7;
@@ -82,16 +61,15 @@
     /* NAV */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(245,240,235,0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(139,134,128,0.15);
-      padding: 1rem 2rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+      padding: 1.05rem clamp(1.25rem, 3vw, 2.5rem);
       display: flex; justify-content: space-between; align-items: center;
     }
     nav .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 700; color: var(--earth);
-      letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1.05rem; font-weight: 400; color: var(--dark);
+      letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
     }
     nav .nav-links { display: flex; gap: 1.55rem; list-style: none; align-items: center; }
     nav .nav-links a {
@@ -100,10 +78,10 @@
     }
     nav .nav-links a:hover, nav .nav-links a[aria-current="true"] { color: var(--earth); }
     .nav-cta {
-      padding: 0.55rem 0.9rem; color: var(--white) !important;
-      background: var(--earth); border-radius: 2px;
+      padding: 0.35rem 0; color: var(--dark) !important;
+      background: transparent; border-radius: 0; border-bottom: 1px solid var(--dark);
     }
-    .nav-cta:hover { background: var(--sky); }
+    .nav-cta:hover { background: transparent; color: var(--earth) !important; }
     .menu-toggle {
       display: none; width: 46px; height: 44px; border: 0; background: transparent;
       color: var(--earth); cursor: pointer; align-items: center; justify-content: center;
@@ -120,133 +98,81 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 8rem 2rem 4rem;
-      background:
-        linear-gradient(180deg, rgba(22,35,47,0.48) 0%, rgba(22,35,47,0.64) 55%, rgba(26,26,26,0.82) 100%),
-        url('assets/gallery/hillside-landmark.jpg') center 48% / cover no-repeat;
-      color: var(--white);
-      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: auto minmax(280px, 34rem);
+      justify-content: space-between; align-items: center;
+      column-gap: clamp(2rem, 5vw, 5.5rem);
+      text-align: left; padding: 6.25rem clamp(1.5rem, 4.5vw, 4.75rem) 2.25rem;
+      background: var(--cream); color: var(--dark);
     }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 80%, rgba(212,165,116,0.15) 0%, transparent 60%);
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-plate { margin: 0; }
+    .hero-media { width: auto; height: min(76vh, 720px); max-width: min(46vw, 540px); object-fit: contain; display: block; }
+    .hero-plate figcaption { margin-top: 0.7rem; color: var(--stone); font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; font-size: 0.98rem; }
+    .hero-copy { max-width: 34rem; }
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem;
-      letter-spacing: -0.5px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(2.7rem, 4.5vw, 4.35rem);
+      font-weight: 400; line-height: 0.98; margin-bottom: 1.15rem;
+      letter-spacing: -0.03em; color: var(--dark);
     }
-    .hero p {
-      font-size: 1.2rem; font-weight: 300; opacity: 0.9;
-      max-width: 600px; margin: 0 auto 2.5rem;
-    }
+    .hero p { font-size: 1.02rem; font-weight: 400; line-height: 1.6; color: #3c362f; max-width: 36ch; margin: 0 0 1.75rem; }
     .hero-cta {
-      display: inline-block; padding: 1rem 2.5rem;
-      background: var(--warm); color: var(--white);
-      text-decoration: none; font-weight: 600; font-size: 0.95rem;
-      letter-spacing: 1px; text-transform: uppercase;
-      border-radius: 2px; transition: all 0.3s;
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0.15rem 0;
+      background: transparent; color: var(--dark);
+      text-decoration: none; font-weight: 500; font-size: 0.82rem;
+      letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid var(--dark); border-radius: 0;
     }
-    .hero-cta:hover { background: var(--earth); transform: translateY(-2px); }
-    .hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
-    .hero-cta.secondary {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.6);
-      backdrop-filter: blur(8px);
-    }
-    .hero-cta.secondary:hover { background: var(--white); color: var(--earth); }
+    .hero-cta:hover { color: var(--earth); }
+    .hero-actions { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .hero-cta.secondary { background: transparent; border-bottom-color: transparent; text-decoration: underline; text-underline-offset: 0.35em; }
+    .hero-cta.secondary:hover { color: var(--earth); }
 
-    /* CREDIBILITY STRIP */
-    .trust-strip {
-      background: var(--earth); color: var(--white); padding: 1rem 2rem;
-    }
-    .trust-list {
-      max-width: 1100px; margin: 0 auto; display: grid;
-      grid-template-columns: repeat(4, 1fr); list-style: none;
-    }
-    .trust-list li {
-      padding: 0.25rem 1rem; text-align: center; font-size: 0.78rem;
-      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      border-right: 1px solid rgba(255,255,255,0.2);
-    }
-    .trust-list li:last-child { border-right: 0; }
+    .trust-strip { background: transparent; color: var(--dark); padding: 0 clamp(1.25rem, 4vw, 4.5rem) 3.25rem; border-bottom: 1px solid var(--line); }
+    .trust-list { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; }
+    .trust-list li { padding: 0.35rem 0; text-align: left; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; font-size: 0.8rem; font-weight: 400; letter-spacing: 0; text-transform: none; border: 0; color: #a1a1a6; line-height: 1.25; }
 
     /* SECTIONS */
     section { padding: 6rem 2rem; }
     .container { max-width: 1100px; margin: 0 auto; }
     .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem; text-align: center; margin-bottom: 1rem;
-      color: var(--sky);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.15rem); text-align: left; margin-bottom: 0.85rem;
+      color: var(--dark); font-weight: 400; letter-spacing: -0.025em; line-height: 1.05;
     }
     .section-subtitle {
-      text-align: center; color: var(--stone); font-weight: 300;
-      max-width: 600px; margin: 0 auto 3rem; font-size: 1.05rem;
+      text-align: left; color: #4a453f; font-weight: 400;
+      max-width: 38rem; margin: 0 0 2.75rem; font-size: 1.02rem; line-height: 1.6;
     }
 
     /* WHAT IS */
-    .what-is { background: var(--white); }
+    .what-is { background: #f5f5f7; }
     .what-is-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
     }
     .what-is-text h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 1.6rem; color: var(--earth); margin-bottom: 1rem;
     }
     .what-is-text p { color: #555; margin-bottom: 1rem; }
     .origin-badge {
       display: inline-block; padding: 0.5rem 1.2rem; margin-top: 0.5rem;
       background: var(--cream); border-left: 3px solid var(--warm);
-      font-size: 0.85rem; color: var(--earth); font-style: italic;
+      font-size: 0.95rem; color: #6e6e73; font-style: normal; background: none; border: 0; padding: 0.85rem 0 0;
     }
-    .stone-visual {
-      background: var(--stone);
-      border-radius: 4px; height: 400px;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
-    }
-    .stone-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .stone-visual { background: transparent; }
+    .stone-visual img { width: 100%; height: auto; display: block; }
 
     /* GALLERY */
-    .gallery { background: var(--cream); }
-    .photo-grid {
-      display: grid; grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 230px; gap: 1rem;
-    }
-    .photo-card {
-      grid-column: span 4; position: relative; overflow: hidden;
-      border-radius: 4px; background: var(--stone);
-    }
-    .photo-card button {
-      width: 100%; height: 100%; padding: 0; border: 0; background: transparent;
-      color: inherit; cursor: zoom-in; text-align: left;
-    }
-    .photo-card.wide { grid-column: span 8; }
-    .photo-card.tall { grid-row: span 2; }
-    .photo-card img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.6s ease;
-    }
-    .photo-card:hover img { transform: scale(1.025); }
+    .gallery { background: #000; color: #f5f5f7; }
+    .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.25rem 1.75rem; align-items: start; counter-reset: fig; }
+    .photo-card { position: relative; overflow: visible; background: transparent; counter-increment: fig; }
+    .photo-card button { width: 100%; height: auto; padding: 0; border: 0; background: transparent; color: inherit; cursor: zoom-in; text-align: left; display: block; }
+    .photo-card.wide { grid-column: 1 / -1; }
+    .photo-card img { width: 100%; height: auto; display: block; }
     .photo-card figcaption {
-      position: absolute; inset: auto 0 0; padding: 2.5rem 1rem 0.8rem;
-      color: var(--white); font-size: 0.8rem; letter-spacing: 0.04em;
-      background: linear-gradient(transparent, rgba(0,0,0,0.65));
+      position: static; padding: 0.7rem 0 0; color: var(--stone);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; font-size: 0.95rem; background: none;
     }
-    .photo-card button::after {
-      content: 'View'; position: absolute; top: 1rem; right: 1rem;
-      padding: 0.35rem 0.65rem; border: 1px solid rgba(255,255,255,0.65);
-      border-radius: 99px; color: var(--white); background: rgba(26,26,26,0.45);
-      backdrop-filter: blur(6px); font-size: 0.7rem; letter-spacing: 0.08em;
-      text-transform: uppercase; opacity: 0; transform: translateY(-4px);
-      transition: opacity 0.25s, transform 0.25s;
-    }
-    .photo-card button:hover::after, .photo-card button:focus-visible::after {
-      opacity: 1; transform: translateY(0);
-    }
+    .photo-card figcaption::before { content: none; }
     .lightbox {
       width: min(1100px, calc(100vw - 2rem)); max-width: none; max-height: 92vh;
       margin: auto; padding: 0; border: 0; border-radius: 4px;
@@ -268,6 +194,7 @@
     }
     .lightbox-close { top: 1rem; right: 1rem; width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem; }
     .lightbox-nav { top: 50%; width: 48px; height: 64px; transform: translateY(-50%); font-size: 1.5rem; }
+    .lightbox-nav[hidden] { display: none !important; }
     .lightbox-prev { left: 1rem; }
     .lightbox-next { right: 1rem; }
 
@@ -283,12 +210,12 @@
     }
     .viz-stage.dragover { outline: 3px solid var(--warm); outline-offset: 3px; }
     #viz-canvas {
-      width: 100%; height: auto; aspect-ratio: 8 / 5; display: block;
+      width: 100%; height: auto; aspect-ratio: 4 / 3; display: block;
       cursor: grab; touch-action: none;
     }
     #viz-canvas.dragging { cursor: grabbing; }
     .viz-tip {
-      position: absolute; left: 50%; bottom: 0.8rem; transform: translateX(-50%);
+      position: static; display: block; width: fit-content; margin: 0.6rem auto 0; transform: none;
       padding: 0.45rem 0.8rem; border-radius: 99px;
       background: rgba(26,26,26,0.76); color: var(--white);
       font-size: 0.75rem; white-space: nowrap; pointer-events: none;
@@ -302,19 +229,19 @@
     .viz-control { margin-bottom: 1.4rem; }
     .viz-control-title {
       display: block; margin-bottom: 0.65rem; color: var(--sky);
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0;
+      text-transform: none; color: #1d1d1f;
     }
     .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .upload-action, .viz-button {
       display: inline-flex; min-height: 44px; align-items: center; justify-content: center;
       padding: 0.7rem 0.75rem; border: 1px solid rgba(92,74,58,0.28);
       border-radius: 2px; background: var(--white); color: var(--earth);
-      font: 600 0.78rem 'Inter', sans-serif; text-align: center; cursor: pointer;
+      font: 600 0.78rem system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-align: center; cursor: pointer;
       transition: background 0.2s, color 0.2s, transform 0.2s;
     }
     .upload-action:hover, .viz-button:hover { background: var(--earth); color: var(--white); transform: translateY(-1px); }
-    .viz-button.primary { background: var(--earth); color: var(--white); }
+    .viz-button[aria-pressed="true"], .viz-button.primary { background: var(--earth); color: var(--white); }
     .viz-button.primary:hover { background: var(--sky); }
     .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .size-options { display: grid; gap: 0.5rem; border: 0; padding: 0; }
@@ -344,63 +271,29 @@
     .viz-status { min-height: 2.3em; margin-top: 0.75rem; color: var(--earth); }
 
     /* PROCESS */
-    .process { background: var(--cream); }
-    .process-steps {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
-    }
-    .step {
-      text-align: center; padding: 2rem 1.5rem;
-      background: var(--white); border-radius: 4px;
-      border-top: 3px solid var(--warm);
-    }
-    .step-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem; color: var(--warm); font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .step h4 { font-size: 1rem; color: var(--sky); margin-bottom: 0.75rem; font-weight: 600; }
-    .step p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+    .process { background: var(--white); }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
+    .step { text-align: left; padding: 1.15rem 0 0; background: transparent; border-radius: 0; border-top: 1px solid var(--line); }
+    .step-number { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 1.15rem; color: var(--stone); font-weight: 400; margin-bottom: 0.65rem; }
+    .step h4 { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 1.35rem; color: var(--dark); margin-bottom: 0.7rem; font-weight: 400; }
+    .step p { font-size: 0.92rem; color: #4a453f; line-height: 1.6; }
 
     /* PRICING */
     .pricing { background: var(--white); }
-    .pricing-cards {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
-    }
-    .price-card {
-      padding: 2.5rem 2rem; border: 1px solid rgba(139,134,128,0.2);
-      border-radius: 4px; text-align: center; transition: all 0.3s;
-      position: relative;
-    }
-    .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-    .price-card.featured {
-      border-color: var(--warm);
-      background: linear-gradient(180deg, rgba(212,165,116,0.05) 0%, var(--white) 100%);
-    }
-    .price-card.featured::before {
-      content: 'Most Popular'; position: absolute; top: -12px; left: 50%;
-      transform: translateX(-50%); background: var(--warm); color: var(--white);
-      padding: 0.3rem 1rem; font-size: 0.7rem; letter-spacing: 1px;
-      text-transform: uppercase; font-weight: 600; border-radius: 2px;
-    }
-    .price-card h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; color: var(--sky); margin-bottom: 0.5rem;
-    }
-    .price-amount {
-      font-size: 2.2rem; font-weight: 700; color: var(--earth);
-      margin: 1rem 0;
-    }
+    .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+    .price-card { display: flex; flex-direction: column; height: 100%; padding: 1.65rem 1.5rem 0; border: 0; border-right: 1px solid var(--line); border-radius: 0; text-align: left; position: relative; background: transparent; }
+    .price-card:first-child { padding-left: 0; }
+    .price-card:last-child { border-right: 0; padding-right: 0; }
+    .price-card:hover { transform: none; box-shadow: none; }
+    .price-card.featured { background: transparent; box-shadow: none; }
+    .price-card h4 { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 1.7rem; color: var(--dark); margin-bottom: 0.35rem; font-weight: 400; }
+    .price-amount { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 600; letter-spacing: -0.03em; color: #1d1d1f; margin: 0.85rem 0 0.35rem; line-height: 1; font-style: normal; }
     .price-amount span { font-size: 0.9rem; font-weight: 400; color: var(--stone); }
-    .price-card ul {
-      list-style: none; text-align: left; margin: 1.5rem 0;
-    }
-    .price-card li {
-      padding: 0.5rem 0; font-size: 0.9rem; color: #555;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .price-card li::before { content: '\2713\00a0\00a0'; color: var(--warm); font-weight: 700; }
+    .price-card ul { list-style: none; text-align: left; margin: 1.15rem 0 0; }
+    .price-card li { padding: 0.32rem 0; font-size: 0.92rem; color: #3c362f; border-bottom: 0; }
+    .price-card li::before { content: none; }
     .deposit-note {
-      min-height: 4.25rem; margin: 1.1rem 0 0.9rem; padding: 0.85rem 1rem;
+      min-height: 4.25rem; margin: auto 0 0.9rem; padding: 0.85rem 1rem;
       background: var(--cream); color: #555; border-radius: 3px;
       font-size: 0.82rem; line-height: 1.45;
     }
@@ -412,30 +305,28 @@
       color: var(--stone); font-size: 0.78rem;
     }
     .price-btn {
-      display: inline-block; width: 100%; padding: 0.85rem;
-      background: var(--sky); color: var(--white);
-      text-decoration: none; font-weight: 600; font-size: 0.85rem;
-      letter-spacing: 1px; text-transform: uppercase;
-      border: none; cursor: pointer; border-radius: 2px;
-      transition: background 0.3s;
+      display: flex; align-items: center; justify-content: center; min-height: 3.25rem;
+      width: 100%; padding: 0.85rem; text-align: center;
+      background: #1d1d1f; color: #f5f5f7;
+      text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      letter-spacing: 0; text-transform: none;
+      border: 0; cursor: pointer; border-radius: 8px;
     }
-    .price-btn:hover { background: var(--earth); }
-    .price-btn.secondary {
-      background: transparent; color: var(--earth); border: 1px solid rgba(92,74,58,0.38);
-    }
-    .price-btn.secondary:hover { background: var(--cream); }
+    .price-btn:hover,
+    .price-btn:focus-visible { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
+    .price-btn.secondary { background: transparent; color: var(--dark); border: 1px solid var(--line); }
+    .price-btn.secondary:hover,
+    .price-btn.secondary:focus-visible { background: transparent; color: #1d1d1f; }
 
     /* STORY */
-    .story { background: var(--sky); color: var(--white); }
-    .story .section-title { color: var(--white); }
-    .story-content {
-      max-width: 700px; margin: 0 auto; text-align: center;
-    }
-    .story-content p { opacity: 0.85; margin-bottom: 1.5rem; font-weight: 300; }
+    .story { background: var(--cream); color: var(--dark); }
+    .story .section-title { color: var(--dark); }
+    .story-content { max-width: 40rem; margin: 0; text-align: left; }
+    .story-content p { margin-bottom: 1.25rem; font-weight: 400; color: #3c362f; }
     .story-content .highlight {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-style: italic; opacity: 1;
-      color: var(--warm); margin: 2rem 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-style: normal; font-weight: 600; letter-spacing: -0.03em;
+      line-height: 1.25; color: var(--dark); margin: 1.75rem 0;
     }
 
     /* FAQ */
@@ -458,29 +349,24 @@
       display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
       gap: 2rem; align-items: start; max-width: 980px; margin: 0 auto;
     }
-    .contact-panel { padding: 2.25rem; background: var(--sky); color: var(--white); border-radius: 4px; }
-    .contact-panel h3 { font-family: 'Playfair Display', serif; font-size: 1.55rem; margin-bottom: 1rem; }
-    .contact-panel p { color: rgba(255,255,255,0.78); margin-bottom: 1.25rem; }
+    .contact-panel { padding: 0 2rem 0 0; background: transparent; color: var(--dark); border-radius: 0; }
+    .contact-panel h3 { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 1.8rem; margin-bottom: 1rem; font-weight: 400; }
+    .contact-panel p { color: #4a453f; margin-bottom: 1.25rem; }
     .contact-promises { list-style: none; }
-    .contact-promises li { padding: 0.7rem 0; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.88rem; }
-    .contact-promises li::before { content: '✓'; color: var(--warm); font-weight: 700; margin-right: 0.65rem; }
-    .contact-form {
-      margin: 0;
-      background: var(--white); padding: 3rem;
-      border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
+    .contact-promises li { padding: 0.7rem 0; border-top: 1px solid var(--line); font-size: 0.92rem; }
+    .contact-form { margin: 0; background: transparent; padding: 0 0 0 2rem; border-radius: 0; box-shadow: none; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group { margin-bottom: 1.5rem; }
     .form-group label {
       display: block; font-size: 0.85rem; font-weight: 500;
       color: var(--sky); margin-bottom: 0.5rem;
-      letter-spacing: 0.5px; text-transform: uppercase;
+      letter-spacing: 0; text-transform: none; color: #1d1d1f;
     }
     .form-group input, .form-group textarea, .form-group select {
       width: 100%; padding: 0.85rem 1rem;
       border: 1px solid rgba(139,134,128,0.3);
-      border-radius: 2px; font-family: 'Inter', sans-serif;
+      border-radius: 2px; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 0.95rem; transition: border-color 0.3s;
       background: var(--cream);
     }
@@ -497,13 +383,16 @@
     .submit-btn {
       width: 100%; padding: 1rem; background: var(--earth);
       color: var(--white); border: none; cursor: pointer;
-      font-family: 'Inter', sans-serif; font-weight: 600;
-      font-size: 0.95rem; letter-spacing: 1px;
-      text-transform: uppercase; border-radius: 2px;
-      transition: background 0.3s;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 600;
+      font-size: 0.95rem; letter-spacing: 0;
+      text-transform: none; border-radius: 8px;
+      transition: none;
     }
-    .submit-btn:hover { background: var(--sky); }
-    .submit-btn[disabled] { cursor: wait; opacity: 0.72; }
+    .submit-btn:hover,
+    .submit-btn:focus-visible { background: #1d1d1f; color: #fff; }
+    .submit-btn[disabled],
+    .submit-btn[disabled]:hover,
+    .submit-btn[disabled]:focus-visible { cursor: pointer; opacity: 1; background: #f5f5f7; color: #1d1d1f; }
     .form-status { min-height: 1.6em; margin-top: 0.8rem; color: var(--earth); font-size: 0.82rem; text-align: center; }
 
     /* FOOTER */
@@ -512,7 +401,7 @@
       padding: 4rem 2rem 2rem; font-size: 0.85rem;
     }
     footer .logo {
-      font-family: 'Playfair Display', serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--warm); font-size: 1.2rem;
       letter-spacing: 2px; margin-bottom: 1rem; display: inline-block; text-decoration: none;
     }
@@ -521,7 +410,7 @@
       grid-template-columns: 2fr 1fr 1fr 1.3fr; gap: 2rem;
     }
     .footer-intro { max-width: 320px; }
-    .footer-heading { color: var(--white); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .footer-heading { color: #f5f5f7; font-size: 0.85rem; text-transform: none; letter-spacing: 0; margin-bottom: 0.75rem; font-weight: 600; }
     .footer-links { list-style: none; }
     .footer-links li { margin: 0.55rem 0; }
     .footer-links a { color: rgba(255,255,255,0.58); text-decoration: none; }
@@ -532,7 +421,7 @@
     .back-to-top:hover { color: var(--warm); }
 
     .no-script {
-      padding: 0.8rem 1rem; background: #fff3cd; color: #5c4a3a;
+      padding: 0.8rem 1rem; background: #f5f5f7; color: #1d1d1f;
       text-align: center; font-size: 0.85rem;
     }
 
@@ -551,19 +440,22 @@
       nav .nav-links.open { transform: translateY(0); opacity: 1; visibility: visible; }
       nav .nav-links a { display: block; padding: 0.8rem 0; color: var(--earth); border-bottom: 1px solid rgba(139,134,128,0.16); }
       nav .nav-links li:last-child a { margin-top: 0.75rem; border-bottom: 0; text-align: center; }
-      .trust-list { grid-template-columns: 1fr 1fr; }
-      .trust-list li:nth-child(2) { border-right: 0; }
-      .trust-list li:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.2); }
+      .trust-list { grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; justify-content: stretch; align-items: start; padding-top: 5.75rem; }
+      .hero-plate { justify-self: center; }
+      .hero-media { width: min(74vw, 272px); height: auto; max-width: 100%; margin: 0; }
+      .hero-plate figcaption { margin-top: 0.45rem; }
       .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
       .footer-grid > div:last-child { grid-column: 1 / -1; }
     }
     @media (max-width: 768px) {
       .what-is-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
-      .pricing-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .price-card, .price-card:first-child, .price-card:last-child { border-right: 0; border-top: 1px solid var(--line); padding: 1.75rem 0; }
       .visualizer-shell { grid-template-columns: 1fr; }
-      .photo-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
-      .photo-card, .photo-card.wide { grid-column: span 1; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-card.wide { grid-column: 1 / -1; }
       .contact-layout { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid > div:last-child { grid-column: auto; }
@@ -571,15 +463,14 @@
     @media (max-width: 480px) {
       section { padding: 4.5rem 1.25rem; }
       .hero { padding-inline: 1.25rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .hero-cta { width: 100%; padding-inline: 1rem; }
-      .trust-strip { padding-inline: 0.75rem; }
+      .hero h1 { margin-bottom: 0.75rem; }
+      .hero p { margin-bottom: 0.75rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+      .trust-strip { padding-inline: 1.25rem; }
       .trust-list { grid-template-columns: 1fr; }
-      .trust-list li { border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
-      .trust-list li:last-child { border-bottom: 0; }
       .process-steps { grid-template-columns: 1fr; }
       .photo-grid { grid-template-columns: 1fr; }
-      .photo-card.tall { grid-row: span 1; }
+      .contact-panel, .contact-form { padding: 0; }
       .upload-grid { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: auto; }
@@ -594,6 +485,771 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.47; }
+    nav { height: 48px; padding: 0 1.25rem; background: #000; border-bottom: 0; backdrop-filter: none; }
+    nav .logo { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.02em; text-transform: none; color: #f5f5f7; }
+    nav .nav-links a { color: rgba(245,245,247,0.82); font-size: 0.75rem; font-weight: 400; min-height: 48px; display: inline-flex; align-items: center; }
+    nav .nav-links a:hover, nav .nav-links a[aria-current="true"] { color: #fff; }
+    .nav-cta { color: #fff !important; background: transparent; border: 0; border-radius: 0; padding: 0; }
+    .menu-toggle { color: #fff; width: 48px; height: 48px; position: relative; z-index: 30; touch-action: manipulation; }
+    .hero { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: stretch; padding: 48px 0 0; background: #000; color: #f5f5f7; text-align: center; }
+    .hero-stage { position: relative; margin: 0; flex: 1 1 auto; width: 100%; min-height: 420px; }
+    .hero-stage picture { display: block; height: 100%; }
+    .hero-copy { max-width: 980px; margin: 0 auto; padding: 1.7rem 1.5rem 0.85rem; }
+    .hero h1 { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 600; font-size: clamp(2.7rem, 5.2vw, 4.5rem); line-height: 1.02; letter-spacing: -0.035em; color: #f5f5f7; max-width: 14ch; margin: 0 auto 0.45rem; }
+    .hero p { color: #d2d2d7; font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 400; line-height: 1.35; max-width: 38rem; margin: 0 auto 0.55rem; }
+    .hero-actions { justify-content: center; }
+    .hero-cta { min-height: 48px; padding: 0 0.35rem; background: transparent; color: #fff; border: 0; border-radius: 0; letter-spacing: 0; text-transform: none; font-weight: 500; font-size: 1.05rem; }
+    .hero-cta::after { content: "›"; margin-left: 0.35rem; }
+    .hero-cta.secondary { background: transparent; color: #fff; }
+    .hero-actions { gap: 1.35rem; }
+    .hero-media { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: auto; height: 100%; max-width: 100%; object-fit: contain; object-position: center bottom; display: block; background: #000; }
+    .trust-strip { background: #000; color: #a1a1a6; border: 0; padding: 0.35rem 1.5rem 1.15rem; }
+    .trust-list li { color: #a1a1a6; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; font-size: 0.8rem; text-align: center; }
+    .section-title { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-weight: 600; letter-spacing: -0.03em; text-align: center; font-size: clamp(2.4rem, 5vw, 4rem); color: #1d1d1f; }
+    .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; color: #6e6e73; font-size: 1.15rem; }
+    .gallery { background: #000; }
+    .gallery .section-title { color: #f5f5f7; }
+    .gallery .section-subtitle { color: #a1a1a6; }
+    .photo-grid { display: flex; flex-direction: column; gap: 4.5rem; align-items: center; }
+    .photo-card { width: 100%; }
+    .photo-card img { width: min(100%, 980px); height: auto; margin-inline: auto; object-fit: contain; }
+    .photo-card.wide img { width: 100%; }
+    .photo-card figcaption { position: static; background: none; color: #a1a1a6; text-align: center; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; padding: 0.85rem 0 0; }
+    .photo-card figcaption::before { color: #86868b; }
+    .story { background: #f5f5f7; color: #1d1d1f; }
+    .story .section-title { color: #1d1d1f; }
+    .story-content { max-width: 46rem; margin: 0 auto; text-align: center; }
+    .story-content p { color: #6e6e73; }
+    .story-content .highlight { color: #1d1d1f; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-style: normal; font-weight: 600; letter-spacing: -0.03em; font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+    .what-is { background: #f5f5f7; }
+    .what-is-text h3, .step h4, .price-card h4, .price-amount, .contact-panel h3, footer .logo {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .what-is-text h3 { font-size: clamp(2rem, 4vw, 2.75rem); color: #1d1d1f; line-height: 1.08; }
+    .what-is-text p { color: #1d1d1f; }
+    .visualizer { background: #fff; }
+    .process { background: #f5f5f7; }
+    .pricing { background: #fff; }
+    .faq { background: #fff; }
+    .contact { background: #f5f5f7; }
+    .price-card h4 { font-size: 1.35rem; color: #1d1d1f; }
+    .price-amount { font-size: clamp(2rem, 3vw, 2.5rem); color: #1d1d1f; line-height: 1; margin: 0.85rem 0 0.35rem; }
+    .price-size, .price-card li, .step p, .faq-answer, .contact-panel p { color: #6e6e73; }
+    .price-card li { color: #1d1d1f; }
+    .deposit-note { background: none; color: #6e6e73; padding: 0.85rem 0 0; min-height: 0; }
+    .deposit-note strong { color: #1d1d1f; }
+    .price-btn { background: #1d1d1f; color: #f5f5f7; letter-spacing: 0; text-transform: none; border: 0; border-radius: 8px; font-size: 0.95rem; }
+    .price-btn.secondary { background: transparent; color: #1d1d1f; border: 0; }
+    .faq summary { color: #1d1d1f; }
+    .faq summary::after { color: #1d1d1f; }
+    footer, .site-footer { background: #000; }
+    footer .logo { color: #f5f5f7; letter-spacing: -0.02em; text-transform: none; }
+    .viz-controls { background: transparent; border: 0; }
+    .size-choice input:checked + .size-card { border-color: #1d1d1f; background: #f5f5f7; box-shadow: none; }
+    .section-subtitle { margin-bottom: 2rem; }
+    section { padding: 5rem 2rem; }
+    .trust-strip { padding: 0.35rem 1.5rem 1.15rem; }
+    .hero-actions { gap: 1.35rem; }
+    @media (max-width: 960px) {
+      nav { padding: 0 0.75rem; }
+      nav .nav-links { background: #000; inset: 48px 0 auto; }
+      nav .nav-links a { color: #f5f5f7; }
+      .hero { min-height: 0; display: block; padding-top: 48px; }
+      .hero-copy { padding: 1.15rem 1.15rem 0.35rem; }
+      .hero h1 { font-size: 2.35rem; }
+      .hero p { font-size: 1.02rem; }
+      .hero-actions { flex-direction: column; align-items: center; gap: 0; }
+      .hero-cta { min-height: 40px; }
+      .trust-strip { padding: 0.15rem 1.15rem 0.85rem; }
+      .trust-list { grid-template-columns: 1fr 1fr; gap: 0.1rem 0.5rem; }
+      .trust-list li { padding: 0.1rem 0.2rem; text-align: center; font-style: normal; line-height: 1.25; }
+      section { padding: 3.25rem 1.25rem; }
+      .hero-stage, .hero-stage picture, .hero-media { position: static; inset: auto; width: 100%; height: auto; min-height: 0; transform: none; }
+      .hero-media { height: auto; object-fit: contain; object-position: center center; }
+    }
+    body, .what-is, .visualizer, .process, .pricing, .story, .faq, .contact, footer {
+      background: #000; color: #f5f5f7;
+    }
+    .section-title, .what-is-text h3, .step h4, .price-card h4, .price-amount,
+    .contact-panel h3, .story .section-title, .story-content .highlight, .faq summary, .price-card li {
+      color: #f5f5f7;
+    }
+    .section-subtitle, .what-is-text p, .step p, .price-size, .story-content p, .faq-answer,
+    .contact-panel p, .origin-badge, .deposit-note, .deposit-note strong, .privacy-note, .viz-status, .viz-control-title {
+      color: #a1a1a6;
+    }
+    .price-card, .step, .faq details, .faq-list { border-color: rgba(255,255,255,0.14); }
+    .price-btn { background: #f5f5f7; color: #1d1d1f; }
+    .price-btn.secondary { background: transparent; color: #f5f5f7; border: 0; }
+    .form-group label { color: #a1a1a6; }
+    .form-group input, .form-group textarea, .form-group select { background: #1d1d1f; color: #f5f5f7; border-color: rgba(255,255,255,0.16); }
+    .submit-btn { background: #f5f5f7; color: #1d1d1f; }
+    .viz-controls, .viz-stage { background: #000; border: 0; }
+    .viz-controls input[type="range"] { accent-color: #f5f5f7; }
+    .upload-action, .viz-button, .size-card { background: #141414; color: #f5f5f7; border-color: rgba(255,255,255,0.16); }
+    .viz-button[aria-pressed="true"], .viz-button.primary { background: #f5f5f7; color: #1d1d1f; }
+    .size-choice input:checked + .size-card { background: #1d1d1f; border-color: #f5f5f7; box-shadow: none; }
+    .faq summary::after { color: #f5f5f7; }
+    footer .logo, .footer-heading { color: #f5f5f7; }
+    .hero { min-height: 0; }
+    .hero-copy { padding: 1.15rem 1.5rem 0.7rem; }
+    .hero h1 { font-size: clamp(2.5rem, 4.4vw, 3.7rem); max-width: 16ch; }
+    .hero-stage { flex: none; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .hero-stage picture { height: auto; display: flex; justify-content: center; width: 100%; }
+    .hero-media { position: static; inset: auto; left: auto; top: auto; transform: none; width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 440px); object-fit: contain; object-position: center center; }
+    .hero-caption { max-width: 36rem; margin: 0 auto; padding: 1.15rem 1.5rem 1.5rem; color: #f5f5f7; font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-style: normal; font-weight: 400; line-height: 1.35; letter-spacing: -0.015em; text-align: center; }
+    .hero-caption em { font-style: italic; }
+    .gallery .container, .photo-grid { max-width: 1600px; }
+    .photo-card img, .photo-card.wide img { width: auto; max-width: 100%; max-height: 72vh; height: auto; object-fit: contain; }
+    .what-is-grid { grid-template-columns: minmax(0, 42rem); justify-content: center; }
+    em.inuktitut { font-style: italic; font-weight: 500; }
+    .viz-output-title { margin: -0.5rem auto 1rem; text-align: center; color: #f5f5f7; font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; }
+    .viz-credit, .viz-credit a { color: #a1a1a6; font-size: 0.82rem; line-height: 1.4; }
+    .viz-credit a { text-decoration: underline; }
+    .viz-button-row { flex-wrap: wrap; }
+    @media (max-width: 960px) {
+      .hero-copy { padding: 2.2rem 1.15rem 1.15rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero-stage { height: auto; min-height: 0; }
+      .hero-stage, .hero-stage picture, .hero-media { position: static; width: 100%; height: auto; transform: none; min-height: 0; }
+      .hero-media { height: auto; max-height: calc(100svh - 340px); object-fit: contain; object-position: center center; }
+      .hero-caption { padding: 0.75rem 1.15rem 1rem; font-size: 1rem; }
+      .gallery { padding-inline: 0; }
+      .gallery .section-title, .gallery .section-subtitle { padding-inline: 1.15rem; }
+    }
+
+    .hero-copy { padding: 0.85rem 1.5rem 0.2rem; }
+    .hero h1 { margin-bottom: 0.2rem; }
+    .hero p { margin-bottom: 0.2rem; }
+    .hero-stage, .hero-stage picture { width: 100%; }
+    .hero-media {
+      width: auto;
+      max-width: 100%;
+      max-height: calc(100svh - 350px);
+      margin-inline: auto;
+    }
+    .hero-caption {
+      max-width: 44rem;
+      padding: 0.55rem 1.5rem 0.45rem;
+      font-size: clamp(1.08rem, 1.45vw, 1.28rem);
+      line-height: 1.32;
+    }
+    .trust-strip { padding: 0 1.5rem 0.35rem; }
+    section { padding: 2.4rem 4vw; }
+    .section-title { text-align: left; }
+    .section-subtitle { text-align: left; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.4; max-width: 36rem; margin-bottom: 1.15rem; }
+    .what-is { padding: 1.4rem 6vw 0.25rem; }
+    .what-is .container, .what-is-grid { max-width: none; }
+    .what-is-text { max-width: 980px; }
+    .what-is-text h2, .what-is-text h3 { font-size: clamp(3rem, 6.2vw, 5.5rem); letter-spacing: -0.045em; line-height: 0.96; max-width: 11ch; margin-bottom: 0.65rem; }
+    .what-is-text p { font-size: clamp(1.2rem, 1.7vw, 1.5rem); line-height: 1.4; max-width: 38rem; }
+    .gallery { padding: 0; }
+    .gallery-stage { min-height: 0; display: grid; grid-template-columns: minmax(260px, 0.9fr) auto; align-items: center; gap: clamp(1.25rem, 4vw, 4rem); padding: 1.25rem 4vw 1rem; }
+    .gallery-intro { padding-bottom: 1.25rem; }
+    .gallery .section-title { font-size: clamp(3.2rem, 6vw, 5.6rem); letter-spacing: -0.045em; line-height: 0.94; max-width: 8ch; margin: 0 0 0.5rem; padding: 0; }
+    .gallery .section-subtitle { margin: 0; padding: 0; max-width: 22ch; }
+    .photo-grid { display: block; gap: 0; max-width: none; }
+    .photo-card img, .photo-card.wide img { max-height: calc(100svh - 6.75rem); max-width: min(46vw, 640px); width: auto; margin: 0; }
+    .photo-card figcaption { text-align: left; max-width: 32ch; }
+    .visualizer { padding-inline: 0; }
+    .visualizer .container { max-width: 1500px; }
+    .visualizer-shell { grid-template-columns: minmax(0, 1fr); gap: 1.35rem; }
+    .viz-stage {
+      border-radius: 0;
+      width: min(100%, calc((100svh - 220px) * 4 / 3));
+      margin-inline: auto;
+    }
+    .viz-tip {
+      white-space: normal;
+      max-width: 38rem;
+      text-align: center;
+      font-size: 0.98rem;
+      line-height: 1.4;
+      margin: 0.85rem auto 0;
+    }
+    .viz-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.35rem 1.75rem;
+      align-items: start;
+    }
+    .viz-controls .viz-control:nth-child(4),
+    .viz-controls > .viz-button-row,
+    .viz-credit,
+    .viz-status { grid-column: 1 / -1; }
+    .viz-control-title { font-size: 1rem; line-height: 1.35; color: #f5f5f7; }
+    .viz-control-title span { color: #f5f5f7; font-variant-numeric: tabular-nums; }
+    .visualizer { padding: 1.75rem 0 1.25rem; }
+    .visualizer .section-title, .visualizer .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+    .process { padding: 1.5rem 4vw 0.5rem; }
+    .process .container { max-width: none; }
+    .process-steps { gap: 1.5rem; }
+    .step { border-top: 0; padding: 0; }
+    .step-number { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; }
+    .step h4 { font-size: clamp(1.45rem, 2vw, 1.9rem); }
+    .step p { font-size: 1.02rem; }
+    .pricing { padding: 1.25rem 4vw 1.5rem; }
+    .pricing .container { max-width: none; }
+    .pricing-cards { border: 0; gap: 2rem 2.5rem; }
+    .price-card, .price-card:first-child, .price-card:last-child { border: 0; padding: 0; }
+    .price-amount { font-size: clamp(3rem, 4.6vw, 4.6rem); }
+    .price-card h4 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
+    .story { padding: 0.75rem 6vw 2rem; }
+    .story .container { max-width: none; }
+    .story-content { max-width: 920px; margin: 0; text-align: left; }
+    .story .section-title { text-align: left; }
+    .story-content .highlight { font-size: clamp(2.3rem, 4.6vw, 4.1rem); line-height: 1.05; letter-spacing: -0.04em; max-width: 16ch; margin: 0.35rem 0 0.9rem; text-align: left; }
+    .faq .section-title, .contact .section-title, .faq .section-subtitle, .contact .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+    @media (max-width: 960px) {
+      .hero-copy { padding: 1.35rem 1.15rem 0.35rem; }
+      .hero-media { max-height: none; width: 100%; }
+      .hero-caption { font-size: 1.08rem; padding: 0.8rem 1.15rem 1rem; }
+      section { padding: 2.1rem 1.15rem; }
+      .what-is-text h3 { font-size: 2.55rem; }
+      .gallery-stage { min-height: 0; grid-template-columns: 1fr; align-items: start; padding: 4.6rem 1.15rem 1rem; }
+      .photo-card img, .photo-card.wide img { max-height: 68vh; max-width: 100%; margin-inline: auto; }
+      .gallery .section-title { font-size: 2.55rem; }
+      .process-steps, .pricing-cards { grid-template-columns: 1fr; }
+      .story-content .highlight { font-size: 2rem; }
+      .visualizer { padding-inline: 0; }
+      .visualizer .container { padding-inline: 0; }
+      .viz-stage { width: 100%; }
+      .viz-controls { grid-template-columns: 1fr; padding-inline: 1.15rem; }
+      .gallery .section-title, .gallery .section-subtitle { padding-inline: 0; }
+      #primary-navigation {
+        display: flex;
+        position: fixed;
+        inset: 48px 0 auto;
+        z-index: 80;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+        padding: 0.35rem 1.25rem 1.15rem;
+        background: #000;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        transform: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: none;
+      }
+      #primary-navigation.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      #primary-navigation a {
+        display: flex;
+        min-height: 52px;
+        align-items: center;
+        color: #f5f5f7;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 1.05rem;
+      }
+    }
+
+    /* Desktop hero: the wide landscape fills the screen. Phones use the block below. */
+    nav { background: #000; backdrop-filter: none; }
+    @media (min-width: 801px) {
+      .hero {
+        position: relative;
+        display: block;
+        height: 100svh;
+        min-height: 100svh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        text-align: left;
+      }
+      .hero-stage, .hero-stage picture { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; display: block; }
+      .hero-stage::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 46%;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+        pointer-events: none;
+      }
+      .hero-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        object-fit: cover;
+        object-position: center 42%;
+        transform: none;
+      }
+      .hero-copy {
+        position: absolute;
+        z-index: 2;
+        top: auto;
+        bottom: 7.4rem;
+        left: clamp(1.25rem, 5vw, 4.5rem);
+        right: auto;
+        max-width: 28rem;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+      }
+      .hero h1 {
+        max-width: 12ch;
+        margin: 0 0 0.3rem;
+        color: #f5f5f7;
+        font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+        font-weight: 600;
+        letter-spacing: -0.045em;
+        line-height: 0.94;
+        text-align: left;
+      }
+      .hero p {
+        max-width: 28ch;
+        margin: 0 0 0.7rem;
+        color: #f5f5f7;
+        font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+        line-height: 1.3;
+        text-align: left;
+      }
+      .hero-caption {
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 46rem;
+        margin: 0;
+        padding: 0 clamp(1.25rem, 5vw, 4.5rem) 1.3rem;
+        background: none;
+        color: #f5f5f7;
+        font-size: clamp(1.05rem, 1.45vw, 1.28rem);
+        line-height: 1.35;
+        letter-spacing: -0.015em;
+        text-align: left;
+      }
+    }
+    .hero-actions { justify-content: flex-start; gap: 1.25rem; }
+    .hero-cta, .hero-cta.secondary {
+      min-height: 36px;
+      color: #f5f5f7;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(245, 245, 247, 0.7);
+      text-decoration: none;
+    }
+    .hero-cta::after { color: #f5f5f7; }
+    .trust-strip { margin: 0; padding: 0.9rem clamp(1.25rem, 5vw, 4.5rem); background: #000; }
+    .trust-list { max-width: none; display: flex; justify-content: space-between; gap: 1.5rem; }
+    .trust-list li { padding: 0; text-align: left; font-size: 0.82rem; letter-spacing: 0.01em; }
+    .what-is {
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 18vh clamp(1.25rem, 7vw, 6rem) 12vh;
+      background: #000;
+    }
+    .what-is .container, .what-is-grid, .what-is-text { max-width: none; }
+    .what-is-text h3 {
+      max-width: 8ch;
+      margin: 0 0 1.25rem;
+      font-size: clamp(3.4rem, 8vw, 7.4rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+    .what-is-text p { max-width: 34rem; font-size: clamp(1.2rem, 1.8vw, 1.55rem); line-height: 1.4; }
+    .gallery { padding: 0; background: #000; }
+    .gallery-stage { display: block; position: relative; min-height: 0; height: auto; padding: 0; background: #000; overflow: visible; }
+    .gallery-intro {
+      position: absolute;
+      z-index: 2;
+      top: 4.5rem;
+      bottom: auto;
+      left: clamp(1.25rem, 6vw, 5rem);
+      right: auto;
+      max-width: 26rem;
+      padding: 0;
+    }
+    .gallery .section-title {
+      margin: 0 0 0.35rem;
+      padding: 0;
+      color: #f5f5f7;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+      text-shadow: none;
+    }
+    .gallery .section-subtitle { margin: 0; padding: 0; max-width: 28ch; color: #f5f5f7; font-size: 1.05rem; }
+    .photo-grid, .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; }
+    .photo-card button { position: relative; display: block; }
+    .photo-card img, .photo-card.wide img {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: none;
+      margin: 0;
+      object-fit: contain;
+      object-position: center center;
+    }
+    .photo-card figcaption {
+      position: static;
+      display: block;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      max-width: none;
+      height: auto;
+      overflow: visible;
+      margin: 0;
+      padding: 1rem clamp(1.25rem, 6vw, 5rem) 1.15rem;
+      background: #000;
+      color: #f5f5f7;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      text-align: left;
+      white-space: normal;
+    }
+    .visualizer { padding: 4.5rem 0 2.5rem; background: #000; }
+    .process { padding: 4.5rem clamp(1.25rem, 6vw, 5rem) 2rem; }
+    .process .container { max-width: none; }
+    .process .section-title { font-size: clamp(2.6rem, 5vw, 4.4rem); max-width: 10ch; }
+    .process-steps { display: block; margin-top: 1.5rem; }
+    .step {
+      display: grid;
+      grid-template-columns: 4.5rem minmax(9rem, 14rem) minmax(0, 36rem);
+      gap: 1rem 1.5rem;
+      align-items: baseline;
+      padding: 1.35rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .step-number { margin: 0; font-size: 0.85rem; letter-spacing: 0.14em; }
+    .step h4 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+    .step p { margin: 0; max-width: 42rem; }
+    .pricing { padding: 3.5rem clamp(1.25rem, 5vw, 4rem) 3rem; }
+    .pricing .container { max-width: none; }
+    .pricing .section-title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+    .pricing-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 3rem; align-items: stretch; }
+    .price-amount { font-size: clamp(3.2rem, 5.4vw, 5.6rem); letter-spacing: -0.05em; }
+    .price-card ul { max-width: 26rem; }
+    .story {
+      min-height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 16vh clamp(1.25rem, 8vw, 7rem) 10vh;
+    }
+    .story .container, .story-content { max-width: none; }
+    .story .section-title {
+      margin: 0 0 1rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #a1a1a6;
+    }
+    .story-content .highlight {
+      max-width: 12ch;
+      margin: 0 0 1.5rem;
+      font-size: clamp(2.8rem, 6.2vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.045em;
+    }
+    .story-content p { max-width: 38rem; font-size: 1.08rem; }
+    .faq { padding: 4rem clamp(1.25rem, 8vw, 8rem); }
+    .faq .container, .faq-list { max-width: 980px; }
+    .faq .section-title { font-size: clamp(2.4rem, 4vw, 3.6rem); text-align: left; }
+    .faq .section-subtitle { text-align: left; margin-left: 0; }
+    .faq summary { font-size: clamp(1.15rem, 1.6vw, 1.4rem); font-weight: 500; padding: 1.35rem 0; }
+    .contact { padding: 4rem clamp(1.25rem, 6vw, 5rem) 5rem; }
+    .contact .container { max-width: 1180px; }
+    .contact .section-title { font-size: clamp(2.6rem, 5vw, 4.2rem); text-align: left; max-width: 12ch; }
+    .contact .section-subtitle { text-align: left; margin-left: 0; }
+    .contact-layout { grid-template-columns: minmax(16rem, 0.7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 4.5rem); max-width: none; }
+    footer { padding: 2.5rem clamp(1.25rem, 5vw, 4rem) 1.5rem; }
+    .footer-grid { max-width: none; margin-bottom: 1.5rem; align-items: start; }
+    .footer-bottom { max-width: none; }
+    @media (max-width: 800px) {
+      .hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100svh;
+        margin: 0;
+        padding: 48px 0 0;
+        overflow: visible;
+        background: #000;
+      }
+      .hero-stage, .hero-stage picture {
+        position: relative;
+        inset: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        margin: 0;
+      }
+      .hero-stage::after { content: none; }
+      .hero-media {
+        position: relative;
+        inset: auto;
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: calc(100svh - 48px);
+        object-fit: contain;
+        object-position: center center;
+        transform: none;
+      }
+      .hero-copy {
+        position: absolute;
+        z-index: 2;
+        top: 4.1rem;
+        bottom: auto;
+        left: 1.15rem;
+        right: 1.15rem;
+        width: auto;
+        max-width: 15rem;
+        margin: 0;
+        padding: 0;
+      }
+      .hero-caption {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding: 0.85rem 1.15rem 1.15rem;
+        color: #f5f5f7;
+        font-size: 1.05rem;
+        background: none;
+        text-align: left;
+      }
+      .hero, .hero-copy, .hero h1, .hero p, .hero-actions, .hero-caption { text-align: left; }
+      .hero h1 { max-width: 9ch; margin: 0 0 0.25rem; color: #f5f5f7; font-size: 2.45rem; line-height: 0.94; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
+      .hero p { max-width: 22ch; margin: 0 0 0.55rem; color: #f5f5f7; font-size: 1.05rem; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+      .hero-actions { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 0.9rem; }
+      .gallery-stage { min-height: 0; height: auto; overflow: visible; padding: 0; }
+      .photo-card img, .photo-card.wide img { width: 100%; height: auto; max-height: none; object-fit: contain; object-position: center center; }
+      .photo-card figcaption { left: 1.15rem; bottom: 1rem; }
+      .photo-card img, .photo-card.wide img { object-position: center center; height: auto; }
+      .trust-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; }
+      .what-is { min-height: 0; align-items: flex-start; padding: 4.5rem 1.15rem 3rem; }
+      .what-is-text h3 { font-size: 3.1rem; }
+      .gallery-stage { height: auto; overflow: visible; }
+      .photo-grid, .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; }
+      .photo-card img, .photo-card.wide img { display: block; width: 100%; height: auto; max-height: none; object-fit: contain; }
+      .gallery-intro { top: 1.25rem; bottom: auto; left: 1.15rem; }
+      .gallery .section-title { font-size: 2.4rem; }
+      .step { grid-template-columns: 3rem 1fr; }
+      .step p { grid-column: 1 / -1; }
+      .pricing-cards, .contact-layout, .footer-grid { grid-template-columns: 1fr; }
+      .story { min-height: 0; padding: 3.5rem 1.15rem; }
+      .story-content .highlight { font-size: 2.5rem; }
+      .process, .pricing, .faq, .contact { padding-left: 1.15rem; padding-right: 1.15rem; }
+    }
+    @media (max-width: 800px) and (max-height: 720px) {
+      .hero h1 { font-size: 1.9rem; }
+      .hero-copy { top: 3.5rem; }
+      .hero p { margin-bottom: 0.3rem; }
+      .hero-media { max-height: calc(100svh - 64px); }
+    }
+    .contact .section-title,
+    .contact .section-subtitle {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .contact-panel p,
+    .contact-promises li,
+    .form-status,
+    .viz-status { color: #f5f5f7; }
+    .field-error { color: #ffb4a8; }
+    .form-group select,
+    .form-group input,
+    .form-group textarea { color: #f5f5f7; background: #1c1c1e; }
+    .form-group select option { color: #1d1d1f; background: #f5f5f7; }
+    .form-group input[aria-invalid="true"],
+    .form-group textarea[aria-invalid="true"],
+    .form-group select[aria-invalid="true"] {
+      background: #3a1210;
+      color: #fff;
+      border: 2px solid #ffb4a8;
+      caret-color: #fff;
+    }
+    .form-group input[aria-invalid="true"]::placeholder,
+    .form-group textarea[aria-invalid="true"]::placeholder { color: #ffd2cb; opacity: 1; }
+    .form-group select[aria-invalid="true"] option { color: #1d1d1f; background: #fff; }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { background: #1c1c1e; color: #f5f5f7; border-color: #f5f5f7; }
+    .form-group input[aria-invalid="true"]:focus,
+    .form-group textarea[aria-invalid="true"]:focus,
+    .form-group select[aria-invalid="true"]:focus { background: #3a1210; color: #fff; border-color: #fff; }
+    .consent-row, .consent-row a { color: #f5f5f7; }
+    .viz-stage { overflow: visible; }
+    .viz-guide {
+      max-width: 34rem;
+      margin: 0.7rem auto 0;
+      padding: 0 1.15rem;
+      color: #f5f5f7;
+      font-size: 1rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .viz-guide[hidden] { display: none; }
+    #enquiry-form #enquiry-submit,
+    #enquiry-form:invalid #enquiry-submit,
+    #enquiry-form #enquiry-submit:disabled,
+    #enquiry-form #enquiry-submit:disabled:hover,
+    #enquiry-form #enquiry-submit:disabled:focus-visible {
+      background: #fff;
+      color: #1d1d1f;
+      opacity: 1;
+      font-size: 1.15rem;
+      font-weight: 600;
+      min-height: 52px;
+      letter-spacing: -0.015em;
+      transition: none;
+    }
+    #enquiry-form #enquiry-submit:hover,
+    #enquiry-form #enquiry-submit:focus-visible,
+    #enquiry-form:invalid #enquiry-submit:hover,
+    #enquiry-form:invalid #enquiry-submit:focus-visible {
+      background: #1d1d1f;
+      color: #fff;
+      opacity: 1;
+      transition: none;
+    }
+    .pricing-cards { align-items: stretch; }
+    .price-card { display: flex; flex-direction: column; height: auto; min-height: 100%; }
+    .deposit-note { min-height: 6.8rem; margin-top: auto; }
+    .price-btn:hover,
+    .price-btn:focus-visible { background: #1d1d1f; color: #fff; }
+    .price-btn.secondary:hover,
+    .price-btn.secondary:focus-visible { background: transparent; color: #fff; }
+    @media (max-width: 800px) {
+      .pricing-cards { grid-template-columns: 1fr; }
+      .deposit-note { min-height: 0; }
+    }
+    @media (max-width: 960px) {
+      #primary-navigation, #primary-navigation.open {
+        position: fixed;
+        top: 48px;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        transform: none;
+        margin: 0;
+      }
+    }
+    .gallery { padding: 0; background: #000; }
+    .gallery-stage {
+      display: block;
+      height: auto;
+      min-height: 0;
+      padding: 4rem clamp(1.25rem, 5vw, 4rem) 3rem;
+      background: #000;
+    }
+    .gallery-intro { position: static; max-width: 40rem; padding: 0 0 1.5rem; }
+    .gallery .section-title { color: #f5f5f7; font-size: clamp(2.4rem, 4vw, 3.6rem); text-shadow: none; }
+    .gallery .section-subtitle { color: #f5f5f7; max-width: 42rem; margin: 0; }
+    .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; width: 100%; align-items: start; }
+    .photo-card { display: flex; flex-direction: column; width: 100%; margin: 0; }
+    .photo-card button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: #111;
+      overflow: hidden;
+    }
+    .photo-card img, .photo-card.wide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      object-fit: contain;
+      object-position: center center;
+      background: #111;
+    }
+    .photo-card figcaption {
+      position: static;
+      display: block;
+      width: auto;
+      max-width: none;
+      min-height: 4.6rem;
+      margin: 0.75rem 0 0;
+      padding: 0;
+      background: transparent;
+      color: #f5f5f7;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      text-align: left;
+    }
+    .gallery-credits { margin: 1.4rem 0 0; color: #a1a1a6; font-size: 0.78rem; line-height: 1.45; max-width: 70rem; }
+    .gallery-credits a { color: #f5f5f7; }
+    .checkout-note { margin: 0 0 0.75rem; color: #f5f5f7; font-size: 0.92rem; line-height: 1.4; }
+    .viz-handles { position: absolute; inset: 0; pointer-events: none; }
+    .viz-box { position: absolute; border: 1.5px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.55); pointer-events: auto; cursor: move; }
+    .viz-resize {
+      position: absolute; width: 22px; height: 22px; margin-left: -11px; margin-top: -11px;
+      border-radius: 50%; border: 2px solid #1d1d1f; background: #fff; pointer-events: auto; cursor: ns-resize;
+    }
+    input[type="range"] { width: 100%; height: 32px; accent-color: #f5f5f7; }
+    .trust-list li { color: #fff; font-weight: 700; font-size: 1.2rem; }
+    .step-number { color: #fff; font-weight: 700; font-size: 1.7rem; letter-spacing: 0.04em; }
+    .story .section-title { font-weight: 600; font-size: clamp(2.8rem, 5vw, 4.6rem); color: #f5f5f7; }
+    .story-content p { font-size: 1.15rem; color: #f5f5f7; }
+    .upload-grid { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 800px) {
+      .gallery-stage { padding: 2.5rem 1.15rem 1.75rem; }
+      .photo-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+      .photo-card button { aspect-ratio: 1 / 1; }
+      .gallery-intro { position: static; }
+    }
+    @media (min-width: 801px) {
+      .hero {
+        height: calc(100svh - 5.25rem);
+        min-height: 0;
+        max-height: calc(100svh - 5.25rem);
+      }
+      .trust-strip {
+        display: flex;
+        align-items: center;
+        min-height: 4.6rem;
+        padding: 0.5rem clamp(1.25rem, 4vw, 3.5rem) 0.65rem;
+      }
+    }
+    @media (max-width: 800px) {
+      .hero { min-height: 0; height: auto; }
+      .hero-media { max-height: calc(100svh - 15rem); }
+      .hero-caption { padding-top: 0.35rem; padding-bottom: 0.35rem; }
+      .trust-strip { padding: 0.25rem 1.15rem 0.45rem; }
+      .trust-list li { font-size: 1.02rem; line-height: 1.15; }
     }
   </style>
 </head>
@@ -622,9 +1278,16 @@
   <main id="main-content">
 
   <section class="hero" id="top">
-    <div class="hero-content">
-      <h1>A Monument Built By Your Own Hands</h1>
-      <p>Commission a bespoke Inukshuk stone sculpture for your estate, garden, or land. An ancient art form, reimagined as a gathering of people, stone, and story.</p>
+    <figure class="hero-stage">
+      <picture>
+        <source media="(max-width: 800px)" srcset="assets/gallery/summer-landmark.jpg">
+        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, head and both arms complete" width="2000" height="1125" fetchpriority="high" loading="eager">
+      </picture>
+      <figcaption class="hero-caption">Every stone chosen for its place. Stacked by hand, balanced without mortar. Made with you, for the land that will hold it.</figcaption>
+    </figure>
+    <div class="hero-copy">
+      <h1>Raised on open ground</h1>
+      <p>See it where it will stand.</p>
       <div class="hero-actions">
         <a href="#visualizer" class="hero-cta">See It on Your Land</a>
         <a href="#contact" class="hero-cta secondary">Begin Your Build</a>
@@ -645,55 +1308,41 @@
     <div class="container">
       <div class="what-is-grid">
         <div class="what-is-text">
-          <h3>What Is an Inukshuk?</h3>
-          <p>An Inukshuk is a stone landmark built by the Inuit peoples of the Canadian Arctic. Traditionally used as navigation markers across vast, featureless landscapes, they are human-shaped figures assembled from carefully balanced stones. Each one is unique, and none is held together by mortar.</p>
-          <p>Today, they stand as symbols of guidance, hope, friendship, and the power of working together. Each Inukshuk is a communal act because the stones are too heavy for one person alone. It takes a gathering to raise one.</p>
-          <p>We bring this tradition to private estates across the UK and beyond. Your Inukshuk becomes a permanent landmark on your land, built with your people and your stone.</p>
-          <div class="origin-badge">From the Inuktitut: "in the likeness of a human"</div>
-        </div>
-        <div class="stone-visual">
-          <img src="assets/gallery/stone-detail.jpg" alt="Finished stone Inukshuk standing in a Pennine landscape">
+          <h3>What is an Inukshuk?</h3>
+          <p>An Inukshuk is a stone figure built without mortar. It marks a route or a place. The stones are lifted by a group, not by one person.</p>
+          <p>We commission this kind of landmark for private land in the UK. Local stone where the ground allows it. A site visit before any build.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="gallery" id="gallery">
-    <div class="container">
-      <h2 class="section-title">A Story in Stone</h2>
-      <p class="section-subtitle">The first landmark, seen across weather, seasons, and distance. Every angle reveals the landscape it belongs to.</p>
+    <div class="gallery-stage">
+      <div class="gallery-intro">
+        <h2 class="section-title">Photographs</h2>
+        <p class="section-subtitle">Examples already standing in other places. Not our builds.</p>
+      </div>
       <div class="photo-grid">
-        <figure class="photo-card wide">
-          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open wide landscape photograph">
-            <img src="assets/gallery/landmark-wide.jpg" alt="Wide view of an Inukshuk overlooking rolling hills" loading="lazy" decoding="async">
-            <figcaption>Rooted in its landscape</figcaption>
+        <figure class="photo-card">
+          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the Toronto photograph">
+            <img src="assets/gallery/example-toronto.jpg" alt="Stone Inukshuk at Inukshuk Park in Toronto, head and feet in frame" width="1067" height="1600" loading="lazy" decoding="async">
           </button>
-        </figure>
-        <figure class="photo-card tall">
-          <button type="button" class="gallery-open" data-gallery-index="1" aria-label="Open front view photograph">
-            <img src="assets/gallery/landmark-front.jpg" alt="Front view of a handbuilt stone Inukshuk" loading="lazy" decoding="async">
-            <figcaption>Built stone by stone</figcaption>
-          </button>
+          <figcaption>Toronto, Canada. Inukshuk Park, sculpture by Kellypalik Qimirpik. Not one of our builds.</figcaption>
         </figure>
         <figure class="photo-card">
-          <button type="button" class="gallery-open" data-gallery-index="2" aria-label="Open summer photograph">
-            <img src="assets/gallery/summer-landmark.jpg" alt="Inukshuk standing in a green summer field" loading="lazy" decoding="async">
-            <figcaption>Through every season</figcaption>
+          <button type="button" class="gallery-open" data-gallery-index="1" aria-label="Open the Brisbane photograph">
+            <img src="assets/gallery/example-brisbane.jpg" alt="Stone Inukshuk at Victoria Park in Brisbane, head and feet in frame" width="1600" height="1067" loading="lazy" decoding="async">
           </button>
+          <figcaption>Brisbane, Australia. Victoria Park. Not one of our builds.</figcaption>
         </figure>
         <figure class="photo-card">
-          <button type="button" class="gallery-open" data-gallery-index="3" aria-label="Open stone detail photograph">
-            <img src="assets/gallery/stone-detail.jpg" alt="Close view showing the scale and texture of the stone" loading="lazy" decoding="async">
-            <figcaption>Local stone, monumental scale</figcaption>
+          <button type="button" class="gallery-open" data-gallery-index="2" aria-label="Open the Cambridge photograph">
+            <img src="assets/gallery/example-cambridge.jpg" alt="Stone Inukshuk outside the Scott Polar Research Institute in Cambridge, head and feet in frame" width="1600" height="1200" loading="lazy" decoding="async">
           </button>
-        </figure>
-        <figure class="photo-card wide">
-          <button type="button" class="gallery-open" data-gallery-index="4" aria-label="Open moonlit photograph">
-            <img src="assets/gallery/moonlit-landmark.jpg" alt="Illuminated Inukshuk beneath the moon at night" loading="lazy" decoding="async">
-            <figcaption>A landmark after dark</figcaption>
-          </button>
+          <figcaption>Cambridge, England. Scott Polar Research Institute. Not one of our builds.</figcaption>
         </figure>
       </div>
+      <p class="gallery-credits">Toronto: photograph by Fabian Roudra Baroi, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Inukshuk_Park_05.jpg">Wikimedia Commons</a>. Resized, metadata removed. Brisbane: Brisbane City Council, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg">Wikimedia Commons</a>. Resized, metadata removed. Cambridge: Meirion, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg">Wikimedia Commons</a>. Resized, metadata removed. Share-alike applies to the Toronto and Cambridge photographs.</p>
     </div>
   </section>
 
@@ -701,7 +1350,7 @@
     <div class="lightbox-frame">
       <button class="lightbox-close" type="button" aria-label="Close image viewer">&times;</button>
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photograph">&#8249;</button>
-      <img id="lightbox-image" src="assets/gallery/landmark-wide.jpg" alt="">
+      <img id="lightbox-image" src="assets/gallery/example-toronto.jpg" alt="">
       <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photograph">&#8250;</button>
       <p class="lightbox-caption" id="lightbox-caption"></p>
     </div>
@@ -710,47 +1359,67 @@
   <section class="visualizer" id="visualizer">
     <div class="container">
       <h2 class="section-title">See It on Your Land</h2>
-      <p class="section-subtitle">Take a photo or choose one from your library. Pick one of the three sizes, then drag the illustrated Inukshuk into place.</p>
+      <p class="section-subtitle">Compare the sculpture with the tree. Move it back towards the house.</p>
+      <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1200" height="750" role="img" tabindex="0" aria-label="Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys."></canvas>
-          <p class="viz-tip" id="viz-tip">Drag the Inukshuk to position it</p>
+          <canvas id="viz-canvas" width="1600" height="1200" role="img" aria-label="Drag the figure to move it. Use the white handle to change its size. The feet stay put. The metres are not a measurement."></canvas>
         </div>
+        <p class="viz-tip" id="viz-tip">Drag the figure to move it. The white handle changes its size and the feet stay put. One finger on the grass scrolls the page.</p>
+        <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
             <span class="viz-control-title">1. Add your land</span>
             <div class="upload-grid">
-              <label class="upload-action" for="camera-input">Take a photo</label>
-              <label class="upload-action" for="photo-input">Choose a photo</label>
+              <label class="upload-action" for="photo-input">Add your photo</label>
+              <button class="viz-button" id="prev-photo" type="button" disabled>Previous photo</button>
             </div>
-            <input class="visually-hidden" id="camera-input" type="file" accept="image/*" capture="environment">
             <input class="visually-hidden" id="photo-input" type="file" accept="image/*">
-            <p class="privacy-note">Your photo stays on this device. It is never uploaded.</p>
+            <p class="privacy-note">Your photo stays on this device. It is never uploaded. There is no background-removal service.</p>
           </div>
           <div class="viz-control">
             <fieldset class="size-options">
               <legend class="viz-control-title">2. Choose a size</legend>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Garden" data-height="30">
+                <input type="radio" name="visual-size" value="Garden" data-height="30" data-meters="1.5">
                 <span class="size-card"><strong>Garden</strong><small>Up to 1.5m</small><b>£5k</b></span>
               </label>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Estate" data-height="44" checked>
+                <input type="radio" name="visual-size" value="Estate" data-height="44" data-meters="2.75" checked>
                 <span class="size-card"><strong>Estate</strong><small>2 to 3.5m</small><b>£7.5k</b></span>
               </label>
               <label class="size-choice">
-                <input type="radio" name="visual-size" value="Landmark" data-height="60">
+                <input type="radio" name="visual-size" value="Landmark" data-height="60" data-meters="3.5">
                 <span class="size-card"><strong>Landmark</strong><small>3.5m+</small><b>£10k</b></span>
               </label>
             </fieldset>
           </div>
+          <div class="viz-control">
+            <label class="viz-control-title" for="distance-input">Optional estimate only <span id="distance-readout">does not move the figure</span></label>
+            <input id="distance-input" type="range" min="8" max="64" step="1" value="8">
+            <div class="viz-button-row">
+              <button class="viz-button" id="preset-near" type="button">Beside the tree</button>
+              <button class="viz-button" id="preset-house" type="button">At the house</button>
+            </div>
+          </div>
+          <div class="viz-control">
+            <label class="viz-control-title" for="tree-height-input">Reference tree: set its height <span id="tree-height-readout">Illustrative 6 m tree (not measured)</span></label>
+            <input id="tree-height-input" type="range" min="3" max="18" step="0.5" value="6" aria-describedby="tree-height-readout">
+            <label class="viz-control-title" for="tree-distance-input">Example distance to the tree <span id="tree-distance-readout">8 m</span></label>
+            <input id="tree-distance-input" type="range" min="4" max="16" step="1" value="8">
+            <p class="privacy-note">The bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. Illustrative 6 m tree, not measured. The same depth sets the scale. Camera file: 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). Illustrative camera height 1.6 m. The horizon is the distant lawn line. The same height at twice the distance is half the size.</p>
+            <p class="privacy-note viz-math" id="viz-math"></p>
+          </div>
           <div class="viz-button-row">
+            <button class="viz-button" id="viz-done" type="button">Done</button>
+            <button class="viz-button" id="undo-btn" type="button">Undo</button>
+            <button class="viz-button" id="redo-btn" type="button">Redo</button>
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
-            <button class="viz-button" id="demo-btn" type="button">Use demo land</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-status" id="viz-status" role="status">Demo land loaded. Add your own photo when you are ready.</p>
+          <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed. Sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. GPS was not imported.</p>
+          <p class="viz-status" id="viz-status" role="status">Illustrative example. Not a measurement of the tree or the house.</p>
         </aside>
       </div>
     </div>
@@ -759,12 +1428,12 @@
   <section class="process" id="process">
     <div class="container">
       <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">From first conversation to a standing monument on your land. Every build is different. Every Inukshuk is unique.</p>
+      <p class="section-subtitle">From the first conversation to the build day.</p>
       <div class="process-steps">
         <div class="step">
           <div class="step-number">01</div>
           <h4>Site Visit</h4>
-          <p>We walk your land together. Assess the terrain, identify natural stone sources, and choose the perfect location for your Inukshuk.</p>
+          <p>We walk your land together. We look at the ground, the stone, and where it will stand.</p>
         </div>
         <div class="step">
           <div class="step-number">02</div>
@@ -773,13 +1442,13 @@
         </div>
         <div class="step">
           <div class="step-number">03</div>
-          <h4>The Build Day</h4>
-          <p>This is the event. Friends, family, neighbours. Diggers, concrete foundations, and heavy lifting. Your people build your monument together.</p>
+          <h4>The build</h4>
+          <p>We build it. Our team does the machinery, the lifting and the foundation. You can be there. You do not organise the stone and you do not lift it.</p>
         </div>
         <div class="step">
           <div class="step-number">04</div>
-          <h4>Standing Forever</h4>
-          <p>Engineered to last generations. Your Inukshuk becomes a permanent landmark and a story in stone that outlives all of us.</p>
+          <h4>After the build</h4>
+          <p>The foundation is in before any stone goes up. We finish the work on site. If more work is needed, we agree it before we leave.</p>
         </div>
       </div>
     </div>
@@ -803,7 +1472,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £500</strong>Your booking deposit is credited against the £5,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-garden"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-garden"><p class="checkout-note">Card payment is not available. Deposit £500. Full price £5,000. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Garden">Ask about Garden</button>
           </div>
         </div>
@@ -816,11 +1485,10 @@
             <li>Structural engineering review</li>
             <li>Digger and machinery on site</li>
             <li>Full-day community build event</li>
-            <li>Drone footage and film</li>
           </ul>
           <p class="deposit-note"><strong>Reserve with £750</strong>Your booking deposit is credited against the £7,500 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-estate"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-estate"><p class="checkout-note">Card payment is not available. Deposit £750. Full price £7,500. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Estate">Ask about Estate</button>
           </div>
         </div>
@@ -837,7 +1505,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £1,000</strong>Your booking deposit is credited against the £10,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-landmark"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-landmark"><p class="checkout-note">Card payment is not available. Deposit £1,000. Full price £10,000. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Landmark">Ask about Landmark</button>
           </div>
         </div>
@@ -849,10 +1517,8 @@
     <div class="container">
       <h2 class="section-title">Our Story</h2>
       <div class="story-content">
-        <p>It started on a 13-acre property in Manchester. A family, their friends, and their neighbours decided to build something that would stand long after they were gone.</p>
-        <p class="highlight">"The stones were too heavy for one person. That was the whole point."</p>
-        <p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected. It was not a construction project, but a shared experience that drew people closer together.</p>
-        <p>That first build proved something: the act of building together creates something more powerful than the structure itself. Now we help others create that same experience on their own land.</p>
+        <p>It started on 13 acres in Manchester. A family, their friends and their neighbours raised an Inukshuk there. The stones were too heavy for one person, so the day had diggers and concrete as well as the people.</p>
+        <p>That first build is why we do this. We still raise them for other people, on their own land, and we start by coming to see the ground with you.</p>
       </div>
     </div>
   </section>
@@ -864,7 +1530,7 @@
       <div class="faq-list">
         <details>
           <summary>Where does the stone come from?</summary>
-          <div class="faq-answer"><p>We prioritise stone that belongs visually and geologically to the setting. Where suitable material exists on your land, we assess it first; otherwise we source from an appropriate local quarry or reclaimed supply.</p></div>
+          <div class="faq-answer"><p>We look for stone that belongs to the setting. Where suitable material is on your land, we assess it first. If not, we source from a local quarry or a reclaimed supply.</p></div>
         </details>
         <details>
           <summary>How long does a project take?</summary>
@@ -880,7 +1546,7 @@
         </details>
         <details>
           <summary>Can family and friends take part?</summary>
-          <div class="faq-answer"><p>Yes. Participation is central to the experience. The professional team manages machinery, lifting and safety while creating meaningful, supervised ways for your group to help raise the landmark.</p></div>
+          <div class="faq-answer"><p>Yes. Our team manages the machinery, the lifting and the safety. People can help where it is safe.</p></div>
         </details>
         <details>
           <summary>Where do you work?</summary>
@@ -963,7 +1629,7 @@
           </div>
           <label class="consent-row" for="enquiry-consent">
             <input id="enquiry-consent" name="consent" type="checkbox" required aria-describedby="consent-error">
-            <span>I agree that my details may be used to respond to this enquiry, as described in the <a href="/privacy.html">privacy notice</a>.<span class="field-error" id="consent-error"></span></span>
+            <span>I agree that my details may be used to respond to this enquiry, as described in the <a href="privacy.html" data-site-page="privacy.html">privacy notice</a>.<span class="field-error" id="consent-error"></span></span>
           </label>
           <button class="submit-btn" id="enquiry-submit" type="submit">Prepare Enquiry</button>
           <p class="form-status" id="enquiry-status" role="status" aria-live="polite"></p>
@@ -1002,9 +1668,9 @@
       <div>
         <h2 class="footer-heading">Information</h2>
         <ul class="footer-links">
-          <li><a href="/privacy.html">Privacy</a></li>
-          <li><a href="/terms.html">Terms</a></li>
-          <li><a href="/sitemap.xml">Sitemap</a></li>
+          <li><a href="privacy.html" data-site-page="privacy.html">Privacy</a></li>
+          <li><a href="terms.html" data-site-page="terms.html">Terms</a></li>
+          <li><a href="sitemap.xml" data-site-page="sitemap.xml">Sitemap</a></li>
         </ul>
       </div>
     </div>
@@ -1014,6 +1680,24 @@
     </div>
   </footer>
 
+  <script>
+    (() => {
+      const base = document.querySelector('base');
+      const rawBase = base ? (base.href || '') : '';
+      if (rawBase.indexOf('raw.githubusercontent.com') === -1) return;
+      const dir = rawBase.replace(/[^/]*$/, '');
+      document.querySelectorAll('a[data-site-page]').forEach((link) => {
+        const spec = link.getAttribute('data-site-page') || '';
+        const cut = spec.indexOf('#');
+        const path = cut === -1 ? spec : spec.slice(0, cut);
+        const hash = cut === -1 ? '' : spec.slice(cut);
+        const fileUrl = new URL(path, dir).href;
+        link.href = (/\.html$/i.test(path) ? 'https://htmlpreview.github.io/?' + fileUrl : fileUrl) + hash;
+      });
+    })();
+  </script>
+
+  <script src="placer/placer.js"></script>
   <script>
     (() => {
       const menuToggle = document.getElementById('menu-toggle');
@@ -1034,7 +1718,37 @@
         navigation.classList.toggle('open', willOpen);
         document.body.classList.toggle('menu-open', willOpen);
       });
-      navigationLinks.forEach(link => link.addEventListener('click', closeMenu));
+      function sectionHash(link) {
+        const raw = link.getAttribute('href') || '';
+        if (raw.charAt(0) === '#') return raw;
+        if (link.hash && link.hash.length > 1) return link.hash;
+        return '';
+      }
+      function followSection(link) {
+        const hash = sectionHash(link);
+        const target = hash ? document.querySelector(hash) : null;
+        closeMenu();
+        if (!target) return;
+        window.requestAnimationFrame(() => {
+          target.scrollIntoView({ block: 'start' });
+          if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          if (history.replaceState) history.replaceState(null, '', hash);
+        });
+      }
+      document.addEventListener('click', event => {
+        const link = event.target.closest && event.target.closest('#primary-navigation a');
+        if (!link) return;
+        event.preventDefault();
+        followSection(link);
+      }, true);
+      window.addEventListener('hashchange', () => {
+        if (!navigation.classList.contains('open')) return;
+        const hash = location.hash;
+        closeMenu();
+        const target = hash ? document.querySelector(hash) : null;
+        if (target) target.scrollIntoView({ block: 'start' });
+      });
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && navigation.classList.contains('open')) {
           closeMenu();
@@ -1074,10 +1788,12 @@
       const lightboxNext = lightbox.querySelector('.lightbox-next');
       const galleryItems = galleryButtons.map(button => {
         const image = button.querySelector('img');
+        const figure = button.closest('figure');
+        const caption = figure ? figure.querySelector('figcaption') : null;
         return {
           src: image.getAttribute('src'),
           alt: image.getAttribute('alt'),
-          caption: button.querySelector('figcaption').textContent
+          caption: caption ? caption.textContent : ''
         };
       });
       let galleryIndex = 0;
@@ -1088,7 +1804,13 @@
         const item = galleryItems[galleryIndex];
         lightboxImage.src = item.src;
         lightboxImage.alt = item.alt;
-        lightboxCaption.textContent = `${item.caption}. ${galleryIndex + 1} of ${galleryItems.length}`;
+        const count = galleryItems.length;
+        lightboxCaption.textContent = count < 2 ? item.caption : `${item.caption.replace(/\.\s*$/, '')}. ${galleryIndex + 1} of ${count}`;
+        const single = count < 2;
+        lightboxPrevious.hidden = single;
+        lightboxNext.hidden = single;
+        lightboxPrevious.style.display = single ? 'none' : '';
+        lightboxNext.style.display = single ? 'none' : '';
       }
 
       galleryButtons.forEach(button => {
@@ -1135,14 +1857,21 @@
       const enquiryStatus = document.getElementById('enquiry-status');
       const packageSelect = document.getElementById('enquiry-package');
       const recipient = enquiryForm.dataset.recipient.trim();
-      enquirySubmit.textContent = recipient ? 'Send Enquiry' : 'Prepare Enquiry';
+      enquirySubmit.textContent = 'Prepare Enquiry';
 
-      document.querySelectorAll('.package-enquire').forEach(button => {
-        button.addEventListener('click', () => {
-          packageSelect.value = button.dataset.package;
-          document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-          setTimeout(() => document.getElementById('enquiry-name').focus(), 450);
-        });
+      document.addEventListener('click', event => {
+        const button = event.target.closest('.package-enquire');
+        if (!button || !packageSelect) return;
+        event.preventDefault();
+        const packageName = button.getAttribute('data-package') || '';
+        if (packageName) packageSelect.value = packageName;
+        const contact = document.getElementById('contact');
+        if (contact) contact.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        window.setTimeout(() => {
+          const name = document.getElementById('enquiry-name');
+          if (name) name.focus({ preventScroll: true });
+        }, 450);
+        if (history.replaceState) history.replaceState(null, '', '#contact');
       });
 
       function fieldError(field, message) {
@@ -1194,7 +1923,6 @@
           data.get('vision')
         ].join('\n');
 
-        enquirySubmit.disabled = true;
         if (!recipient && navigator.clipboard) {
           try { await navigator.clipboard.writeText(`${subject}\n\n${body}`); } catch (_) { /* Email draft remains available. */ }
         }
@@ -1203,269 +1931,78 @@
         enquiryStatus.textContent = recipient
           ? 'Your email app is opening with the enquiry ready to send.'
           : 'Your enquiry is ready and copied. Add the recipient in your email app, then send.';
-        setTimeout(() => { enquirySubmit.disabled = false; }, 900);
       });
     })();
 
     (() => {
-      const canvas = document.getElementById('viz-canvas');
-      const ctx = canvas.getContext('2d');
       const stage = document.getElementById('viz-stage');
-      const tip = document.getElementById('viz-tip');
       const status = document.getElementById('viz-status');
-      const sizeInputs = [...document.querySelectorAll('input[name="visual-size"]')];
-      const cameraInput = document.getElementById('camera-input');
+      const math = document.getElementById('viz-math');
+      if (!stage || !window.InukshukPlacer) {
+        if (status) status.textContent = 'The preview could not start.';
+        return;
+      }
+      const placer = window.InukshukPlacer.mount(stage, {
+        status: status,
+        creditLines: [
+          'Illustrative example. Not a measurement.',
+          'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0, via Wikimedia Commons.',
+          'https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg',
+          'https://creativecommons.org/licenses/by-sa/2.0/',
+          'Resized, metadata removed. Sculpture illustration added.',
+          'A downloaded composite is also CC BY-SA 2.0. GPS was not imported.'
+        ]
+      });
+      function resolve(relative) {
+        const base = document.querySelector('base');
+        const raw = base ? (base.getAttribute('href') || '') : '';
+        const match = raw.match(/https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)$/);
+        if (!match) return relative;
+        const dir = match[4].replace(/[^/]*$/, '');
+        return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
+      }
+      placer.loadUrls(resolve('assets/visualizer/preston-place.jpg'), resolve('assets/visualizer/inukshuk-cutout.webp')).catch(function () {
+        status.textContent = 'The sample picture did not load.';
+      });
       const photoInput = document.getElementById('photo-input');
-      const flipButton = document.getElementById('flip-btn');
-      const resetButton = document.getElementById('reset-btn');
-      const demoButton = document.getElementById('demo-btn');
-      const downloadButton = document.getElementById('download-btn');
-
-      const demoLand = new Image();
-      const sculpture = new Image();
-      let landPhoto = demoLand;
-      let photoUrl = null;
-      let dragging = false;
-      let flipped = false;
-      let x = canvas.width * 0.62;
-      let footY = canvas.height * 0.91;
-      let heightPercent = Number(sizeInputs.find(input => input.checked).dataset.height);
-
-      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-      function drawCover(image) {
-        const imageRatio = image.naturalWidth / image.naturalHeight;
-        const canvasRatio = canvas.width / canvas.height;
-        let sourceX = 0;
-        let sourceY = 0;
-        let sourceWidth = image.naturalWidth;
-        let sourceHeight = image.naturalHeight;
-
-        if (imageRatio > canvasRatio) {
-          sourceWidth = image.naturalHeight * canvasRatio;
-          sourceX = (image.naturalWidth - sourceWidth) / 2;
-        } else {
-          sourceHeight = image.naturalWidth / canvasRatio;
-          sourceY = (image.naturalHeight - sourceHeight) / 2;
-        }
-
-        ctx.drawImage(
-          image,
-          sourceX, sourceY, sourceWidth, sourceHeight,
-          0, 0, canvas.width, canvas.height
-        );
-      }
-
-      function drawFallbackLand() {
-        const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        sky.addColorStop(0, '#8bb7d2');
-        sky.addColorStop(0.58, '#d5d8ca');
-        sky.addColorStop(0.59, '#71845f');
-        sky.addColorStop(1, '#394c35');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-
-      function drawFallbackSculpture(drawWidth, drawHeight) {
-        ctx.save();
-        ctx.translate(x, footY);
-        ctx.scale(flipped ? -1 : 1, 1);
-        ctx.fillStyle = '#756e64';
-        const unit = drawHeight / 260;
-        const stones = [
-          [-28, -260, 56, 58],
-          [-112, -204, 224, 24],
-          [-74, -178, 148, 36],
-          [-88, -144, 176, 58],
-          [-61, -87, 47, 87],
-          [14, -87, 47, 87]
-        ];
-        stones.forEach(([sx, sy, width, height], index) => {
-          ctx.fillStyle = index % 2 ? '#6f685e' : '#8a8174';
-          ctx.fillRect(sx * unit, sy * unit, width * unit, height * unit);
-        });
-        ctx.restore();
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
-        else drawFallbackLand();
-
-        const drawHeight = canvas.height * (heightPercent / 100);
-        const ratio = sculpture.naturalWidth && sculpture.naturalHeight
-          ? sculpture.naturalWidth / sculpture.naturalHeight
-          : 0.76;
-        const drawWidth = drawHeight * ratio;
-
-        ctx.save();
-        ctx.globalAlpha = 0.3;
-        ctx.filter = 'blur(7px)';
-        ctx.fillStyle = '#17140f';
-        ctx.beginPath();
-        ctx.ellipse(x, footY + 3, drawWidth * 0.28, drawHeight * 0.035, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-
-        if (sculpture.complete && sculpture.naturalWidth) {
-          ctx.save();
-          ctx.translate(x, footY);
-          ctx.scale(flipped ? -1 : 1, 1);
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
-          ctx.restore();
-        } else {
-          drawFallbackSculpture(drawWidth, drawHeight);
-        }
-      }
-
-      function resetPosition() {
-        x = canvas.width * 0.62;
-        footY = canvas.height * 0.91;
-        heightPercent = 44;
-        flipped = false;
-        sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
-        tip.classList.remove('hidden');
-        draw();
-      }
-
-      function canvasPoint(event) {
-        const bounds = canvas.getBoundingClientRect();
-        return {
-          x: (event.clientX - bounds.left) * (canvas.width / bounds.width),
-          y: (event.clientY - bounds.top) * (canvas.height / bounds.height)
-        };
-      }
-
-      function placeAt(event) {
-        const point = canvasPoint(event);
-        const drawHeight = canvas.height * (heightPercent / 100);
-        x = clamp(point.x, 0, canvas.width);
-        footY = clamp(point.y, drawHeight * 0.55, canvas.height);
-        tip.classList.add('hidden');
-        draw();
-      }
-
-      function loadPhoto(file) {
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-          status.textContent = 'Please choose an image file.';
-          return;
-        }
-
-        if (photoUrl) URL.revokeObjectURL(photoUrl);
-        photoUrl = URL.createObjectURL(file);
-        const visitorPhoto = new Image();
-        visitorPhoto.onload = () => {
-          landPhoto = visitorPhoto;
-          status.textContent = 'Your land is ready. Drag the illustrated Inukshuk into position.';
-          tip.classList.remove('hidden');
-          draw();
-        };
-        visitorPhoto.onerror = () => {
-          status.textContent = 'That photo could not be opened. Please try another image.';
-        };
-        visitorPhoto.src = photoUrl;
-      }
-
-      [cameraInput, photoInput].forEach(input => {
-        input.addEventListener('change', event => {
-          loadPhoto(event.target.files && event.target.files[0]);
+      if (photoInput) {
+        photoInput.addEventListener('change', function (event) {
+          const file = event.target.files && event.target.files[0];
+          placer.addFile(file);
           event.target.value = '';
         });
-      });
-
-      canvas.addEventListener('pointerdown', event => {
-        dragging = true;
-        canvas.classList.add('dragging');
-        canvas.setPointerCapture(event.pointerId);
-        placeAt(event);
-      });
-      canvas.addEventListener('pointermove', event => {
-        if (dragging) placeAt(event);
-      });
-      const stopDragging = event => {
-        dragging = false;
-        canvas.classList.remove('dragging');
-        if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-      };
-      canvas.addEventListener('pointerup', stopDragging);
-      canvas.addEventListener('pointercancel', stopDragging);
-      canvas.addEventListener('keydown', event => {
-        const movement = event.shiftKey ? 20 : 6;
-        if (event.key === 'ArrowLeft') x -= movement;
-        else if (event.key === 'ArrowRight') x += movement;
-        else if (event.key === 'ArrowUp') footY -= movement;
-        else if (event.key === 'ArrowDown') footY += movement;
-        else return;
-        event.preventDefault();
-        x = clamp(x, 0, canvas.width);
-        footY = clamp(footY, 0, canvas.height);
-        tip.classList.add('hidden');
-        draw();
-      });
-
-      sizeInputs.forEach(input => {
-        input.addEventListener('change', () => {
+      }
+      const previous = document.getElementById('prev-photo');
+      if (previous) previous.addEventListener('click', function () { placer.previousPhoto(); });
+      const undo = document.getElementById('undo-btn');
+      const redo = document.getElementById('redo-btn');
+      if (undo) undo.addEventListener('click', function () { placer.undo(); });
+      if (redo) redo.addEventListener('click', function () { placer.redo(); });
+      const flip = document.getElementById('flip-btn');
+      if (flip) flip.addEventListener('click', function () { placer.flip(); });
+      const reset = document.getElementById('reset-btn');
+      if (reset) reset.addEventListener('click', function () { placer.resetCurrent(); });
+      const download = document.getElementById('download-btn');
+      if (download) download.addEventListener('click', function () { placer.download(); });
+      document.querySelectorAll('input[name="visual-size"]').forEach(function (input) {
+        input.addEventListener('change', function () {
           if (!input.checked) return;
-          heightPercent = Number(input.dataset.height);
-          status.textContent = `${input.value} size selected. Drag the illustration to position it.`;
-          tip.classList.add('hidden');
-          draw();
+          const fraction = input.value === 'Garden' ? 0.18 : input.value === 'Landmark' ? 0.42 : 0.28;
+          placer.setHeightFraction(fraction);
+          status.textContent = input.value + ' sets a size by eye. It is not a measurement.';
         });
       });
-      flipButton.addEventListener('click', () => {
-        flipped = !flipped;
-        draw();
+      function estimateOnly() {
+        if (math) math.textContent = 'Optional estimate only. These numbers do not move or resize the figure. They are not a survey. Flat ground is assumed only if you are comparing a known height with the horizon by eye.';
+      }
+      ['distance-input', 'tree-height-input', 'tree-distance-input'].forEach(function (id) {
+        const input = document.getElementById(id);
+        if (input) input.addEventListener('input', estimateOnly);
       });
-      resetButton.addEventListener('click', () => {
-        resetPosition();
-        status.textContent = 'Estate size and position reset.';
-      });
-      demoButton.addEventListener('click', () => {
-        landPhoto = demoLand;
-        resetPosition();
-        status.textContent = 'Demo land loaded. Add your own photo when you are ready.';
-      });
-      downloadButton.addEventListener('click', () => {
-        canvas.toBlob(blob => {
-          if (!blob) {
-            status.textContent = 'The preview could not be downloaded. Please try again.';
-            return;
-          }
-          const link = document.createElement('a');
-          const downloadUrl = URL.createObjectURL(blob);
-          link.href = downloadUrl;
-          link.download = 'inukshuk-on-my-land.png';
-          link.click();
-          setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
-          status.textContent = 'Preview downloaded.';
-        }, 'image/png');
-      });
-
-      ['dragenter', 'dragover'].forEach(type => {
-        stage.addEventListener(type, event => {
-          event.preventDefault();
-          stage.classList.add('dragover');
-        });
-      });
-      ['dragleave', 'drop'].forEach(type => {
-        stage.addEventListener(type, event => {
-          event.preventDefault();
-          stage.classList.remove('dragover');
-        });
-      });
-      stage.addEventListener('drop', event => {
-        loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]);
-      });
-
-      demoLand.onload = draw;
-      sculpture.onload = draw;
-      demoLand.src = 'assets/visualizer/demo-land-estate.jpg';
-      sculpture.src = 'assets/visualizer/inukshuk-illustration.svg';
-      draw();
+      const near = document.getElementById('preset-near');
+      const house = document.getElementById('preset-house');
+      if (near) near.addEventListener('click', estimateOnly);
+      if (house) house.addEventListener('click', estimateOnly);
     })();
   </script>
 
@@ -1480,8 +2017,11 @@
       function showCheckoutError() {
         products.forEach(product => {
           const node = document.getElementById(product.nodeId);
-          if (!node || node.querySelector('.shopify-buy__product')) return;
-          node.innerHTML = '<a class="price-btn" href="#contact">Checkout unavailable. Enquire instead</a>';
+          if (!node || node.querySelector('.checkout-note')) return;
+          const note = document.createElement('p');
+          note.className = 'checkout-note';
+          note.textContent = 'Card payment is not available. No card form on this page.';
+          node.replaceChildren(note);
         });
       }
 
@@ -1515,7 +2055,7 @@
                       'text-align': 'center'
                     },
                     button: {
-                      'font-family': 'Inter, sans-serif',
+                      'font-family': 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
                       'font-size': '13.6px',
                       'font-weight': '600',
                       'letter-spacing': '1px',
@@ -1538,16 +2078,7 @@
         }).catch(showCheckoutError);
       }
 
-      if (window.ShopifyBuy && window.ShopifyBuy.UI) {
-        createCheckoutButtons();
-      } else {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = '';
-        script.onload = createCheckoutButtons;
-        script.onerror = showCheckoutError;
-        document.head.appendChild(script);
-      }
+      showCheckoutError();
     })();
   </script>
 

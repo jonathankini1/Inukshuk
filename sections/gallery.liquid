@@ -1,9 +1,11 @@
 <section class="gallery" id="{{ section.settings.anchor | default: 'gallery' | handleize }}" data-gallery>
-  <div class="container">
-    <h2 class="section-title">{{ section.settings.heading }}</h2>
-    {% if section.settings.subheading != blank %}
-      <p class="section-subtitle">{{ section.settings.subheading }}</p>
-    {% endif %}
+  <div class="gallery-stage">
+    <div class="gallery-intro">
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p class="section-subtitle">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
     <div class="photo-grid">
       {% content_for 'blocks' %}
     </div>
@@ -100,13 +102,13 @@
       "type": "text",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "A Story in Stone"
+      "default": "Photographs"
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "t:labels.subheading",
-      "default": "The first landmark, seen across weather, seasons, and distance. Every angle reveals the landscape it belongs to."
+      "default": "The first landmark, in the weather it was built in."
     }
   ],
   "presets": [
