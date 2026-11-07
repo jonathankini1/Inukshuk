@@ -342,8 +342,11 @@
 
     function resizeBacking() {
       var rect = stage.getBoundingClientRect();
-      var width = Math.max(320, Math.round(rect.width || stage.clientWidth || 640));
-      var height = Math.max(240, Math.round(width * 3 / 4));
+      var width = Math.max(280, Math.round(rect.width || stage.clientWidth || 640));
+      var height = Math.max(200, Math.round(width * 3 / 4));
+      if (window.innerWidth <= 800) {
+        height = Math.max(180, Math.min(height, Math.round(window.innerHeight * 0.32)));
+      }
       cssSize = { w: width, h: height };
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.style.height = height + 'px';

@@ -266,6 +266,8 @@
     .size-choice input:focus-visible + .size-card { outline: 3px solid var(--warm); outline-offset: 2px; }
     .viz-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .viz-button-row .primary { grid-column: 1 / -1; }
+    .viz-size-bar { width: min(100%, 40rem); margin: 0.85rem auto 0; padding: 0 1.15rem; }
+    .viz-size-bar .viz-control-title { margin-bottom: 0.35rem; }
     .figure-size-row { display: grid; grid-template-columns: 44px 1fr 44px; gap: 0.6rem; align-items: center; }
     .figure-step { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; font-size: 1.5rem; line-height: 1; }
     .figure-size-row input[type="range"] { width: 100%; height: 44px; margin: 0; }
@@ -1248,11 +1250,27 @@
       }
     }
     @media (max-width: 800px) {
-      .hero { min-height: 0; height: auto; }
-      .hero-media { max-height: calc(100svh - 15rem); }
+      .hero { min-height: 0; height: auto; overflow: hidden; }
+      .hero-stage, .hero-stage picture { display: block; width: 100%; background: #000; }
+      .hero-media {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: none;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: center 14%;
+      }
       .hero-caption { padding-top: 0.35rem; padding-bottom: 0.35rem; }
       .trust-strip { padding: 0.25rem 1.15rem 0.45rem; }
-      .trust-list li { font-size: 1.02rem; line-height: 1.15; }
+      .trust-list { grid-template-columns: 1fr 1fr; gap: 0.28rem 0.65rem; }
+      .trust-list li { font-size: 0.84rem; line-height: 1.2; white-space: nowrap; }
+      .visualizer { padding: 0.85rem 0 0.6rem; }
+      .visualizer .section-title { font-size: 1.85rem; margin-bottom: 0.2rem; }
+      .visualizer .section-subtitle { font-size: 1rem; line-height: 1.3; margin-bottom: 0.35rem; }
+      .viz-output-title { margin: 0.1rem 0 0.35rem; font-size: 0.95rem; }
+      .viz-size-bar { margin-top: 0.55rem; }
+      .viz-tip { margin: 0.45rem 1rem 0; font-size: 0.92rem; }
     }
   </style>
 </head>
@@ -1364,11 +1382,19 @@
       <h2 class="section-title">See It on Your Land</h2>
       <p class="section-subtitle">Compare the sculpture with the tree. Move it back towards the house.</p>
       <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
+      <div class="viz-size-bar">
+        <label class="viz-control-title" id="figure-size-label" for="figure-size">Size <span id="figure-size-readout">28% of the photo height</span></label>
+        <div class="figure-size-row">
+          <button class="viz-button figure-step" id="figure-smaller" type="button" aria-label="Make the figure smaller">−</button>
+          <input id="figure-size" type="range" min="10" max="72" step="1" value="28" aria-labelledby="figure-size-label" aria-valuemin="10" aria-valuemax="72" aria-valuenow="28">
+          <button class="viz-button figure-step" id="figure-larger" type="button" aria-label="Make the figure larger">+</button>
+        </div>
+      </div>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
           <canvas id="viz-canvas" width="1600" height="1200" role="img" aria-label="Drag the figure to move it. The Size control changes how tall it is. The feet stay put. The metres are not a measurement."></canvas>
         </div>
-        <p class="viz-tip" id="viz-tip">Drag the figure to move it. Size, in the controls, changes how tall it is and the feet stay put. Click the figure if you want the handle. One finger on the grass scrolls the page.</p>
+        <p class="viz-tip" id="viz-tip">Drag the figure to move it. Size changes how tall it is and the feet stay put. One finger on the grass scrolls the page.</p>
         <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
@@ -1396,15 +1422,6 @@
                 <span class="size-card"><strong>Landmark</strong><small>3.5m+</small><b>£10k</b></span>
               </label>
             </fieldset>
-          </div>
-          <div class="viz-control">
-            <label class="viz-control-title" id="figure-size-label" for="figure-size">Size on this photo <span id="figure-size-readout">28% of the photo height</span></label>
-            <div class="figure-size-row">
-              <button class="viz-button figure-step" id="figure-smaller" type="button" aria-label="Make the figure smaller">−</button>
-              <input id="figure-size" type="range" min="10" max="72" step="1" value="28" aria-labelledby="figure-size-label" aria-valuemin="10" aria-valuemax="72" aria-valuenow="28">
-              <button class="viz-button figure-step" id="figure-larger" type="button" aria-label="Make the figure larger">+</button>
-            </div>
-            <p class="privacy-note">This changes the figure on the sample straight away. The feet stay where they are. It is not a measurement.</p>
           </div>
           <div class="viz-control">
             <label class="viz-control-title" for="distance-input">Optional estimate only <span id="distance-readout">does not move the figure</span></label>
@@ -1974,15 +1991,28 @@
         return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
       }
       const photoInput = document.getElementById('photo-input');
+      const previous = document.getElementById('prev-photo');
+      function syncPrevious() {
+        if (!previous) return;
+        const count = Number(document.getElementById('viz-canvas').dataset.photoCount || '1');
+        const index = Number(document.getElementById('viz-canvas').dataset.photoIndex || '0');
+        previous.disabled = !(count > 1 && index > 0);
+      }
       if (photoInput) {
         photoInput.addEventListener('change', function (event) {
           const file = event.target.files && event.target.files[0];
-          placer.addFile(file);
+          placer.addFile(file).then(function () {
+            syncPrevious();
+            syncSizeSlider();
+          });
           event.target.value = '';
         });
       }
-      const previous = document.getElementById('prev-photo');
-      if (previous) previous.addEventListener('click', function () { placer.previousPhoto(); });
+      if (previous) previous.addEventListener('click', function () {
+        placer.previousPhoto();
+        syncPrevious();
+        syncSizeSlider();
+      });
       const undo = document.getElementById('undo-btn');
       const redo = document.getElementById('redo-btn');
       if (undo) undo.addEventListener('click', function () { placer.undo(); });
