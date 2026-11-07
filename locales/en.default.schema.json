@@ -133,6 +133,10 @@
         "height": {
           "label": "Illustration height"
         },
+        "meters": {
+          "label": "Preview height in metres",
+          "info": "Guide height used only to keep Garden, Estate and Landmark in proportion. It is not a measured height in the photograph."
+        },
         "price": {
           "label": "Price"
         },
@@ -150,6 +154,7 @@
   },
   "labels": {
     "anchor": "Anchor",
+    "caption": "Caption",
     "heading": "Heading",
     "image": "Image",
     "image_alt": "Image alt text",

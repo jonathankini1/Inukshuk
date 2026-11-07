@@ -1,14 +1,12 @@
 {
   "current": {
-    "color_stone": "#8B8680",
-    "color_earth": "#5C4A3A",
-    "color_sky": "#2C3E50",
-    "color_warm": "#D4A574",
-    "color_cream": "#F5F0EB",
+    "color_stone": "#6E6E73",
+    "color_earth": "#1D1D1F",
+    "color_sky": "#000000",
+    "color_warm": "#1D1D1F",
+    "color_cream": "#F5F5F7",
     "color_white": "#FFFFFF",
-    "color_dark": "#1A1A1A",
-    "type_heading_font": "playfair_display_n7",
-    "type_body_font": "inter_n4",
-    "meta_description": "Bespoke Inukshuk stone sculptures, built with your people and rooted in your land."
+    "color_dark": "#1D1D1F",
+    "meta_description": "Commission a stone landmark for a garden, an estate, or open ground in the UK."
   }
 }

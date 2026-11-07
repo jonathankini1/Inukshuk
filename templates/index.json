@@ -46,67 +46,26 @@
     "gallery": {
       "type": "gallery",
       "blocks": {
-        "photo_wide": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "landmark-wide.jpg",
-            "alt": "Wide view of an Inukshuk overlooking rolling hills",
-            "caption": "Rooted in its landscape",
-            "open_label": "Open wide landscape photograph",
-            "layout": "wide"
-          }
-        },
-        "photo_front": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "landmark-front.jpg",
-            "alt": "Front view of a handbuilt stone Inukshuk",
-            "caption": "Built stone by stone",
-            "open_label": "Open front view photograph",
-            "layout": "tall"
-          }
-        },
         "photo_summer": {
           "type": "gallery-photo",
           "settings": {
             "fallback_asset": "summer-landmark.jpg",
-            "alt": "Inukshuk standing in a green summer field",
-            "caption": "Through every season",
+            "alt": "Stone landmark in summer grass under a blue sky",
+            "caption": "Later in the summer, the same figure, with a young tree to its right.",
             "open_label": "Open summer photograph",
             "layout": "normal"
-          }
-        },
-        "photo_detail": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "stone-detail.jpg",
-            "alt": "Close view showing the scale and texture of the stone",
-            "caption": "Local stone, monumental scale",
-            "open_label": "Open stone detail photograph",
-            "layout": "normal"
-          }
-        },
-        "photo_moon": {
-          "type": "gallery-photo",
-          "settings": {
-            "fallback_asset": "moonlit-landmark.jpg",
-            "alt": "Illuminated Inukshuk beneath the moon at night",
-            "caption": "A landmark after dark",
-            "open_label": "Open moonlit photograph",
-            "layout": "wide"
           }
         }
       },
       "block_order": [
-        "photo_wide",
-        "photo_front",
-        "photo_summer",
-        "photo_detail",
-        "photo_moon"
+        "photo_summer"
       ]
     },
     "visualizer": {
       "type": "visualizer",
+      "settings": {
+        "subheading": "Compare the sculpture with the tree. Move it back towards the house."
+      },
       "blocks": {
         "size_garden": {
           "type": "visualizer-size",
@@ -116,6 +75,7 @@
             "price": "\u00a35k",
             "value": "Garden",
             "height": 30,
+            "meters": "1.5",
             "selected": false
           }
         },
@@ -127,6 +87,7 @@
             "price": "\u00a37.5k",
             "value": "Estate",
             "height": 44,
+            "meters": "2.75",
             "selected": true
           }
         },
@@ -138,6 +99,7 @@
             "price": "\u00a310k",
             "value": "Landmark",
             "height": 60,
+            "meters": "3.5",
             "selected": false
           }
         }
@@ -179,8 +141,8 @@
           "type": "process-step",
           "settings": {
             "number": "04",
-            "title": "Standing Forever",
-            "text": "Engineered to last generations. Your Inukshuk becomes a permanent landmark and a story in stone that outlives all of us."
+            "title": "After the build",
+            "text": "A foundation is set before the stones go up. The landmark stays where it is raised."
           }
         }
       },
@@ -206,7 +168,7 @@
             "enquire_label": "Ask about Garden",
             "package_value": "Garden",
             "featured": false,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "garden-inukshuk-booking-deposit",
             "product_handle": "garden-inukshuk-booking-deposit"
           }
@@ -217,13 +179,13 @@
             "title": "Estate",
             "size_label": "2 to 3.5 metres tall",
             "guide_price": "\u00a37,500",
-            "features": "Everything in Garden\nStructural engineering review\nDigger and machinery on site\nFull-day community build event\nDrone footage and film",
+            "features": "Everything in Garden\nStructural engineering review\nDigger and machinery on site\nFull-day community build event",
             "deposit_title": "Reserve with \u00a3750",
             "deposit_text": "Your booking deposit is credited against the \u00a37,500 project price.",
             "enquire_label": "Ask about Estate",
             "package_value": "Estate",
             "featured": true,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "estate-inukshuk-booking-deposit",
             "product_handle": "estate-inukshuk-booking-deposit"
           }
@@ -240,7 +202,7 @@
             "enquire_label": "Ask about Landmark",
             "package_value": "Landmark",
             "featured": false,
-            "badge": "Most Popular",
+            "badge": "",
             "product": "landmark-inukshuk-booking-deposit",
             "product_handle": "landmark-inukshuk-booking-deposit"
           }
@@ -321,10 +283,10 @@
     "principles",
     "what_is",
     "gallery",
+    "story",
     "visualizer",
     "process",
     "pricing",
-    "story",
     "faq",
     "enquiry"
   ]

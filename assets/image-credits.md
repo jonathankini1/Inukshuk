@@ -1,0 +1,71 @@
+# Image credits
+
+The visualiser uses one public photograph and a composite made from it. Credit is required. Neither use is an endorsement by the photographer.
+
+## Resized backdrop
+
+`assets/preston-place.jpg` and `legacy-static/assets/visualizer/preston-place.jpg` are the same metadata-stripped 2000×1500 resize of the Wikimedia file. The original file’s EXIF, including any location data, was removed before this copy was saved. No GPS coordinates are stored in the repository file or shown on the site. The resize and metadata removal are changes to the original.
+
+## Composite illustration
+
+The on-screen tool draws the sculpture illustration on that resized photograph. The large foreground trunk on the right is the height reference. The bracket runs from the grass at its foot to the top of the crown. The default is an illustrative 6 m tree, not a measurement. The slender birch on the left is not the reference. The house stays in the photograph and is not given a measured height. The downloaded preview is the same composite, with the credit set on its own lines under the picture:
+
+Illustrative example. Not a measurement.
+Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0
+https://creativecommons.org/licenses/by-sa/2.0/
+Resized, metadata removed; sculpture illustration added. Not an endorsement.
+
+That composite is an adaptation. It is distributed under Creative Commons Attribution-ShareAlike 2.0 Generic, the same licence as the photograph. Further adaptations of the composite must stay under that licence or a compatible one. The credit, the licence link, and the statement of changes have to travel with it. The photographer has not endorsed Inukshuk.
+
+| | |
+| --- | --- |
+| File in this branch | `assets/preston-place.jpg` and `legacy-static/assets/visualizer/preston-place.jpg` |
+| Subject | Preston Place, Preston, Gloucestershire |
+| Photographer | Vieve Forward |
+| Date recorded by the camera | 12 May 2016, 13:33 |
+| Camera recorded by the file | Panasonic DMC-TZ70, focal length 4.3 mm, 24 mm equivalent |
+| Source page | https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg |
+| Source file | https://commons.wikimedia.org/wiki/Special:FilePath/Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg |
+| Also published as | Geograph 4948421 |
+| Licence | Creative Commons Attribution-ShareAlike 2.0 Generic. Applies to the resized backdrop and to the composite. |
+| Licence URL | https://creativecommons.org/licenses/by-sa/2.0/ |
+| Changes | Resized to 2000×1500; metadata removed. The composite also adds the sculpture illustration. |
+| Composite | On-screen drawing and downloaded PNG. Same CC BY-SA 2.0 licence. Not an endorsement by the photographer. |
+
+The 8 m reference height and the 40 m reference distance used in the visualiser are labelled assumptions. They are not a measurement of this house. The camera date and focal length are copied from the photograph’s own file and do not, by themselves, give a measured size.
+
+Sculpture photographs already in this branch are unchanged originals. `landmark-front.jpg` was not overwritten. A grass repair of that frame was tried and excluded because the result still read as a synthetic patch. `moonlit-landmark.jpg` was left out of the gallery because the moon is a soft disc on the head and was not sharpened or replaced. `hillside-landmark.jpg` was left out because it is the same frame as the desktop hero, only slightly wider. `stone-detail.jpg` was left out because the churned ground at the feet is the defect that was rejected.
+
+## Hero photograph
+
+`legacy-static/assets/gallery/landmark-wide.jpg` is the untouched original, 2000×1125. SHA-256 `1e60a6b79f1e8ac2ab519c90da2003011c40d5cd2aeab48e4f2d72e68ded2c58`. It is not the file the desktop page shows.
+
+`legacy-static/assets/gallery/landmark-wide-cleared.jpg` is the desktop hero. SHA-256 `d3c618c7d4d5c5405b5720297385bcfe9b0f44d27ace02529e53e6a507e2d021`. It is the same photograph. The two houses behind the head are covered with hillside, trees and sky copied from the right side of this frame. The yellow hose on the grass is covered with grass copied from the open field on the right of this frame, same rows, not scaled. The wooden post at the right edge is covered with grass copied from just to its left. The far-left stone barn, the central sculpture, and the vehicles left of the left arm are the original pixels. A short piece of the hose remains where it meets the sculpture, because covering it cut into the leg. The vehicles are still there: fills of that band read as a rectangle or a blur, so they were left. The phone hero is a different photograph and was not changed.
+
+## Sculpture photographs on the page
+
+The phone hero is `legacy-static/assets/gallery/summer-landmark.jpg`, a 1125×2000 portrait already in the repository. It was not downloaded again for this change.
+
+## Examples elsewhere
+
+These three photographs are not builds by this studio. Each file was resized so the long side is 1600 pixels and the metadata, including GPS, was removed. That resize is the change to record.
+
+| Place | File | Photographer | Licence | Source page |
+| --- | --- | --- | --- | --- |
+| Toronto, Canada. Inukshuk Park. Sculpture by Kellypalik Qimirpik. | `legacy-static/assets/gallery/example-toronto.jpg` | Fabian Roudra Baroi | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_Park_05.jpg |
+| Brisbane, Australia. Victoria Park. | `legacy-static/assets/gallery/example-brisbane.jpg` | Brisbane City Council | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg |
+| Cambridge, England. Scott Polar Research Institute. | `legacy-static/assets/gallery/example-cambridge.jpg` | Meirion | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg |
+
+Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The earlier page copies, `example-toronto.jpg`, `example-brisbane.jpg` and `example-cambridge.jpg`, are proportional resizes of those originals. They were shown in equal square frames with empty space. That empty space was not an expanded photograph.
+
+The files now on the page are filled squares:
+
+| File | What changed | Sculpture pixels |
+| --- | --- | --- |
+| `legacy-static/assets/gallery/example-toronto-square.jpg` | Rows 880 to 5459 of the 4000×6000 original, then 290 pixels of sky continued from each side edge by reflection. Downscaled to 1600×1600. | The centre 4000 columns of the full-size square match those original rows exactly. The figure is taller than the photo is wide, so a square crop of the file itself would cut the head or the feet. |
+| `legacy-static/assets/gallery/example-brisbane-square.jpg` | Centre 4480×4480 crop of the 6720×4480 original, from x 1120. Downscaled to 1600×1600. | Every pixel in the crop is from the original. The full height is kept. |
+| `legacy-static/assets/gallery/example-cambridge-square.jpg` | Centre 3240×3240 crop of the 4320×3240 original, from x 540. Downscaled to 1600×1600. | Every pixel in the crop is from the original. The full height is kept. |
+
+These are not generative redraws. No new lettering was painted. The stones were not reshaped. The hero file was not replaced.
+
+The handover note recorded for this work, DESIGN-NOTES-ruben-2026-10-22, says the photographs are only real photos from the handover pack, passed through a metadata strip, with no GPS, and that the artwork is not an AI hero. The photographer’s name and the owner’s licence are not verified in this repository. These files are preexisting business assets already in the project, used here for an unpublished preview. This record does not claim a public licence, an upload permission, or permission to publish. Live publication needs the owner’s consent, which has not been given here.

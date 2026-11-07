@@ -2,8 +2,8 @@
   class="visualizer"
   id="{{ section.settings.anchor | default: 'visualizer' | handleize }}"
   data-visualizer
-  data-demo-land="{{ 'demo-land-estate.jpg' | asset_url }}"
-  data-sculpture="{{ 'inukshuk-illustration.svg' | asset_url }}"
+  data-backdrop="{{ 'preston-place.jpg' | asset_url }}"
+  data-sculpture="{{ 'inukshuk-cutout.webp' | asset_url }}"
   data-status-demo="{{ 'sections.visualizer.demo' | t | escape }}"
   data-status-ready="{{ 'sections.visualizer.ready' | t | escape }}"
   data-status-type="{{ 'sections.visualizer.bad_type' | t | escape }}"
@@ -17,14 +17,15 @@
     <h2 class="section-title">{{ section.settings.heading }}</h2>
     {% if section.settings.subheading != blank %}
       <p class="section-subtitle">{{ section.settings.subheading }}</p>
+      <p class="viz-output-title" data-viz-title>Illustrative example: beside the tree</p>
     {% endif %}
     <div class="visualizer-shell">
       <div class="viz-stage" data-viz-stage>
         <canvas
           class="viz-canvas"
           data-viz-canvas
-          width="1200"
-          height="750"
+          width="1600"
+          height="1200"
           role="img"
           tabindex="0"
           aria-label="{{ 'sections.visualizer.canvas' | t }}"
@@ -48,12 +49,28 @@
             {% content_for 'blocks' %}
           </fieldset>
         </div>
+        <div class="viz-control">
+          <label class="viz-control-title" for="distance-{{ section.id }}">Sculpture distance <span data-distance-readout>8 m</span></label>
+          <input id="distance-{{ section.id }}" data-distance type="range" min="8" max="64" step="1" value="8">
+          <div class="viz-button-row">
+            <button class="viz-button" data-preset="tree" type="button">Beside the tree</button>
+            <button class="viz-button" data-preset="house" type="button">At the house</button>
+          </div>
+        </div>
+        <div class="viz-control">
+          <label class="viz-control-title" for="tree-height-{{ section.id }}">Reference tree: set its height <span data-tree-height-readout>Illustrative 6 m tree (not measured)</span></label>
+          <input id="tree-height-{{ section.id }}" data-tree-height type="range" min="3" max="18" step="0.5" value="6" aria-describedby="tree-height-{{ section.id }}">
+          <label class="viz-control-title" for="tree-distance-{{ section.id }}">Example distance to the tree <span data-tree-distance-readout>8 m</span></label>
+          <input id="tree-distance-{{ section.id }}" data-tree-distance type="range" min="4" max="16" step="1" value="8">
+          <p class="privacy-note">The bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. Illustrative 6 m tree, not measured. The same depth sets the scale. Camera file: 12 May 2016, Panasonic DMC-TZ70, 4.3 mm (24 mm equivalent). Illustrative camera height 1.6 m. The horizon is the distant lawn line. The same height at twice the distance is half the size.</p>
+          <p class="privacy-note viz-math" data-viz-math></p>
+        </div>
         <div class="viz-button-row">
           <button class="viz-button" data-flip type="button">{{ section.settings.flip_label }}</button>
           <button class="viz-button" data-reset type="button">{{ section.settings.reset_label }}</button>
-          <button class="viz-button" data-demo type="button">{{ section.settings.demo_label }}</button>
           <button class="viz-button primary" data-download type="button">{{ section.settings.download_label }}</button>
         </div>
+        <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed; sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. This is not an endorsement by the photographer. GPS was not imported.</p>
         <p class="viz-status" data-viz-status role="status">{{ 'sections.visualizer.demo' | t }}</p>
       </aside>
     </div>
@@ -71,105 +88,298 @@
       const stage = section.querySelector('[data-viz-stage]');
       const tip = section.querySelector('[data-viz-tip]');
       const status = section.querySelector('[data-viz-status]');
+      const math = section.querySelector('[data-viz-math]');
       if (!canvas || !canvas.getContext) return;
       const ctx = canvas.getContext('2d');
       const sizeInputs = [...section.querySelectorAll('input[type="radio"]')];
       const cameraInput = section.querySelector('[data-camera]');
       const photoInput = section.querySelector('[data-photo]');
+      const flipButton = section.querySelector('[data-flip]');
+      const resetButton = section.querySelector('[data-reset]');
+      const downloadButton = section.querySelector('[data-download]');
+      const distanceInput = section.querySelector('[data-distance]');
+      const treeHeightInput = section.querySelector('[data-tree-height]');
+      const treeDistanceInput = section.querySelector('[data-tree-distance]');
+      const distanceReadout = section.querySelector('[data-distance-readout]');
+      const treeHeightReadout = section.querySelector('[data-tree-height-readout]');
+      const treeDistanceReadout = section.querySelector('[data-tree-distance-readout]');
+      const presetNear = section.querySelector('[data-preset="tree"]');
+      const presetHouse = section.querySelector('[data-preset="house"]');
       const message = (name) => section.getAttribute(name) || '';
+      const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
+
+      const TREE_X = 1780 / 2000;
+      const TREE_TOP = 20 / 1500;
+      const TREE_FOOT = 900 / 1500;
+      const HOUSE_FOOT = 730 / 1500;
+      const HORIZON = 644 / 1500;
+      const PLACE_BESIDE = true;
+      const TRUNK_LEFT = 1680 / 2000;
+      const DEFAULT_TREE_H = 6;
+      const DEFAULT_TREE_D = 8;
       const demoLand = new Image();
       const sculpture = new Image();
+      demoLand.crossOrigin = 'anonymous';
+      sculpture.crossOrigin = 'anonymous';
       let landPhoto = demoLand;
       let photoUrl = null;
+      let usingSample = true;
       let dragging = false;
       let flipped = false;
-      let x = canvas.width * 0.62;
-      let footY = canvas.height * 0.91;
-      const selected = sizeInputs.find((input) => input.checked) || sizeInputs[0];
-      let heightPercent = selected ? Number(selected.dataset.height) : 44;
+      let treeHeightM = DEFAULT_TREE_H;
+      let treeDistanceM = DEFAULT_TREE_D;
+      let distanceM = DEFAULT_TREE_D;
+      let meters = selected ? Number(selected.dataset.meters) : 2.75;
+      let x = 0;
+      let userMoved = false;
+      let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-      function drawCover(image) {
+      function fitRect(image) {
+        if (!image || !image.naturalWidth) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
         const imageRatio = image.naturalWidth / image.naturalHeight;
         const canvasRatio = canvas.width / canvas.height;
-        let sourceX = 0;
-        let sourceY = 0;
-        let sourceWidth = image.naturalWidth;
-        let sourceHeight = image.naturalHeight;
+        if (Math.abs(imageRatio - canvasRatio) < 0.02) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
         if (imageRatio > canvasRatio) {
-          sourceWidth = image.naturalHeight * canvasRatio;
-          sourceX = (image.naturalWidth - sourceWidth) / 2;
-        } else {
-          sourceHeight = image.naturalWidth / canvasRatio;
-          sourceY = (image.naturalHeight - sourceHeight) / 2;
+          const w = canvas.width;
+          const h = canvas.width / imageRatio;
+          return { x: 0, y: (canvas.height - h) / 2, w, h };
         }
-        ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+        const h = canvas.height;
+        const w = canvas.height * imageRatio;
+        return { x: (canvas.width - w) / 2, y: 0, w, h };
       }
 
-      function drawFallbackLand() {
-        const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        sky.addColorStop(0, '#8bb7d2');
-        sky.addColorStop(0.58, '#d5d8ca');
-        sky.addColorStop(0.59, '#71845f');
-        sky.addColorStop(1, '#394c35');
-        ctx.fillStyle = sky;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
+      const houseDistance = () => {
+        const dropTree = TREE_FOOT - HORIZON;
+        const dropHouse = HOUSE_FOOT - HORIZON;
+        return treeDistanceM * dropTree / dropHouse;
+      };
+      const horizonY = () => landRect.y + landRect.h * HORIZON;
+      const treeFootY = () => landRect.y + landRect.h * TREE_FOOT;
+      const treePixelHeight = () => landRect.h * (TREE_FOOT - TREE_TOP);
+      const apparentHeight = (distance) => clamp(treePixelHeight() * (meters / treeHeightM) * (treeDistanceM / distance), 4, canvas.height * 0.92);
+      const footYForDistance = (distance) => horizonY() + (treeFootY() - horizonY()) * (treeDistanceM / distance);
+      const distanceForFoot = (footY) => {
+        const drop = footY - horizonY();
+        const treeDrop = treeFootY() - horizonY();
+        if (drop <= 1 || treeDrop <= 1) return Math.round(houseDistance());
+        return clamp(Math.round(treeDistanceM * treeDrop / drop), Math.round(treeDistanceM), Math.round(houseDistance()));
+      };
 
-      function drawFallbackSculpture(drawHeight) {
+      function displayedWidth() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width > 40) return rect.width;
+        return Math.min(canvas.width, 960);
+      }
+      function labelFontPx() {
+        const shown = displayedWidth();
+        const css = shown < 560 ? 17 : 18;
+        return Math.max(30, Math.round(css * (canvas.width / shown)));
+      }
+      function fillRound(x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+        ctx.fill();
+      }
+      function drawPlate(lines, anchorX, anchorY, align) {
+        let size = labelFontPx();
+        const fontFor = (px) => '600 ' + px + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
         ctx.save();
-        ctx.translate(x, footY);
-        ctx.scale(flipped ? -1 : 1, 1);
-        const unit = drawHeight / 260;
-        const stones = [[-28, -260, 56, 58], [-112, -204, 224, 24], [-74, -178, 148, 36], [-88, -144, 176, 58], [-61, -87, 47, 87], [14, -87, 47, 87]];
-        stones.forEach(([sx, sy, width, height], stoneIndex) => {
-          ctx.fillStyle = stoneIndex % 2 ? '#6f685e' : '#8a8174';
-          ctx.fillRect(sx * unit, sy * unit, width * unit, height * unit);
+        ctx.font = fontFor(size);
+        let widest = 0;
+        lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
+        while (widest > canvas.width * 0.34 && size > 22) {
+          size = Math.round(size * 0.88);
+          ctx.font = fontFor(size);
+          widest = 0;
+          lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
+        }
+        const font = fontFor(size);
+        const lineH = Math.round(size * 1.18);
+        const padX = Math.round(size * 0.62);
+        const padY = Math.round(size * 0.38);
+        const w = widest + padX * 2;
+        const h = lineH * lines.length + padY * 2;
+        let x = align === 'right' ? anchorX - w : anchorX;
+        let y = anchorY - h / 2;
+        x = clamp(x, 16, canvas.width - w - 16);
+        y = clamp(y, 16, canvas.height - h - 16);
+        ctx.fillStyle = 'rgba(0,0,0,0.78)';
+        fillRound(x, y, w, h, Math.round(size * 0.36));
+        ctx.fillStyle = '#f5f5f7';
+        ctx.font = font;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        lines.forEach((line, index) => {
+          ctx.fillText(line, x + padX, y + padY + lineH * index + lineH / 2);
         });
         ctx.restore();
+        canvas.dataset.labelCss = String(Math.round(size * displayedWidth() / canvas.width));
+      }
+      function besideCenter(drawWidth) {
+        const trunkLeft = landRect.x + landRect.w * TRUNK_LEFT;
+        return trunkLeft - 20 - drawWidth / 2;
+      }
+      function limitX(value, drawWidth) {
+        const half = drawWidth / 2;
+        const minX = landRect.x + landRect.w * 0.34 + half;
+        const maxX = landRect.x + landRect.w * TRUNK_LEFT - 20 - half;
+        if (maxX < minX) return (minX + maxX) / 2;
+        return clamp(value, minX, maxX);
+      }
+
+      function syncDistanceRange() {
+        const min = Math.round(treeDistanceM);
+        const max = Math.max(min + 1, Math.round(houseDistance()));
+        distanceM = clamp(distanceM, min, max);
+        if (distanceInput) {
+          distanceInput.min = String(min);
+          distanceInput.max = String(max);
+          distanceInput.value = String(distanceM);
+        }
+      }
+
+      function drawAnchors() {
+        if (!usingSample) return;
+        const bx = landRect.x + landRect.w * TREE_X;
+        const y1 = landRect.y + landRect.h * TREE_TOP;
+        const y2 = landRect.y + landRect.h * TREE_FOOT;
+        const tick = Math.max(12, Math.round(canvas.width / 100));
+        ctx.save();
+        ctx.strokeStyle = '#f5f5f7';
+        ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(bx - tick, y1); ctx.lineTo(bx + tick, y1);
+        ctx.moveTo(bx, y1); ctx.lineTo(bx, y2);
+        ctx.moveTo(bx - tick, y2); ctx.lineTo(bx + tick, y2);
+        ctx.stroke();
+        ctx.restore();
+        drawPlate([treeHeightM + ' m tree', 'illustrative'], bx - tick - 14, y1 + (y2 - y1) * 0.2, 'right');
+        if (Math.abs(distanceM - treeDistanceM) >= 2) {
+          const houseY = landRect.y + landRect.h * HOUSE_FOOT;
+          const hx = landRect.x + landRect.w * 0.36;
+          ctx.save();
+          ctx.strokeStyle = '#f5f5f7';
+          ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
+          ctx.beginPath();
+          ctx.moveTo(hx - 22, houseY); ctx.lineTo(hx + 22, houseY);
+          ctx.stroke();
+          ctx.restore();
+          drawPlate(['House ground'], hx + 30, houseY, 'left');
+        }
+      }
+
+      function writeMath(drawHeight) {
+        const doubled = apparentHeight(distanceM * 2);
+        const atTree = apparentHeight(treeDistanceM);
+        const houseD = houseDistance();
+        const mode = usingSample
+          ? 'Illustrative example.'
+          : 'Your photograph has no known scale. These metres are the illustrative example until you edit them.';
+        const title = section.querySelector('[data-viz-title]');
+        const beside = Math.abs(distanceM - treeDistanceM) < 1;
+        if (title) title.textContent = beside ? 'Illustrative example: beside the tree' : 'Illustrative example: toward the house';
+        if (math) {
+          math.textContent = mode + ' Reference tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m, not measured. ' + meters + ' m guide height at ' + distanceM + ' m is ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px, ' + Math.round(100 * meters / treeHeightM) + '% of the tree. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m.';
+        }
+        canvas.dataset.calibration = usingSample ? 'illustrative-example' : 'upload-illustrative';
+        canvas.dataset.treePx = String(Math.round(treePixelHeight()));
+        canvas.dataset.treeDistance = String(treeDistanceM);
+        canvas.dataset.houseDistance = String(Math.round(houseD));
+        canvas.dataset.atTree = String(Math.round(atTree));
+        canvas.dataset.doubled = String(Math.round(doubled));
       }
 
       function draw() {
+        landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
+        syncDistanceRange();
+        const footY = footYForDistance(distanceM);
+        const drawHeight = apparentHeight(distanceM);
+        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
+        const drawWidth = drawHeight * ratio;
+        if (!userMoved) x = besideCenter(drawWidth);
+        x = limitX(x, drawWidth);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
-        if (landPhoto.complete && landPhoto.naturalWidth) drawCover(landPhoto);
-        else drawFallbackLand();
-        const drawHeight = canvas.height * (heightPercent / 100);
-        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
-        const drawWidth = drawHeight * ratio;
-        ctx.save();
-        ctx.globalAlpha = 0.3;
-        ctx.filter = 'blur(7px)';
-        ctx.fillStyle = '#17140f';
+        if (landPhoto.complete && landPhoto.naturalWidth) ctx.drawImage(landPhoto, landRect.x, landRect.y, landRect.w, landRect.h);
+        else {
+          ctx.fillStyle = '#6d8a55';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        drawAnchors();
+        const lightShift = drawWidth * 0.22;
+        const shade = ctx.createRadialGradient(x + lightShift, footY, 2, x + lightShift, footY, Math.max(18, drawWidth * 0.62));
+        shade.addColorStop(0, 'rgba(20, 24, 12, 0.4)');
+        shade.addColorStop(0.5, 'rgba(20, 24, 12, 0.12)');
+        shade.addColorStop(1, 'rgba(20, 24, 12, 0)');
+        ctx.fillStyle = shade;
         ctx.beginPath();
-        ctx.ellipse(x, footY + 3, drawWidth * 0.28, drawHeight * 0.035, 0, 0, Math.PI * 2);
+        ctx.ellipse(x + lightShift, footY + 2, Math.max(12, drawWidth * 0.48), Math.max(4, drawHeight * 0.028), 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
         if (sculpture.complete && sculpture.naturalWidth) {
           ctx.save();
           ctx.translate(x, footY);
           ctx.scale(flipped ? -1 : 1, 1);
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight, drawWidth, drawHeight);
+          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
           ctx.restore();
-        } else {
-          drawFallbackSculpture(drawHeight);
         }
+        if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
+          const top = footY - drawHeight * (1104 / 1117);
+          const treeX = landRect.x + landRect.w * TREE_X;
+          ctx.save();
+          ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+          ctx.fillStyle = '#f5f5f7';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 5]);
+          ctx.beginPath();
+          ctx.moveTo(x + drawWidth / 2 + 8, top);
+          ctx.lineTo(treeX - 12, top);
+          ctx.stroke();
+          ctx.restore();
+          drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right');
+        }
+        canvas.dataset.distance = String(distanceM);
+        canvas.dataset.meters = String(meters);
+        canvas.dataset.drawHeight = String(Math.round(drawHeight));
+        canvas.dataset.footY = String(Math.round(footY));
+        if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
+        if (treeHeightReadout) treeHeightReadout.textContent = 'Illustrative ' + treeHeightM + ' m tree (not measured)';
+        if (treeDistanceReadout) treeDistanceReadout.textContent = treeDistanceM + ' m';
+        writeMath(drawHeight);
       }
 
-      function defaultSize() {
-        return sizeInputs.find((input) => input.hasAttribute('data-default')) || sizeInputs.find((input) => input.value === 'Estate') || sizeInputs[0];
+      function setDistance(value) {
+        distanceM = Math.round(Number(value));
+        tip.classList.add('hidden');
+        draw();
       }
 
       function resetPosition() {
-        const estate = defaultSize();
-        sizeInputs.forEach((input) => { input.checked = input === estate; });
-        heightPercent = estate ? Number(estate.dataset.height) : 44;
-        x = canvas.width * 0.62;
-        footY = canvas.height * 0.91;
+        usingSample = true;
+        landPhoto = demoLand;
+        meters = 2.75;
+        treeHeightM = DEFAULT_TREE_H;
+        treeDistanceM = DEFAULT_TREE_D;
+        distanceM = DEFAULT_TREE_D;
         flipped = false;
+        userMoved = false;
+        x = 0;
+        if (treeHeightInput) treeHeightInput.value = String(DEFAULT_TREE_H);
+        if (treeDistanceInput) treeDistanceInput.value = String(DEFAULT_TREE_D);
+        sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
         tip.classList.remove('hidden');
-        draw();
+        const src = section.getAttribute('data-backdrop');
+        if (demoLand.getAttribute('src') !== src) demoLand.src = src;
+        else draw();
       }
 
       function canvasPoint(event) {
@@ -182,9 +392,9 @@
 
       function placeAt(event) {
         const point = canvasPoint(event);
-        const drawHeight = canvas.height * (heightPercent / 100);
-        x = clamp(point.x, 0, canvas.width);
-        footY = clamp(point.y, drawHeight * 0.55, canvas.height);
+        x = point.x;
+        userMoved = true;
+        distanceM = distanceForFoot(point.y);
         tip.classList.add('hidden');
         draw();
       }
@@ -197,6 +407,7 @@
         }
         if (photoUrl) URL.revokeObjectURL(photoUrl);
         photoUrl = URL.createObjectURL(file);
+        usingSample = false;
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
@@ -204,109 +415,129 @@
           tip.classList.remove('hidden');
           draw();
         };
-        visitorPhoto.onerror = () => {
-          status.textContent = message('data-status-open');
-        };
+        visitorPhoto.onerror = () => { status.textContent = message('data-status-open'); };
         visitorPhoto.src = photoUrl;
       }
 
-      [cameraInput, photoInput].forEach((input) => {
-        if (!input) return;
-        input.addEventListener('change', (event) => {
+      [cameraInput, photoInput].forEach(input => {
+        input.addEventListener('change', event => {
           loadPhoto(event.target.files && event.target.files[0]);
           event.target.value = '';
         });
       });
-
-      canvas.addEventListener('pointerdown', (event) => {
+      canvas.addEventListener('pointerdown', event => {
         dragging = true;
         canvas.classList.add('dragging');
         canvas.setPointerCapture(event.pointerId);
         placeAt(event);
       });
-      canvas.addEventListener('pointermove', (event) => {
-        if (dragging) placeAt(event);
-      });
-      const stopDragging = (event) => {
+      canvas.addEventListener('pointermove', event => { if (dragging) placeAt(event); });
+      const stopDragging = event => {
         dragging = false;
         canvas.classList.remove('dragging');
         if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
       };
       canvas.addEventListener('pointerup', stopDragging);
       canvas.addEventListener('pointercancel', stopDragging);
-      canvas.addEventListener('keydown', (event) => {
-        const movement = event.shiftKey ? 20 : 6;
-        if (event.key === 'ArrowLeft') x -= movement;
-        else if (event.key === 'ArrowRight') x += movement;
-        else if (event.key === 'ArrowUp') footY -= movement;
-        else if (event.key === 'ArrowDown') footY += movement;
+      canvas.addEventListener('keydown', event => {
+        const step = event.shiftKey ? 4 : 1;
+        if (event.key === 'ArrowLeft') { x -= event.shiftKey ? 40 : 12; userMoved = true; }
+        else if (event.key === 'ArrowRight') { x += event.shiftKey ? 40 : 12; userMoved = true; }
+        else if (event.key === 'ArrowUp') distanceM += step;
+        else if (event.key === 'ArrowDown') distanceM -= step;
         else return;
         event.preventDefault();
-        x = clamp(x, 0, canvas.width);
-        footY = clamp(footY, 0, canvas.height);
         tip.classList.add('hidden');
         draw();
       });
-
-      sizeInputs.forEach((input) => {
+      sizeInputs.forEach(input => {
         input.addEventListener('change', () => {
           if (!input.checked) return;
-          heightPercent = Number(input.dataset.height);
+          meters = Number(input.dataset.meters);
           status.textContent = message('data-status-size').replace('__NAME__', input.value);
           tip.classList.add('hidden');
           draw();
         });
       });
-      section.querySelector('[data-flip]').addEventListener('click', () => {
-        flipped = !flipped;
-        draw();
-      });
-      section.querySelector('[data-reset]').addEventListener('click', () => {
+      flipButton.addEventListener('click', () => { flipped = !flipped; draw(); });
+      resetButton.addEventListener('click', () => {
         resetPosition();
         status.textContent = message('data-status-reset');
       });
-      section.querySelector('[data-demo]').addEventListener('click', () => {
-        landPhoto = demoLand;
-        resetPosition();
-        status.textContent = message('data-status-demo');
-      });
-      section.querySelector('[data-download]').addEventListener('click', () => {
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            status.textContent = message('data-status-failed');
-            return;
-          }
-          const link = document.createElement('a');
-          const downloadUrl = URL.createObjectURL(blob);
-          link.href = downloadUrl;
-          link.download = 'inukshuk-on-my-land.png';
-          link.click();
-          setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
-          status.textContent = message('data-status-downloaded');
-        }, 'image/png');
-      });
-
-      ['dragenter', 'dragover'].forEach((type) => {
-        stage.addEventListener(type, (event) => {
-          event.preventDefault();
-          stage.classList.add('dragover');
+      presetNear.addEventListener('click', () => setDistance(treeDistanceM));
+      presetHouse.addEventListener('click', () => setDistance(houseDistance()));
+      function creditLines() {
+        return [
+          'Illustrative example. Not a measurement.',
+          'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0',
+          'https://creativecommons.org/licenses/by-sa/2.0/',
+          'Resized, metadata removed; sculpture illustration added. Not an endorsement.'
+        ];
+      }
+      downloadButton.addEventListener('click', () => {
+        const lines = creditLines();
+        const fontSize = 22;
+        const lineHeight = 32;
+        const padX = 40;
+        const padY = 28;
+        const bar = padY * 2 + lines.length * lineHeight;
+        const out = document.createElement('canvas');
+        out.width = canvas.width;
+        out.height = canvas.height + bar;
+        const octx = out.getContext('2d');
+        octx.drawImage(canvas, 0, 0);
+        octx.fillStyle = '#000';
+        octx.fillRect(0, canvas.height, out.width, bar);
+        octx.font = fontSize + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        const fits = lines.every((line) => octx.measureText(line).width <= out.width - padX * 2);
+        octx.font = (fits ? fontSize : 18) + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        octx.fillStyle = '#f5f5f7';
+        octx.textBaseline = 'top';
+        octx.textAlign = 'left';
+        lines.forEach((line, index) => {
+          octx.fillText(line, padX, canvas.height + padY + index * lineHeight);
         });
+        let url = '';
+        try {
+          url = out.toDataURL('image/png');
+        } catch (error) {
+          status.textContent = message('data-status-failed');
+          return;
+        }
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'inukshuk-on-my-land.png';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        status.textContent = message('data-status-downloaded');
       });
-      ['dragleave', 'drop'].forEach((type) => {
-        stage.addEventListener(type, (event) => {
-          event.preventDefault();
-          stage.classList.remove('dragover');
-        });
+      ['dragenter', 'dragover'].forEach(type => {
+        stage.addEventListener(type, event => { event.preventDefault(); stage.classList.add('dragover'); });
       });
-      stage.addEventListener('drop', (event) => {
-        loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]);
+      ['dragleave', 'drop'].forEach(type => {
+        stage.addEventListener(type, event => { event.preventDefault(); stage.classList.remove('dragover'); });
       });
-
+      stage.addEventListener('drop', event => { loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]); });
       demoLand.onload = draw;
       sculpture.onload = draw;
-      demoLand.src = section.getAttribute('data-demo-land');
+      distanceInput.addEventListener('input', () => setDistance(distanceInput.value));
+      treeHeightInput.addEventListener('input', () => {
+        treeHeightM = clamp(Number(treeHeightInput.value), 4, 20);
+        draw();
+      });
+      treeDistanceInput.addEventListener('input', () => {
+        const next = clamp(Number(treeDistanceInput.value), 4, 16);
+        const wasAtTree = distanceM === treeDistanceM;
+        treeDistanceM = next;
+        if (wasAtTree) distanceM = next;
+        draw();
+      });
+      window.addEventListener('resize', () => draw());
       sculpture.src = section.getAttribute('data-sculpture');
+      demoLand.src = section.getAttribute('data-backdrop');
       draw();
+
     });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => boot(document));
@@ -314,6 +545,7 @@
   document.addEventListener('shopify:section:load', (event) => boot(event.target));
 })();
 {% endjavascript %}
+
 
 {% schema %}
 {
@@ -324,12 +556,12 @@
   "settings": [
     { "type": "text", "id": "anchor", "label": "t:labels.anchor", "default": "visualizer" },
     { "type": "text", "id": "heading", "label": "t:labels.heading", "default": "See It on Your Land" },
-    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Take a photo or choose one from your library. Pick one of the three sizes, then drag the illustrated Inukshuk into place." },
+    { "type": "textarea", "id": "subheading", "label": "t:labels.subheading", "default": "Compare the sculpture with the tree. Move it back towards the house." },
     { "type": "text", "id": "controls_label", "label": "t:sections.visualizer.settings.controls_label.label", "default": "Preview controls" },
     { "type": "text", "id": "step_one", "label": "t:sections.visualizer.settings.step_one.label", "default": "1. Add your land" },
     { "type": "text", "id": "take_photo", "label": "t:sections.visualizer.settings.take_photo.label", "default": "Take a photo" },
     { "type": "text", "id": "choose_photo", "label": "t:sections.visualizer.settings.choose_photo.label", "default": "Choose a photo" },
-    { "type": "textarea", "id": "privacy", "label": "t:sections.visualizer.settings.privacy.label", "default": "Your photo stays on this device. It is never uploaded." },
+    { "type": "textarea", "id": "privacy", "label": "t:sections.visualizer.settings.privacy.label", "default": "Your photo stays on this device. It is never uploaded. There is no background-removal service." },
     { "type": "text", "id": "step_two", "label": "t:sections.visualizer.settings.step_two.label", "default": "2. Choose a size" },
     { "type": "text", "id": "flip_label", "label": "t:sections.visualizer.settings.flip_label.label", "default": "Flip" },
     { "type": "text", "id": "reset_label", "label": "t:sections.visualizer.settings.reset_label.label", "default": "Reset position" },

@@ -10,6 +10,7 @@
     name="visual-size-{{ section.id }}"
     value="{{ block.settings.value | escape }}"
     data-height="{{ block.settings.height }}"
+    data-meters="{{ block.settings.meters }}"
     {% if block.settings.selected %}checked data-default="true"{% endif %}
   >
   <span class="size-card">
@@ -56,6 +57,13 @@
       "step": 1,
       "unit": "%",
       "default": 44
+    },
+    {
+      "type": "text",
+      "id": "meters",
+      "label": "t:blocks.visualizer_size.settings.meters.label",
+      "default": "2.75",
+      "info": "t:blocks.visualizer_size.settings.meters.info"
     },
     {
       "type": "checkbox",

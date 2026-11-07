@@ -53,15 +53,15 @@
       "next": "Next photograph"
     },
     "visualizer": {
-      "canvas": "Preview of an illustrated Inukshuk placed on your land. Drag to move it, or use the arrow keys.",
-      "tip": "Drag the Inukshuk to position it",
-      "demo": "Demo land loaded. Add your own photo when you are ready.",
-      "ready": "Your land is ready. Drag the illustrated Inukshuk into position.",
+      "canvas": "Illustrative example. The height bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. The sculpture starts beside that trunk. The white birch on the left is not the reference. It is not a measurement.",
+      "tip": "Drag the base. Beside the tree you can compare heights. Moving back toward the house makes the figure smaller.",
+      "demo": "Illustrative example. Not a measurement of the tree or the house.",
+      "ready": "Your photograph stays on this device. It has no known scale. The distances stay on the illustrative example until you edit them.",
       "bad_type": "Please choose an image file.",
       "bad_file": "That photo could not be opened. Please try another image.",
-      "size": "{{ name }} size selected. Drag the illustration to position it.",
-      "reset": "Estate size and position reset.",
-      "downloaded": "Preview downloaded.",
+      "size": "{{ name }} guide height selected. Illustration only, not a measurement.",
+      "reset": "Reset beside the tree. Illustrative 6 m tree, example distance 8 m. Not a measurement.",
+      "downloaded": "Preview downloaded. The file is the picture on screen, including the tree mark. CC BY-SA 2.0. Not a measurement.",
       "download_failed": "The preview could not be downloaded. Please try again."
     },
     "pricing": {

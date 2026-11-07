@@ -1,0 +1,11 @@
+HANDLE {"w":44,"h":44,"x":767.265625,"y":557.609375}
+MOUSE_MOVE {"before":{"x":1240,"y":1170,"h":420},"moved":{"x":1014,"y":1226,"h":420}}
+MOUSE_RESIZE {"y":1226,"h":514}
+OUTSIDE {"outside":{"x":1014,"y":1226},"still":{"x":1014,"y":1226}}
+SCROLL {"scrollBefore":0,"scrollAfter":240}
+UNDO_HEIGHT 420
+PHOTOS {"added":"2","second":{"count":"3","index":"2","x":"992"},"back":{"index":"1","x":"1240","y":"1170"},"posts":[]}
+TOUCH {"y0":1170,"y1":1208}
+PINCH {"before":420,"after":1120}
+EXPORT {"width":2000,"height":1500,"stoneSamples":105801,"bytes":151024}
+ERRORS []
