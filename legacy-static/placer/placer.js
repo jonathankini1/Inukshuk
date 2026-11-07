@@ -456,18 +456,28 @@
       selectPhoto(index - 1);
     }
 
-    function setFigureHeight(next) {
+    function setFigureHeight(next, recordHistory) {
       var photo = current();
       if (!photo) return;
-      remember();
+      if (recordHistory !== false) remember();
       photo.placement.height = clamp(next, photo.height * 0.05, photo.height * 0.9);
       paintView();
     }
 
-    function setHeightFraction(fraction) {
+    function setHeightFraction(fraction, recordHistory) {
       var photo = current();
       if (!photo) return;
-      setFigureHeight(photo.height * fraction);
+      setFigureHeight(photo.height * fraction, recordHistory);
+    }
+
+    function previewHeightFraction(fraction) {
+      setHeightFraction(fraction, false);
+    }
+
+    function heightFraction() {
+      var photo = current();
+      if (!photo || !photo.height) return 0.28;
+      return photo.placement.height / photo.height;
     }
 
     function nudge(dx, dy, dh) {
@@ -687,6 +697,9 @@
       nudge: nudge,
       setFigureHeight: setFigureHeight,
       setHeightFraction: setHeightFraction,
+      previewHeightFraction: previewHeightFraction,
+      heightFraction: heightFraction,
+      remember: remember,
       exportBlob: exportBlob,
       download: download,
       resize: resizeBacking,

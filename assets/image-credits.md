@@ -36,9 +36,11 @@ The 8 m reference height and the 40 m reference distance used in the visualiser 
 
 Sculpture photographs already in this branch are unchanged originals. `landmark-front.jpg` was not overwritten. A grass repair of that frame was tried and excluded because the result still read as a synthetic patch. `moonlit-landmark.jpg` was left out of the gallery because the moon is a soft disc on the head and was not sharpened or replaced. `hillside-landmark.jpg` was left out because it is the same frame as the desktop hero, only slightly wider. `stone-detail.jpg` was left out because the churned ground at the feet is the defect that was rejected.
 
-## Hero photograph, not retouched
+## Hero photograph
 
-`legacy-static/assets/gallery/landmark-wide.jpg` is the desktop hero. It is 2000×1125. SHA-256 `1e60a6b79f1e8ac2ab519c90da2003011c40d5cd2aeab48e4f2d72e68ded2c58`. The raw file for the current preview is the copy in this repository. A cleared derivative, `landmark-wide-cleared.jpg`, is reserved and has not been made. The house near the head, the vehicles left of the left arm, the yellow hose, and the post on the right are still in the original. The stones, the shape, the sky and the perspective have not been repainted.
+`legacy-static/assets/gallery/landmark-wide.jpg` is the untouched original, 2000×1125. SHA-256 `1e60a6b79f1e8ac2ab519c90da2003011c40d5cd2aeab48e4f2d72e68ded2c58`. It is not the file the desktop page shows.
+
+`legacy-static/assets/gallery/landmark-wide-cleared.jpg` is the desktop hero. SHA-256 `d3c618c7d4d5c5405b5720297385bcfe9b0f44d27ace02529e53e6a507e2d021`. It is the same photograph. The two houses behind the head are covered with hillside, trees and sky copied from the right side of this frame. The yellow hose on the grass is covered with grass copied from the open field on the right of this frame, same rows, not scaled. The wooden post at the right edge is covered with grass copied from just to its left. The far-left stone barn, the central sculpture, and the vehicles left of the left arm are the original pixels. A short piece of the hose remains where it meets the sculpture, because covering it cut into the leg. The vehicles are still there: fills of that band read as a rectangle or a blur, so they were left. The phone hero is a different photograph and was not changed.
 
 ## Sculpture photographs on the page
 

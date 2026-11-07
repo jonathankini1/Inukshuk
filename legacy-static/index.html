@@ -266,6 +266,9 @@
     .size-choice input:focus-visible + .size-card { outline: 3px solid var(--warm); outline-offset: 2px; }
     .viz-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .viz-button-row .primary { grid-column: 1 / -1; }
+    .figure-size-row { display: grid; grid-template-columns: 44px 1fr 44px; gap: 0.6rem; align-items: center; }
+    .figure-step { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; font-size: 1.5rem; line-height: 1; }
+    .figure-size-row input[type="range"] { width: 100%; height: 44px; margin: 0; }
     .privacy-note, .viz-status { font-size: 0.76rem; line-height: 1.5; color: #6d6864; }
     .privacy-note { margin-top: 0.7rem; }
     .viz-status { min-height: 2.3em; margin-top: 0.75rem; color: var(--earth); }
@@ -1281,7 +1284,7 @@
     <figure class="hero-stage">
       <picture>
         <source media="(max-width: 800px)" srcset="assets/gallery/summer-landmark.jpg">
-        <img class="hero-media" src="assets/gallery/landmark-wide.jpg" alt="Handbuilt stone landmark on open grassland, head and both arms complete" width="2000" height="1125" fetchpriority="high" loading="eager">
+        <img class="hero-media" src="assets/gallery/landmark-wide-cleared.jpg" alt="Handbuilt stone landmark on open grassland, head and both arms complete" width="2000" height="1125" fetchpriority="high" loading="eager">
       </picture>
       <figcaption class="hero-caption">Every stone chosen for its place. Stacked by hand, balanced without mortar. Made with you, for the land that will hold it.</figcaption>
     </figure>
@@ -1363,9 +1366,9 @@
       <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1200" role="img" aria-label="Drag the figure to move it. Use the white handle to change its size. The feet stay put. The metres are not a measurement."></canvas>
+          <canvas id="viz-canvas" width="1600" height="1200" role="img" aria-label="Drag the figure to move it. The Size control changes how tall it is. The feet stay put. The metres are not a measurement."></canvas>
         </div>
-        <p class="viz-tip" id="viz-tip">Drag the figure to move it. The white handle changes its size and the feet stay put. One finger on the grass scrolls the page.</p>
+        <p class="viz-tip" id="viz-tip">Drag the figure to move it. Size, in the controls, changes how tall it is and the feet stay put. Click the figure if you want the handle. One finger on the grass scrolls the page.</p>
         <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
@@ -1393,6 +1396,15 @@
                 <span class="size-card"><strong>Landmark</strong><small>3.5m+</small><b>£10k</b></span>
               </label>
             </fieldset>
+          </div>
+          <div class="viz-control">
+            <label class="viz-control-title" id="figure-size-label" for="figure-size">Size on this photo <span id="figure-size-readout">28% of the photo height</span></label>
+            <div class="figure-size-row">
+              <button class="viz-button figure-step" id="figure-smaller" type="button" aria-label="Make the figure smaller">−</button>
+              <input id="figure-size" type="range" min="10" max="72" step="1" value="28" aria-labelledby="figure-size-label" aria-valuemin="10" aria-valuemax="72" aria-valuenow="28">
+              <button class="viz-button figure-step" id="figure-larger" type="button" aria-label="Make the figure larger">+</button>
+            </div>
+            <p class="privacy-note">This changes the figure on the sample straight away. The feet stay where they are. It is not a measurement.</p>
           </div>
           <div class="viz-control">
             <label class="viz-control-title" for="distance-input">Optional estimate only <span id="distance-readout">does not move the figure</span></label>
@@ -1961,9 +1973,6 @@
         const dir = match[4].replace(/[^/]*$/, '');
         return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
       }
-      placer.loadUrls(resolve('assets/visualizer/preston-place.jpg'), resolve('assets/visualizer/inukshuk-cutout.webp')).catch(function () {
-        status.textContent = 'The sample picture did not load.';
-      });
       const photoInput = document.getElementById('photo-input');
       if (photoInput) {
         photoInput.addEventListener('change', function (event) {
@@ -1984,13 +1993,64 @@
       if (reset) reset.addEventListener('click', function () { placer.resetCurrent(); });
       const download = document.getElementById('download-btn');
       if (download) download.addEventListener('click', function () { placer.download(); });
+      const sizeSlider = document.getElementById('figure-size');
+      const sizeReadout = document.getElementById('figure-size-readout');
+      let sizeEditOpen = false;
+      function syncSizeSlider() {
+        if (!sizeSlider) return;
+        const percent = Math.round(placer.heightFraction() * 100);
+        sizeSlider.value = String(Math.min(72, Math.max(10, percent)));
+        sizeSlider.setAttribute('aria-valuenow', sizeSlider.value);
+        if (sizeReadout) sizeReadout.textContent = percent + '% of the photo height';
+      }
+      function applySizePercent(percent, recordHistory) {
+        const fraction = Math.min(72, Math.max(10, percent)) / 100;
+        if (recordHistory) placer.setHeightFraction(fraction);
+        else placer.previewHeightFraction(fraction);
+        syncSizeSlider();
+      }
+      if (sizeSlider) {
+        sizeSlider.addEventListener('pointerdown', function () {
+          if (!sizeEditOpen) {
+            placer.remember();
+            sizeEditOpen = true;
+          }
+        });
+        sizeSlider.addEventListener('keydown', function (event) {
+          if (!sizeEditOpen && (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+            placer.remember();
+            sizeEditOpen = true;
+          }
+        });
+        sizeSlider.addEventListener('input', function () {
+          applySizePercent(Number(sizeSlider.value), false);
+        });
+        sizeSlider.addEventListener('change', function () {
+          sizeEditOpen = false;
+          syncSizeSlider();
+        });
+      }
+      const smaller = document.getElementById('figure-smaller');
+      const larger = document.getElementById('figure-larger');
+      if (smaller) smaller.addEventListener('click', function () {
+        applySizePercent(Math.round(placer.heightFraction() * 100) - 4, true);
+      });
+      if (larger) larger.addEventListener('click', function () {
+        applySizePercent(Math.round(placer.heightFraction() * 100) + 4, true);
+      });
       document.querySelectorAll('input[name="visual-size"]').forEach(function (input) {
         input.addEventListener('change', function () {
           if (!input.checked) return;
           const fraction = input.value === 'Garden' ? 0.18 : input.value === 'Landmark' ? 0.42 : 0.28;
           placer.setHeightFraction(fraction);
+          syncSizeSlider();
           status.textContent = input.value + ' sets a size by eye. It is not a measurement.';
         });
+      });
+      placer.loadUrls(resolve('assets/visualizer/preston-place.jpg'), resolve('assets/visualizer/inukshuk-cutout.webp')).then(function () {
+        syncSizeSlider();
+      }).catch(function () {
+        status.textContent = 'The sample picture did not load.';
       });
       function estimateOnly() {
         if (math) math.textContent = 'Optional estimate only. These numbers do not move or resize the figure. They are not a survey. Flat ground is assumed only if you are comparing a known height with the horizon by eye.';
