@@ -54,8 +54,16 @@ These three photographs are not builds by this studio. Each file was resized so 
 | Brisbane, Australia. Victoria Park. | `legacy-static/assets/gallery/example-brisbane.jpg` | Brisbane City Council | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg |
 | Cambridge, England. Scott Polar Research Institute. | `legacy-static/assets/gallery/example-cambridge.jpg` | Meirion | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg |
 
-Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The copies on the page are not cropped and not stretched. They sit in equal square frames with empty space beside a portrait or above a landscape. That empty space is not an expanded photograph.
+Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The earlier page copies, `example-toronto.jpg`, `example-brisbane.jpg` and `example-cambridge.jpg`, are proportional resizes of those originals. They were shown in equal square frames with empty space. That empty space was not an expanded photograph.
 
-Reserved names for a later background extension, not created and not to be described as the unedited files: `example-toronto-square.jpg`, `example-brisbane-square.jpg`, `example-cambridge-square.jpg`.
+The files now on the page are filled squares:
+
+| File | What changed | Sculpture pixels |
+| --- | --- | --- |
+| `legacy-static/assets/gallery/example-toronto-square.jpg` | Rows 880 to 5459 of the 4000×6000 original, then 290 pixels of sky continued from each side edge by reflection. Downscaled to 1600×1600. | The centre 4000 columns of the full-size square match those original rows exactly. The figure is taller than the photo is wide, so a square crop of the file itself would cut the head or the feet. |
+| `legacy-static/assets/gallery/example-brisbane-square.jpg` | Centre 4480×4480 crop of the 6720×4480 original, from x 1120. Downscaled to 1600×1600. | Every pixel in the crop is from the original. The full height is kept. |
+| `legacy-static/assets/gallery/example-cambridge-square.jpg` | Centre 3240×3240 crop of the 4320×3240 original, from x 540. Downscaled to 1600×1600. | Every pixel in the crop is from the original. The full height is kept. |
+
+These are not generative redraws. No new lettering was painted. The stones were not reshaped. The hero file was not replaced.
 
 The handover note recorded for this work, DESIGN-NOTES-ruben-2026-10-22, says the photographs are only real photos from the handover pack, passed through a metadata strip, with no GPS, and that the artwork is not an AI hero. The photographer’s name and the owner’s licence are not verified in this repository. These files are preexisting business assets already in the project, used here for an unpublished preview. This record does not claim a public licence, an upload permission, or permission to publish. Live publication needs the owner’s consent, which has not been given here.
