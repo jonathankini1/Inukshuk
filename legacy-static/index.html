@@ -1171,16 +1171,27 @@
     .gallery-intro { position: static; max-width: 40rem; padding: 0 0 1.5rem; }
     .gallery .section-title { color: #f5f5f7; font-size: clamp(2.4rem, 4vw, 3.6rem); text-shadow: none; }
     .gallery .section-subtitle { color: #f5f5f7; max-width: 42rem; margin: 0; }
-    .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; width: 100%; }
-    .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; margin: 0; }
-    .photo-card button { display: block; padding: 0; background: #111; }
+    .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; width: 100%; align-items: start; }
+    .photo-card { display: flex; flex-direction: column; width: 100%; margin: 0; }
+    .photo-card button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: #111;
+      overflow: hidden;
+    }
     .photo-card img, .photo-card.wide img {
       display: block;
       width: 100%;
-      height: auto;
-      max-width: 100%;
-      max-height: 70vh;
-      margin: 0 auto;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      margin: 0;
       object-fit: contain;
       object-position: center center;
       background: #111;
@@ -1190,6 +1201,7 @@
       display: block;
       width: auto;
       max-width: none;
+      min-height: 4.6rem;
       margin: 0.75rem 0 0;
       padding: 0;
       background: transparent;
@@ -1200,6 +1212,7 @@
     }
     .gallery-credits { margin: 1.4rem 0 0; color: #a1a1a6; font-size: 0.78rem; line-height: 1.45; max-width: 70rem; }
     .gallery-credits a { color: #f5f5f7; }
+    .checkout-note { margin: 0 0 0.75rem; color: #f5f5f7; font-size: 0.92rem; line-height: 1.4; }
     .viz-handles { position: absolute; inset: 0; pointer-events: none; }
     .viz-box { position: absolute; border: 1.5px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.55); pointer-events: auto; cursor: move; }
     .viz-resize {
@@ -1207,7 +1220,7 @@
       border-radius: 50%; border: 2px solid #1d1d1f; background: #fff; pointer-events: auto; cursor: ns-resize;
     }
     input[type="range"] { width: 100%; height: 32px; accent-color: #f5f5f7; }
-    .trust-list li { color: #fff; font-weight: 600; font-size: 1.05rem; }
+    .trust-list li { color: #fff; font-weight: 700; font-size: 1.2rem; }
     .step-number { color: #fff; font-weight: 700; font-size: 1.7rem; letter-spacing: 0.04em; }
     .story .section-title { font-weight: 600; font-size: clamp(2.8rem, 5vw, 4.6rem); color: #f5f5f7; }
     .story-content p { font-size: 1.15rem; color: #f5f5f7; }
@@ -1215,7 +1228,7 @@
     @media (max-width: 800px) {
       .gallery-stage { padding: 2.5rem 1.15rem 1.75rem; }
       .photo-grid { grid-template-columns: 1fr; gap: 1.75rem; }
-      .photo-card img, .photo-card.wide img { max-height: none; }
+      .photo-card button { aspect-ratio: 1 / 1; }
       .gallery-intro { position: static; }
     }
   </style>
@@ -1416,7 +1429,7 @@
         <div class="step">
           <div class="step-number">04</div>
           <h4>After the build</h4>
-          <p>The foundation goes in before the stones. When the build is finished the landmark stays where it was raised. Any return visit is agreed before we leave.</p>
+          <p>The foundation is in before any stone goes up. We finish the work on site. If more work is needed, we agree it before we leave.</p>
         </div>
       </div>
     </div>
@@ -1440,7 +1453,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £500</strong>Your booking deposit is credited against the £5,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-garden"><span class="checkout-loading">Online checkout is not switched on.</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-garden"><p class="checkout-note">Card payment is not available. Deposit £500. Full price £5,000. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Garden">Ask about Garden</button>
           </div>
         </div>
@@ -1456,7 +1469,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £750</strong>Your booking deposit is credited against the £7,500 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-estate"><span class="checkout-loading">Online checkout is not switched on.</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-estate"><p class="checkout-note">Card payment is not available. Deposit £750. Full price £7,500. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Estate">Ask about Estate</button>
           </div>
         </div>
@@ -1473,7 +1486,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £1,000</strong>Your booking deposit is credited against the £10,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-landmark"><span class="checkout-loading">Online checkout is not switched on.</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-landmark"><p class="checkout-note">Card payment is not available. Deposit £1,000. Full price £10,000. Blocked until the shop plan, card payments, and how the balance is taken are confirmed. No card form on this page.</p></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Landmark">Ask about Landmark</button>
           </div>
         </div>
@@ -1485,9 +1498,9 @@
     <div class="container">
       <h2 class="section-title">Our Story</h2>
       <div class="story-content">
-        <p>The first one was raised on a 13-acre property in Manchester. Family, friends and neighbours did it together.</p>
+        <p>It started on 13 acres in Manchester. A family, their friends and their neighbours raised an Inukshuk there.</p>
         <p class="highlight">The stones were too heavy for one person.</p>
-        <p>Diggers and concrete were on site. We now do that work for other people on their land.</p>
+        <p>Diggers and concrete were on site. We now do this work for other people on their land.</p>
       </div>
     </div>
   </section>
@@ -2610,16 +2623,11 @@
       function showCheckoutError() {
         products.forEach(product => {
           const node = document.getElementById(product.nodeId);
-          if (!node || node.querySelector('.shopify-buy__product, .package-enquire')) return;
-          const packageName = product.nodeId.replace('shopify-buy-', '');
-          const label = packageName.charAt(0).toUpperCase() + packageName.slice(1);
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'price-btn package-enquire';
-          button.setAttribute('data-package', label);
-          button.textContent = 'Enquire about this size';
-          button.setAttribute('aria-label', 'Enquire about ' + label);
-          node.replaceChildren(button);
+          if (!node || node.querySelector('.checkout-note')) return;
+          const note = document.createElement('p');
+          note.className = 'checkout-note';
+          note.textContent = 'Card payment is not available. No card form on this page.';
+          node.replaceChildren(note);
         });
       }
 
