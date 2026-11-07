@@ -1343,13 +1343,9 @@
       <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. Drag the figure to move it. Use the handle to change its size. The metres are an estimate, not a measurement."></canvas>
-          <div class="viz-handles" id="viz-handles">
-            <div class="viz-box" id="viz-box"></div>
-            <button class="viz-resize" id="viz-resize" type="button" aria-label="Resize the figure from the top. The feet stay put."></button>
-          </div>
+          <canvas id="viz-canvas" width="1600" height="1200" role="img" aria-label="Drag the figure to move it. Use the white handle to change its size. The feet stay put. The metres are not a measurement."></canvas>
         </div>
-        <p class="viz-tip" id="viz-tip">Drag the figure to move it. Use the white handle to change its size. The feet stay put. Dragging does not change the metre distance.</p>
+        <p class="viz-tip" id="viz-tip">Drag the figure to move it. The white handle changes its size and the feet stay put. One finger on the grass scrolls the page.</p>
         <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
@@ -1379,7 +1375,7 @@
             </fieldset>
           </div>
           <div class="viz-control">
-            <label class="viz-control-title" for="distance-input">Sculpture distance <span id="distance-readout">8 m</span></label>
+            <label class="viz-control-title" for="distance-input">Optional estimate only <span id="distance-readout">does not move the figure</span></label>
             <input id="distance-input" type="range" min="8" max="64" step="1" value="8">
             <div class="viz-button-row">
               <button class="viz-button" id="preset-near" type="button">Beside the tree</button>
@@ -1395,6 +1391,8 @@
             <p class="privacy-note viz-math" id="viz-math"></p>
           </div>
           <div class="viz-button-row">
+            <button class="viz-button" id="undo-btn" type="button">Undo</button>
+            <button class="viz-button" id="redo-btn" type="button">Redo</button>
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
@@ -1679,6 +1677,7 @@
     })();
   </script>
 
+  <script src="placer/placer.js"></script>
   <script>
     (() => {
       const menuToggle = document.getElementById('menu-toggle');
@@ -1916,699 +1915,74 @@
     })();
 
     (() => {
-      const canvas = document.getElementById('viz-canvas');
-      const ctx = canvas.getContext('2d');
       const stage = document.getElementById('viz-stage');
-      const tip = document.getElementById('viz-tip');
       const status = document.getElementById('viz-status');
       const math = document.getElementById('viz-math');
-      const sizeInputs = [...document.querySelectorAll('input[name="visual-size"]')];
-      const photoInput = document.getElementById('photo-input');
-      const prevPhoto = document.getElementById('prev-photo');
-      const flipButton = document.getElementById('flip-btn');
-      const resetButton = document.getElementById('reset-btn');
-      const downloadButton = document.getElementById('download-btn');
-      const distanceInput = document.getElementById('distance-input');
-      const treeHeightInput = document.getElementById('tree-height-input');
-      const treeDistanceInput = document.getElementById('tree-distance-input');
-      const distanceReadout = document.getElementById('distance-readout');
-      const treeHeightReadout = document.getElementById('tree-height-readout');
-      const treeDistanceReadout = document.getElementById('tree-distance-readout');
-      const presetNear = document.getElementById('preset-near');
-      const presetHouse = document.getElementById('preset-house');
-
-      const SAMPLE_SRC = 'assets/visualizer/preston-place.jpg';
-      const TREE_X = 1780 / 2000;
-      const TREE_TOP = 20 / 1500;
-      const TREE_FOOT = 900 / 1500;
-      const HOUSE_FOOT = 730 / 1500;
-      const HORIZON = 644 / 1500;
-      const PLACE_BESIDE = true;
-      const TRUNK_LEFT = 1680 / 2000;
-      const DEFAULT_TREE_H = 6;
-      const DEFAULT_TREE_D = 8;
-      const demoLand = new Image();
-      const sculpture = new Image();
-      demoLand.crossOrigin = 'anonymous';
-      sculpture.crossOrigin = 'anonymous';
-      let landPhoto = demoLand;
-      let photoUrl = null;
-      let usingSample = true;
-      let dragging = false;
-      let flipped = false;
-      let treeHeightM = DEFAULT_TREE_H;
-      let treeDistanceM = DEFAULT_TREE_D;
-      let distanceM = DEFAULT_TREE_D;
-      let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
-      let x = 0;
-      let footY = 0;
-      let pixelHeight = 0;
-      let freeSize = false;
-      let userMoved = false;
-      let dragMode = 'move';
-      const photoHistory = [];
-      let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
-      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-      function displayedWidth() {
-        const rect = canvas.getBoundingClientRect();
-        if (rect.width > 40) return rect.width;
-        return Math.min(canvas.width, 960);
+      if (!stage || !window.InukshukPlacer) {
+        if (status) status.textContent = 'The preview could not start.';
+        return;
       }
-      function labelFontPx() {
-        const shown = displayedWidth();
-        const css = shown < 560 ? 17 : 18;
-        return Math.max(30, Math.round(css * (canvas.width / shown)));
-      }
-      function fillRound(x, y, w, h, r) {
-        const radius = Math.min(r, w / 2, h / 2);
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y);
-        ctx.arcTo(x + w, y, x + w, y + h, radius);
-        ctx.arcTo(x + w, y + h, x, y + h, radius);
-        ctx.arcTo(x, y + h, x, y, radius);
-        ctx.arcTo(x, y, x + w, y, radius);
-        ctx.closePath();
-        ctx.fill();
-      }
-      function drawPlate(lines, anchorX, anchorY, align) {
-        let size = labelFontPx();
-        const fontFor = (px) => '600 ' + px + 'px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.save();
-        ctx.font = fontFor(size);
-        let widest = 0;
-        lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
-        while (widest > canvas.width * 0.34 && size > 22) {
-          size = Math.round(size * 0.88);
-          ctx.font = fontFor(size);
-          widest = 0;
-          lines.forEach((line) => { widest = Math.max(widest, ctx.measureText(line).width); });
-        }
-        const font = fontFor(size);
-        const lineH = Math.round(size * 1.18);
-        const padX = Math.round(size * 0.62);
-        const padY = Math.round(size * 0.38);
-        const w = widest + padX * 2;
-        const h = lineH * lines.length + padY * 2;
-        const avoid = arguments[4];
-        const prefX = align === 'right' ? anchorX - w : align === 'center' ? anchorX - w / 2 : anchorX;
-        const prefY = anchorY - h / 2;
-        const obstacles = (canvas._plates || []).map(plate => ({ x: plate.x, y: plate.y, x2: plate.x + plate.w, y2: plate.y + plate.h }));
-        if (avoid) {
-          const pad = Math.max(22, Math.round(size * 0.45));
-          obstacles.push({ x: avoid.x - pad, y: avoid.y - pad, x2: avoid.x2 + pad, y2: avoid.y2 + pad });
-        }
-        const overlaps = (px, py) => obstacles.some(ob => px < ob.x2 && px + w > ob.x && py < ob.y2 && py + h > ob.y);
-        const gap = Math.max(28, Math.round(size * 0.8));
-        const spots = [{ x: prefX, y: prefY }];
-        if (avoid) {
-          const midX = (avoid.x + avoid.x2) / 2 - w / 2;
-          spots.push(
-            { x: avoid.x2 + gap, y: prefY },
-            { x: avoid.x - w - gap, y: prefY },
-            { x: avoid.x2 + gap, y: avoid.y - h - gap },
-            { x: avoid.x - w - gap, y: avoid.y - h - gap },
-            { x: midX, y: avoid.y - h - gap },
-            { x: midX, y: avoid.y2 + gap },
-            { x: avoid.x2 + gap, y: avoid.y2 + gap },
-            { x: avoid.x - w - gap, y: avoid.y2 + gap },
-            { x: avoid.x - w - gap, y: avoid.y - h * 2 - gap },
-            { x: avoid.x2 + gap, y: avoid.y - h * 2 - gap }
-          );
-        }
-        spots.push(
-          { x: 16, y: 16 },
-          { x: canvas.width - w - 16, y: 16 },
-          { x: 16, y: canvas.height - h - 16 },
-          { x: canvas.width - w - 16, y: canvas.height - h - 16 }
-        );
-        let placed = null;
-        spots.forEach(spot => {
-          if (placed) return;
-          const px = clamp(spot.x, 12, Math.max(12, canvas.width - w - 12));
-          const py = clamp(spot.y, 12, Math.max(12, canvas.height - h - 12));
-          if (!overlaps(px, py)) placed = { x: px, y: py };
-        });
-        if (!placed) {
-          let best = null;
-          let bestScore = Infinity;
-          const stepX = Math.max(36, Math.round(w / 4));
-          const stepY = Math.max(28, Math.round(h / 2));
-          for (let py = 12; py <= canvas.height - h - 12; py += stepY) {
-            for (let px = 12; px <= canvas.width - w - 12; px += stepX) {
-              if (overlaps(px, py)) continue;
-              const score = (px - prefX) * (px - prefX) + (py - prefY) * (py - prefY);
-              if (score < bestScore) { bestScore = score; best = { x: px, y: py }; }
-            }
-          }
-          placed = best || { x: clamp(prefX, 12, Math.max(12, canvas.width - w - 12)), y: clamp(prefY, 12, Math.max(12, canvas.height - h - 12)) };
-        }
-        const x = placed.x;
-        const y = placed.y;
-        canvas._plates = canvas._plates || [];
-        canvas._plates.push({ x, y, w, h });
-        ctx.fillStyle = 'rgba(0,0,0,0.78)';
-        fillRound(x, y, w, h, Math.round(size * 0.36));
-        ctx.fillStyle = '#f5f5f7';
-        ctx.font = font;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        lines.forEach((line, index) => {
-          ctx.fillText(line, x + padX, y + padY + lineH * index + lineH / 2);
-        });
-        ctx.restore();
-        canvas.dataset.labelCss = String(Math.round(size * displayedWidth() / canvas.width));
-        if (lines[0] === 'House ground') canvas.dataset.housePlate = [x, y, w, h].map(v => Math.round(v)).join(',');
-      }
-      function hostedSample(relative) {
-        const baseEl = document.querySelector('base');
-        const raw = baseEl ? (baseEl.getAttribute('href') || '') : '';
-        const match = raw.match(/https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)$/);
-        if (!match) return relative;
-        const dir = match[4].replace(/[^/]*$/, '');
-        return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
-      }
-
-      function fitRect(image) {
-        if (!image || !image.naturalWidth) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
-        const imageRatio = image.naturalWidth / image.naturalHeight;
-        const canvasRatio = canvas.width / canvas.height;
-        if (Math.abs(imageRatio - canvasRatio) < 0.02) return { x: 0, y: 0, w: canvas.width, h: canvas.height };
-        if (imageRatio > canvasRatio) {
-          const w = canvas.width;
-          const h = canvas.width / imageRatio;
-          return { x: 0, y: (canvas.height - h) / 2, w, h };
-        }
-        const h = canvas.height;
-        const w = canvas.height * imageRatio;
-        return { x: (canvas.width - w) / 2, y: 0, w, h };
-      }
-
-      const houseDistance = () => {
-        const dropTree = TREE_FOOT - HORIZON;
-        const dropHouse = HOUSE_FOOT - HORIZON;
-        return treeDistanceM * dropTree / dropHouse;
-      };
-      const horizonY = () => landRect.y + landRect.h * HORIZON;
-      const treeFootY = () => landRect.y + landRect.h * TREE_FOOT;
-      const treePixelHeight = () => landRect.h * (TREE_FOOT - TREE_TOP);
-      const apparentHeight = (distance) => clamp(treePixelHeight() * (meters / treeHeightM) * (treeDistanceM / distance), 4, canvas.height * 0.92);
-      const footYForDistance = (distance) => horizonY() + (treeFootY() - horizonY()) * (treeDistanceM / distance);
-      const distanceForFoot = (footY) => {
-        const drop = footY - horizonY();
-        const treeDrop = treeFootY() - horizonY();
-        if (drop <= 1 || treeDrop <= 1) return Math.round(houseDistance());
-        return clamp(Math.round(treeDistanceM * treeDrop / drop), Math.round(treeDistanceM), Math.round(houseDistance()));
-      };
-
-      function besideCenter(drawWidth) {
-        const trunkLeft = landRect.x + landRect.w * TRUNK_LEFT;
-        return trunkLeft - 20 - drawWidth / 2;
-      }
-      function limitX(value, drawWidth) {
-        const half = drawWidth / 2;
-        const minX = landRect.x + half + 8;
-        const maxX = landRect.x + landRect.w - half - 8;
-        if (maxX < minX) return (minX + maxX) / 2;
-        return clamp(value, minX, maxX);
-      }
-      function limitFoot(value) {
-        return clamp(value, landRect.y + 24, landRect.y + landRect.h - 8);
-      }
-
-      function syncDistanceRange() {
-        const min = Math.round(treeDistanceM);
-        const max = Math.max(min + 1, Math.round(houseDistance()));
-        distanceM = clamp(distanceM, min, max);
-        if (distanceInput) {
-          distanceInput.min = String(min);
-          distanceInput.max = String(max);
-          distanceInput.value = String(distanceM);
-        }
-      }
-
-      function drawAnchors(figure) {
-        if (!usingSample) return;
-        const bx = landRect.x + landRect.w * TREE_X;
-        const y1 = landRect.y + landRect.h * TREE_TOP;
-        const y2 = landRect.y + landRect.h * TREE_FOOT;
-        const tick = Math.max(12, Math.round(canvas.width / 100));
-        ctx.save();
-        ctx.strokeStyle = '#f5f5f7';
-        ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(bx - tick, y1); ctx.lineTo(bx + tick, y1);
-        ctx.moveTo(bx, y1); ctx.lineTo(bx, y2);
-        ctx.moveTo(bx - tick, y2); ctx.lineTo(bx + tick, y2);
-        ctx.stroke();
-        ctx.restore();
-        if (Math.abs(distanceM - treeDistanceM) >= 2) {
-          const houseY = landRect.y + landRect.h * HOUSE_FOOT;
-          const hx = landRect.x + landRect.w * 0.36;
-          ctx.save();
-          ctx.strokeStyle = '#f5f5f7';
-          ctx.lineWidth = Math.max(3, Math.round(canvas.width / 480));
-          ctx.beginPath();
-          ctx.moveTo(hx - 22, houseY); ctx.lineTo(hx + 22, houseY);
-          ctx.stroke();
-          ctx.restore();
-        }
-      }
-      function drawLabels(figure) {
-        if (!usingSample) return;
-        const bx = landRect.x + landRect.w * TREE_X;
-        const y1 = landRect.y + landRect.h * TREE_TOP;
-        const y2 = landRect.y + landRect.h * TREE_FOOT;
-        const tick = Math.max(12, Math.round(canvas.width / 100));
-        drawPlate([treeHeightM + ' m tree', 'illustrative'], bx - tick - 14, y1 + (y2 - y1) * 0.2, 'right', figure);
-        if (Math.abs(distanceM - treeDistanceM) < 2) canvas.dataset.housePlate = '';
-        if (Math.abs(distanceM - treeDistanceM) >= 2) {
-          const houseY = landRect.y + landRect.h * HOUSE_FOOT;
-          const hx = landRect.x + landRect.w * 0.36;
-          drawPlate(['House ground'], hx, houseY, 'left', figure);
-        }
-      }
-
-      function writeMath(drawHeight) {
-        const doubled = apparentHeight(distanceM * 2);
-        const atTree = apparentHeight(treeDistanceM);
-        const houseD = houseDistance();
-        const mode = usingSample
-          ? 'Illustrative example.'
-          : 'Your photograph has no known scale. These metres are the illustrative example until you edit them.';
-        const title = document.getElementById('viz-title');
-        const beside = Math.abs(distanceM - treeDistanceM) < 1;
-        if (title) title.textContent = (freeSize || userMoved) ? 'Placed on the picture' : 'Illustrative example: beside the tree';
-        if (math) {
-          math.textContent = mode + ' Reference tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m, not measured. ' + meters + ' m guide height at ' + distanceM + ' m is ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px, ' + Math.round(100 * meters / treeHeightM) + '% of the tree. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m.';
-        }
-        canvas.dataset.calibration = usingSample ? 'illustrative-example' : 'upload-illustrative';
-        canvas.dataset.treePx = String(Math.round(treePixelHeight()));
-        canvas.dataset.treeDistance = String(treeDistanceM);
-        canvas.dataset.houseDistance = String(Math.round(houseD));
-        canvas.dataset.atTree = String(Math.round(atTree));
-        canvas.dataset.doubled = String(Math.round(doubled));
-        const guide = document.getElementById('viz-guide');
-        if (guide) {
-          guide.hidden = false;
-          guide.textContent = freeSize
-            ? 'Sized by eye. Dragging does not change the metre distance. Not a measurement.'
-            : 'Guide height ' + meters + ' m at ' + distanceM + ' m. Illustrative estimate, not a measurement.';
-        }
-      }
-
-      function draw() {
-        canvas._plates = [];
-        landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
-        syncDistanceRange();
-        if (!freeSize || !pixelHeight) pixelHeight = apparentHeight(distanceM);
-        const drawHeight = pixelHeight;
-        const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
-        const drawWidth = drawHeight * ratio;
-        if (!userMoved) {
-          x = besideCenter(drawWidth);
-          footY = footYForDistance(distanceM);
-        }
-        x = limitX(x, drawWidth);
-        footY = limitFoot(footY);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        if (landPhoto.complete && landPhoto.naturalWidth) ctx.drawImage(landPhoto, landRect.x, landRect.y, landRect.w, landRect.h);
-        else {
-          ctx.fillStyle = '#6d8a55';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-        const figure = {
-          x: x - drawWidth / 2,
-          y: footY - drawHeight * (1104 / 1117),
-          x2: x + drawWidth / 2,
-          y2: footY + 8
-        };
-        drawAnchors(figure);
-        const cssPx = canvas.width / Math.max(1, displayedWidth());
-        const contactH = Math.min(cssPx * 4, Math.max(cssPx * 2, drawHeight * 0.028));
-        const contactW = Math.min(drawWidth * 0.36, Math.max(drawWidth * 0.16, cssPx * 8));
-        ctx.save();
-        ctx.fillStyle = 'rgba(14, 20, 8, 0.72)';
-        ctx.beginPath();
-        ctx.ellipse(x + drawWidth * 0.05, footY + contactH * 0.2, contactW, contactH, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-        if (sculpture.complete && sculpture.naturalWidth) {
-          ctx.save();
-          ctx.translate(x, footY);
-          ctx.scale(flipped ? -1 : 1, 1);
-          ctx.drawImage(sculpture, -drawWidth / 2, -drawHeight * (1104 / 1117), drawWidth, drawHeight);
-          ctx.restore();
-        }
-        drawLabels(figure);
-        canvas.dataset.fig = [figure.x, figure.y, figure.x2, figure.y2].join(',');
-        if (usingSample && Math.abs(distanceM - treeDistanceM) < 1) {
-          const top = footY - drawHeight * (1104 / 1117);
-          const treeX = landRect.x + landRect.w * TREE_X;
-          ctx.save();
-          ctx.strokeStyle = 'rgba(255,255,255,0.9)';
-          ctx.fillStyle = '#f5f5f7';
-          ctx.lineWidth = 2;
-          ctx.setLineDash([6, 5]);
-          ctx.beginPath();
-          ctx.moveTo(x + drawWidth / 2 + 8, top);
-          ctx.lineTo(treeX - 12, top);
-          ctx.stroke();
-          ctx.restore();
-          drawPlate([meters + ' m'], x - drawWidth / 2 - 16, footY - drawHeight * 0.46, 'right', figure);
-        }
-        canvas.dataset.plates = JSON.stringify(canvas._plates || []);
-        canvas.dataset.x = String(Math.round(x));
-        canvas.dataset.distance = String(distanceM);
-        canvas.dataset.meters = String(meters);
-        canvas.dataset.drawHeight = String(Math.round(drawHeight));
-        canvas.dataset.footY = String(Math.round(footY));
-        if (distanceReadout) distanceReadout.textContent = distanceM + ' m';
-        if (treeHeightReadout) treeHeightReadout.textContent = 'Illustrative ' + treeHeightM + ' m tree (not measured)';
-        if (treeDistanceReadout) treeDistanceReadout.textContent = treeDistanceM + ' m';
-        writeMath(drawHeight);
-        placeHandles(figure);
-        canvas.dataset.freeSize = String(freeSize);
-      }
-
-      function placeHandles(figure) {
-        const wrap = document.getElementById('viz-handles');
-        const box = document.getElementById('viz-box');
-        const handle = document.getElementById('viz-resize');
-        if (!wrap || !box || !handle || !figure) return;
-        const bounds = canvas.getBoundingClientRect();
-        const stageBounds = stage.getBoundingClientRect();
-        const sx = bounds.width / canvas.width;
-        const sy = bounds.height / canvas.height;
-        const left = bounds.left - stageBounds.left + figure.x * sx;
-        const top = bounds.top - stageBounds.top + figure.y * sy;
-        const w = (figure.x2 - figure.x) * sx;
-        const h = (figure.y2 - figure.y) * sy;
-        box.style.left = left + 'px';
-        box.style.top = top + 'px';
-        box.style.width = Math.max(8, w) + 'px';
-        box.style.height = Math.max(8, h) + 'px';
-        handle.style.left = (left + w / 2) + 'px';
-        handle.style.top = top + 'px';
-      }
-
-      function setDistance(value) {
-        distanceM = Math.round(Number(value));
-        tip.classList.add('hidden');
-        draw();
-      }
-
-      function resetPosition() {
-        usingSample = true;
-        landPhoto = demoLand;
-        meters = 2.75;
-        treeHeightM = DEFAULT_TREE_H;
-        treeDistanceM = DEFAULT_TREE_D;
-        distanceM = DEFAULT_TREE_D;
-        flipped = false;
-        userMoved = false;
-        freeSize = false;
-        pixelHeight = 0;
-        x = 0;
-        if (treeHeightInput) treeHeightInput.value = String(DEFAULT_TREE_H);
-        if (treeDistanceInput) treeDistanceInput.value = String(DEFAULT_TREE_D);
-        sizeInputs.forEach(input => { input.checked = input.value === 'Estate'; });
-        tip.classList.remove('hidden');
-        if (demoLand.getAttribute('src') !== SAMPLE_SRC) demoLand.src = SAMPLE_SRC;
-        else draw();
-      }
-
-      function canvasPoint(event) {
-        const bounds = canvas.getBoundingClientRect();
-        const width = bounds.width > 1 ? bounds.width : (canvas.clientWidth || canvas.width);
-        const height = bounds.height > 1 ? bounds.height : (canvas.clientHeight || canvas.height);
-        return {
-          x: (event.clientX - bounds.left) * (canvas.width / width),
-          y: (event.clientY - bounds.top) * (canvas.height / height)
-        };
-      }
-
-      let grabDx = 0;
-      let grabDy = 0;
-      function placeAt(event) {
-        const point = canvasPoint(event);
-        if (dragMode === 'resize') {
-          pixelHeight = clamp(resizeStart.h + (resizeStart.y - point.y), 24, canvas.height * 0.92);
-          freeSize = true;
-          status.textContent = 'Sized by eye. The feet stay put. Not a measurement.';
-        } else {
-          x = point.x - grabDx;
-          footY = point.y - grabDy;
-          userMoved = true;
-          status.textContent = 'Moved on the picture. The metre distance stays ' + distanceM + ' m. Not a measurement.';
-        }
-        tip.classList.add('hidden');
-        draw();
-      }
-
-      function rememberPhoto() {
-        photoHistory.push({
-          landPhoto, usingSample, photoUrl, x, footY, pixelHeight, freeSize, userMoved, meters, distanceM, flipped
-        });
-        if (prevPhoto) prevPhoto.disabled = false;
-      }
-
-      function restorePhoto() {
-        const saved = photoHistory.pop();
-        if (!saved) return;
-        landPhoto = saved.landPhoto;
-        usingSample = saved.usingSample;
-        photoUrl = saved.photoUrl;
-        x = saved.x;
-        footY = saved.footY;
-        pixelHeight = saved.pixelHeight;
-        freeSize = saved.freeSize;
-        userMoved = saved.userMoved;
-        meters = saved.meters;
-        distanceM = saved.distanceM;
-        flipped = saved.flipped;
-        sizeInputs.forEach(input => { input.checked = Number(input.dataset.meters) === Number(meters); });
-        if (distanceInput) distanceInput.value = String(distanceM);
-        if (prevPhoto) prevPhoto.disabled = photoHistory.length === 0;
-        status.textContent = usingSample
-          ? 'Previous picture restored, with its placement. Illustrative example. Not a measurement.'
-          : 'Previous photo restored, with its placement. It stays on this device.';
-        draw();
-      }
-
-      function loadPhoto(file) {
-        if (!file) return;
-        if (!file.type || file.type.indexOf('image/') !== 0) {
-          status.textContent = 'Please choose an image file.';
-          return;
-        }
-        rememberPhoto();
-        photoUrl = URL.createObjectURL(file);
-        usingSample = false;
-        userMoved = false;
-        freeSize = false;
-        pixelHeight = 0;
-        const visitorPhoto = new Image();
-        visitorPhoto.onload = () => {
-          landPhoto = visitorPhoto;
-          status.textContent = 'Your photograph stays on this device. It has no known scale. The distances stay on the illustrative example until you edit them.';
-          tip.classList.remove('hidden');
-          draw();
-        };
-        visitorPhoto.onerror = () => { status.textContent = 'That photo could not be opened. Please try another image.'; };
-        visitorPhoto.src = photoUrl;
-      }
-
-      photoInput.addEventListener('change', event => {
-        loadPhoto(event.target.files && event.target.files[0]);
-        event.target.value = '';
-      });
-      if (prevPhoto) prevPhoto.addEventListener('click', restorePhoto);
-      let resizeStart = { y: 0, h: 0 };
-      function beginMove(event) {
-        if (event.button != null && event.button !== 0) return;
-        dragMode = 'move';
-        dragging = true;
-        canvas.classList.add('dragging');
-        const point = canvasPoint(event);
-        grabDx = point.x - x;
-        grabDy = point.y - footY;
-        try { event.currentTarget.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
-        event.preventDefault();
-      }
-      canvas.addEventListener('pointerdown', beginMove);
-      document.getElementById('viz-box').addEventListener('pointerdown', beginMove);
-      document.getElementById('viz-resize').addEventListener('pointerdown', event => {
-        if (event.button != null && event.button !== 0) return;
-        dragMode = 'resize';
-        dragging = true;
-        resizeStart = { y: canvasPoint(event).y, h: pixelHeight || apparentHeight(distanceM) };
-        try { event.currentTarget.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
-        event.preventDefault();
-        event.stopPropagation();
-      });
-      function movePointer(event) {
-        if (!dragging) return;
-        placeAt(event);
-        event.preventDefault();
-      }
-      canvas.addEventListener('pointermove', movePointer);
-      document.getElementById('viz-box').addEventListener('pointermove', movePointer);
-      document.getElementById('viz-resize').addEventListener('pointermove', movePointer);
-      const stopDragging = event => {
-        dragging = false;
-        dragMode = 'move';
-        canvas.classList.remove('dragging');
-        try {
-          if (event.currentTarget && event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
-            event.currentTarget.releasePointerCapture(event.pointerId);
-          }
-        } catch (error) { /* The pointer may already be released. */ }
-      };
-      canvas.addEventListener('pointerup', stopDragging);
-      canvas.addEventListener('pointercancel', stopDragging);
-      const activePointers = new Map();
-      let pinchStart = null;
-      function pinchDistance() {
-        const pts = [...activePointers.values()];
-        if (pts.length < 2) return 0;
-        return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
-      }
-      stage.addEventListener('pointerdown', event => {
-        activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-        if (activePointers.size === 2) {
-          dragging = false;
-          pinchStart = { dist: Math.max(1, pinchDistance()), h: pixelHeight || apparentHeight(distanceM) };
-        }
-      });
-      stage.addEventListener('pointermove', event => {
-        if (!activePointers.has(event.pointerId) || !pinchStart) return;
-        activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-        if (activePointers.size < 2) return;
-        pixelHeight = clamp(pinchStart.h * (pinchDistance() / pinchStart.dist), 24, canvas.height * 0.92);
-        freeSize = true;
-        status.textContent = 'Sized by eye. The feet stay put. Not a measurement.';
-        draw();
-      });
-      const endPinch = event => {
-        activePointers.delete(event.pointerId);
-        if (activePointers.size < 2) pinchStart = null;
-      };
-      stage.addEventListener('pointerup', endPinch);
-      stage.addEventListener('pointercancel', endPinch);
-      document.getElementById('viz-box').addEventListener('pointerup', stopDragging);
-      document.getElementById('viz-resize').addEventListener('pointerup', stopDragging);
-      document.getElementById('viz-box').addEventListener('pointercancel', stopDragging);
-      document.getElementById('viz-resize').addEventListener('pointercancel', stopDragging);
-      canvas.addEventListener('keydown', event => {
-        const step = event.shiftKey ? 4 : 1;
-        if (event.key === 'ArrowLeft') { x -= event.shiftKey ? 40 : 12; userMoved = true; }
-        else if (event.key === 'ArrowRight') { x += event.shiftKey ? 40 : 12; userMoved = true; }
-        else if (event.key === 'ArrowUp') distanceM += step;
-        else if (event.key === 'ArrowDown') distanceM -= step;
-        else return;
-        event.preventDefault();
-        tip.classList.add('hidden');
-        draw();
-      });
-      sizeInputs.forEach(input => {
-        input.addEventListener('change', () => {
-          if (!input.checked) return;
-          meters = Number(input.dataset.meters);
-          freeSize = false;
-          pixelHeight = 0;
-          status.textContent = input.value + ' guide height selected. Illustrative estimate, not a measurement.';
-          tip.classList.add('hidden');
-          draw();
-        });
-      });
-      flipButton.addEventListener('click', () => { flipped = !flipped; draw(); });
-      resetButton.addEventListener('click', () => {
-        resetPosition();
-        status.textContent = 'Reset beside the tree. Illustrative 6 m tree, example distance 8 m. Not a measurement.';
-      });
-      presetNear.addEventListener('click', () => setDistance(treeDistanceM));
-      presetHouse.addEventListener('click', () => setDistance(houseDistance()));
-      function creditLines() {
-        return [
+      const placer = window.InukshukPlacer.mount(stage, {
+        status: status,
+        creditLines: [
           'Illustrative example. Not a measurement.',
           'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0, via Wikimedia Commons.',
           'https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg',
           'https://creativecommons.org/licenses/by-sa/2.0/',
           'Resized, metadata removed. Sculpture illustration added.',
           'A downloaded composite is also CC BY-SA 2.0. GPS was not imported.'
-        ];
+        ]
+      });
+      function resolve(relative) {
+        const base = document.querySelector('base');
+        const raw = base ? (base.getAttribute('href') || '') : '';
+        const match = raw.match(/https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)$/);
+        if (!match) return relative;
+        const dir = match[4].replace(/[^/]*$/, '');
+        return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
       }
-      downloadButton.addEventListener('click', () => {
-        const lines = creditLines();
-        const padX = 40;
-        const padY = 22;
-        const fontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        const probe = document.createElement('canvas').getContext('2d');
-        let fontSize = 22;
-        probe.font = fontSize + 'px ' + fontStack;
-        while (fontSize > 15 && lines.some((line) => probe.measureText(line).width > canvas.width - padX * 2)) {
-          fontSize -= 1;
-          probe.font = fontSize + 'px ' + fontStack;
-        }
-        const lineHeight = Math.round(fontSize * 1.45);
-        const bar = padY * 2 + lines.length * lineHeight;
-        const out = document.createElement('canvas');
-        out.width = canvas.width;
-        out.height = canvas.height + bar;
-        const octx = out.getContext('2d');
-        octx.drawImage(canvas, 0, 0);
-        octx.fillStyle = '#000';
-        octx.fillRect(0, canvas.height, out.width, bar);
-        octx.font = fontSize + 'px ' + fontStack;
-        octx.fillStyle = '#f5f5f7';
-        octx.textBaseline = 'top';
-        octx.textAlign = 'left';
-        lines.forEach((line, index) => {
-          octx.fillText(line, padX, canvas.height + padY + index * lineHeight);
+      placer.loadUrls(resolve('assets/visualizer/preston-place.jpg'), resolve('assets/visualizer/inukshuk-cutout.webp')).catch(function () {
+        status.textContent = 'The sample picture did not load.';
+      });
+      const photoInput = document.getElementById('photo-input');
+      if (photoInput) {
+        photoInput.addEventListener('change', function (event) {
+          const file = event.target.files && event.target.files[0];
+          placer.addFile(file);
+          event.target.value = '';
         });
-        let url = '';
-        try {
-          url = out.toDataURL('image/png');
-        } catch (error) {
-          status.textContent = 'The preview could not be saved from this page.';
-          return;
-        }
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'inukshuk-on-my-land.png';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        status.textContent = 'Preview downloaded. The file is the picture on screen, including the tree mark. CC BY-SA 2.0. Not a measurement.';
+      }
+      const previous = document.getElementById('prev-photo');
+      if (previous) previous.addEventListener('click', function () { placer.previousPhoto(); });
+      const undo = document.getElementById('undo-btn');
+      const redo = document.getElementById('redo-btn');
+      if (undo) undo.addEventListener('click', function () { placer.undo(); });
+      if (redo) redo.addEventListener('click', function () { placer.redo(); });
+      const flip = document.getElementById('flip-btn');
+      if (flip) flip.addEventListener('click', function () { placer.flip(); });
+      const reset = document.getElementById('reset-btn');
+      if (reset) reset.addEventListener('click', function () { placer.resetCurrent(); });
+      const download = document.getElementById('download-btn');
+      if (download) download.addEventListener('click', function () { placer.download(); });
+      document.querySelectorAll('input[name="visual-size"]').forEach(function (input) {
+        input.addEventListener('change', function () {
+          if (!input.checked) return;
+          const fraction = input.value === 'Garden' ? 0.18 : input.value === 'Landmark' ? 0.42 : 0.28;
+          placer.setHeightFraction(fraction);
+          status.textContent = input.value + ' sets a size by eye. It is not a measurement.';
+        });
       });
-      ['dragenter', 'dragover'].forEach(type => {
-        stage.addEventListener(type, event => { event.preventDefault(); stage.classList.add('dragover'); });
+      function estimateOnly() {
+        if (math) math.textContent = 'Optional estimate only. These numbers do not move or resize the figure. They are not a survey. Flat ground is assumed only if you are comparing a known height with the horizon by eye.';
+      }
+      ['distance-input', 'tree-height-input', 'tree-distance-input'].forEach(function (id) {
+        const input = document.getElementById(id);
+        if (input) input.addEventListener('input', estimateOnly);
       });
-      ['dragleave', 'drop'].forEach(type => {
-        stage.addEventListener(type, event => { event.preventDefault(); stage.classList.remove('dragover'); });
-      });
-      stage.addEventListener('drop', event => { loadPhoto(event.dataTransfer.files && event.dataTransfer.files[0]); });
-      demoLand.onload = draw;
-      sculpture.onload = draw;
-      distanceInput.addEventListener('input', () => setDistance(distanceInput.value));
-      treeHeightInput.addEventListener('input', () => {
-        treeHeightM = clamp(Number(treeHeightInput.value), 4, 20);
-        draw();
-      });
-      treeDistanceInput.addEventListener('input', () => {
-        const next = clamp(Number(treeDistanceInput.value), 4, 16);
-        const wasAtTree = distanceM === treeDistanceM;
-        treeDistanceM = next;
-        if (wasAtTree) distanceM = next;
-        draw();
-      });
-      window.addEventListener('resize', () => draw());
-      sculpture.src = hostedSample('assets/visualizer/inukshuk-cutout.webp');
-      demoLand.src = hostedSample(SAMPLE_SRC);
-      draw();
+      const near = document.getElementById('preset-near');
+      const house = document.getElementById('preset-house');
+      if (near) near.addEventListener('click', estimateOnly);
+      if (house) house.addEventListener('click', estimateOnly);
     })();
   </script>
 
