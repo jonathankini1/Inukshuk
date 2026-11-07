@@ -161,6 +161,7 @@
     var lastGeom = null;
     var statusNode = options.status || null;
     var suppressHistory = false;
+    var selected = false;
 
     function say(text) {
       if (statusNode) statusNode.textContent = text;
@@ -296,8 +297,14 @@
       };
     }
 
+    function setSelected(on) {
+      selected = !!on;
+      canvas.dataset.selected = selected ? 'true' : 'false';
+      layoutOverlay(lastGeom);
+    }
+
     function layoutOverlay(geom) {
-      if (!geom) {
+      if (!geom || !selected) {
         box.style.display = 'none';
         handle.style.display = 'none';
         return;
@@ -501,7 +508,8 @@
         startPhoto: photoPoint,
         start: clonePlacement(photo.placement),
         snapshot: snapshot(),
-        pinchDist: 0
+        pinchDist: 0,
+        moved: false
       };
       if (kind === 'pinch') {
         var pts = Array.from(pointers.values());
@@ -542,7 +550,9 @@
       if (event.target === box || hitFigure(viewPoint(event))) {
         beginGesture('move', event);
         event.preventDefault();
+        return;
       }
+      setSelected(false);
     }
 
     function onPointerMove(event) {
@@ -556,6 +566,7 @@
       if (gesture.kind === 'pinch' && pointers.size >= 2) {
         var pts = Array.from(pointers.values());
         var dist = Math.max(1, Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y));
+        gesture.moved = true;
         photo.placement.height = clamp(gesture.start.height * (dist / gesture.pinchDist), photo.height * 0.05, photo.height * 0.9);
         paintView();
         event.preventDefault();
@@ -565,11 +576,15 @@
       var photoPoint = toPhoto(viewPoint(event));
       if (!photoPoint || !gesture.startPhoto) return;
       if (gesture.kind === 'move') {
-        photo.placement.footX = clamp(gesture.start.footX + (photoPoint.x - gesture.startPhoto.x), 0, photo.width);
-        photo.placement.footY = clamp(gesture.start.footY + (photoPoint.y - gesture.startPhoto.y), 0, photo.height);
+        var dx = photoPoint.x - gesture.startPhoto.x;
+        var dy = photoPoint.y - gesture.startPhoto.y;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) gesture.moved = true;
+        photo.placement.footX = clamp(gesture.start.footX + dx, 0, photo.width);
+        photo.placement.footY = clamp(gesture.start.footY + dy, 0, photo.height);
         paintView();
         event.preventDefault();
       } else if (gesture.kind === 'resize') {
+        gesture.moved = true;
         var delta = gesture.startPhoto.y - photoPoint.y;
         photo.placement.height = clamp(gesture.start.height + delta, photo.height * 0.05, photo.height * 0.9);
         paintView();
@@ -579,8 +594,13 @@
 
     function onPointerUp(event) {
       pointers.delete(event.pointerId);
+      var finished = gesture;
       if (gesture && (pointers.size === 0 || gesture.kind !== 'pinch')) commitGesture();
       if (pointers.size < 2 && gesture && gesture.kind === 'pinch') commitGesture();
+      if (finished && pointers.size === 0) {
+        if (!finished.moved && (finished.kind === 'move' || event.target === box)) setSelected(true);
+        else setSelected(false);
+      }
       try {
         if (event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
           event.currentTarget.releasePointerCapture(event.pointerId);
@@ -601,7 +621,10 @@
     stage.addEventListener('keydown', function (event) {
       var photo = current();
       if (!photo) return;
+      if (event.key === 'Escape') { setSelected(false); return; }
+      if (event.key === 'Enter' || event.key === ' ') { setSelected(true); event.preventDefault(); return; }
       var step = Math.max(2, photo.width * 0.01);
+      setSelected(true);
       if (event.key === 'ArrowLeft') nudge(-step, 0, 0);
       else if (event.key === 'ArrowRight') nudge(step, 0, 0);
       else if (event.key === 'ArrowUp') nudge(0, -step, 0);
@@ -640,8 +663,12 @@
       undoStack = [];
       redoStack = [];
       resizeBacking();
-      say('Drag the figure. Use the white handle to change its size. The feet stay put.');
+      say('Drag the figure. Click it to show the size handle. Click the grass or Done to hide it.');
+      setSelected(false);
     }
+
+    var doneButton = document.getElementById('viz-done') || document.getElementById('placer-done');
+    if (doneButton) doneButton.addEventListener('click', function () { setSelected(false); say('Size handle hidden. Click the figure to show it again.'); });
 
     return {
       useSources: useSources,

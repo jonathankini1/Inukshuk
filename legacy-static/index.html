@@ -1231,6 +1231,26 @@
       .photo-card button { aspect-ratio: 1 / 1; }
       .gallery-intro { position: static; }
     }
+    @media (min-width: 801px) {
+      .hero {
+        height: calc(100svh - 5.25rem);
+        min-height: 0;
+        max-height: calc(100svh - 5.25rem);
+      }
+      .trust-strip {
+        display: flex;
+        align-items: center;
+        min-height: 4.6rem;
+        padding: 0.5rem clamp(1.25rem, 4vw, 3.5rem) 0.65rem;
+      }
+    }
+    @media (max-width: 800px) {
+      .hero { min-height: 0; height: auto; }
+      .hero-media { max-height: calc(100svh - 15rem); }
+      .hero-caption { padding-top: 0.35rem; padding-bottom: 0.35rem; }
+      .trust-strip { padding: 0.25rem 1.15rem 0.45rem; }
+      .trust-list li { font-size: 1.02rem; line-height: 1.15; }
+    }
   </style>
 </head>
 <body>
@@ -1391,6 +1411,7 @@
             <p class="privacy-note viz-math" id="viz-math"></p>
           </div>
           <div class="viz-button-row">
+            <button class="viz-button" id="viz-done" type="button">Done</button>
             <button class="viz-button" id="undo-btn" type="button">Undo</button>
             <button class="viz-button" id="redo-btn" type="button">Redo</button>
             <button class="viz-button" id="flip-btn" type="button">Flip</button>
@@ -1496,9 +1517,8 @@
     <div class="container">
       <h2 class="section-title">Our Story</h2>
       <div class="story-content">
-        <p>It started on 13 acres in Manchester. A family, their friends and their neighbours raised an Inukshuk there.</p>
-        <p class="highlight">The stones were too heavy for one person.</p>
-        <p>Diggers and concrete were on site. We now do this work for other people on their land.</p>
+        <p>It started on 13 acres in Manchester. A family, their friends and their neighbours raised an Inukshuk there. The stones were too heavy for one person, so the day had diggers and concrete as well as the people.</p>
+        <p>That first build is why we do this. We still raise them for other people, on their own land, and we start by coming to see the ground with you.</p>
       </div>
     </div>
   </section>

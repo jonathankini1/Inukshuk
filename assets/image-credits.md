@@ -54,6 +54,8 @@ These three photographs are not builds by this studio. Each file was resized so 
 | Brisbane, Australia. Victoria Park. | `legacy-static/assets/gallery/example-brisbane.jpg` | Brisbane City Council | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg |
 | Cambridge, England. Scott Polar Research Institute. | `legacy-static/assets/gallery/example-cambridge.jpg` | Meirion | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg |
 
-Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The whole figure, head and feet, is kept. They were not cropped to 9:16.
+Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The copies on the page are not cropped and not stretched. They sit in equal square frames with empty space beside a portrait or above a landscape. That empty space is not an expanded photograph.
+
+Reserved names for a later background extension, not created and not to be described as the unedited files: `example-toronto-square.jpg`, `example-brisbane-square.jpg`, `example-cambridge-square.jpg`.
 
 The handover note recorded for this work, DESIGN-NOTES-ruben-2026-10-22, says the photographs are only real photos from the handover pack, passed through a metadata strip, with no GPS, and that the artwork is not an AI hero. The photographer’s name and the owner’s licence are not verified in this repository. These files are preexisting business assets already in the project, used here for an unpublished preview. This record does not claim a public licence, an upload permission, or permission to publish. Live publication needs the owner’s consent, which has not been given here.
