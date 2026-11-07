@@ -1162,95 +1162,61 @@
     }
     .gallery { padding: 0; background: #000; }
     .gallery-stage {
-      display: grid;
-      grid-template-columns: minmax(16rem, 0.9fr) auto;
-      gap: 1.5rem 4rem;
-      align-items: end;
+      display: block;
       height: auto;
       min-height: 0;
-      padding: 4.5rem clamp(1.5rem, 6vw, 5.5rem);
+      padding: 4rem clamp(1.25rem, 5vw, 4rem) 3rem;
       background: #000;
-      position: relative;
     }
-    .gallery-intro {
-      position: static;
-      top: auto;
-      right: auto;
-      bottom: auto;
-      left: auto;
-      max-width: 28rem;
-      padding: 0 0 0.5rem;
-      z-index: auto;
-    }
-    .gallery .section-title {
-      color: #f5f5f7;
-      font-size: clamp(2.4rem, 4vw, 3.6rem);
-      line-height: 0.96;
-      max-width: 12ch;
-      text-shadow: none;
-    }
-    .gallery .section-subtitle { color: #f5f5f7; max-width: 28ch; margin: 0; }
-    .photo-grid, .photo-card, .photo-card button { width: auto; height: auto; min-height: 0; }
-    .photo-card { margin: 0; }
-    .photo-card button { display: block; padding: 0; background: transparent; }
+    .gallery-intro { position: static; max-width: 40rem; padding: 0 0 1.5rem; }
+    .gallery .section-title { color: #f5f5f7; font-size: clamp(2.4rem, 4vw, 3.6rem); text-shadow: none; }
+    .gallery .section-subtitle { color: #f5f5f7; max-width: 42rem; margin: 0; }
+    .photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; width: 100%; }
+    .photo-card, .photo-card button { width: 100%; height: auto; min-height: 0; margin: 0; }
+    .photo-card button { display: block; padding: 0; background: #111; }
     .photo-card img, .photo-card.wide img {
       display: block;
-      width: auto;
-      height: min(74vh, 780px);
-      max-width: min(42vw, 480px);
-      max-height: none;
-      margin: 0;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: 70vh;
+      margin: 0 auto;
       object-fit: contain;
       object-position: center center;
+      background: #111;
     }
     .photo-card figcaption {
       position: static;
       display: block;
-      left: auto;
-      right: auto;
-      bottom: auto;
       width: auto;
-      max-width: 36ch;
-      height: auto;
-      margin: 0.85rem 0 0;
+      max-width: none;
+      margin: 0.75rem 0 0;
       padding: 0;
-      overflow: visible;
       background: transparent;
       color: #f5f5f7;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       line-height: 1.4;
       text-align: left;
     }
+    .gallery-credits { margin: 1.4rem 0 0; color: #a1a1a6; font-size: 0.78rem; line-height: 1.45; max-width: 70rem; }
+    .gallery-credits a { color: #f5f5f7; }
+    .viz-handles { position: absolute; inset: 0; pointer-events: none; }
+    .viz-box { position: absolute; border: 1.5px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.55); pointer-events: auto; cursor: move; }
+    .viz-resize {
+      position: absolute; width: 22px; height: 22px; margin-left: -11px; margin-top: -11px;
+      border-radius: 50%; border: 2px solid #1d1d1f; background: #fff; pointer-events: auto; cursor: ns-resize;
+    }
+    input[type="range"] { width: 100%; height: 32px; accent-color: #f5f5f7; }
+    .trust-list li { color: #fff; font-weight: 600; font-size: 1.05rem; }
+    .step-number { color: #fff; font-weight: 700; font-size: 1.7rem; letter-spacing: 0.04em; }
+    .story .section-title { font-weight: 600; font-size: clamp(2.8rem, 5vw, 4.6rem); color: #f5f5f7; }
+    .story-content p { font-size: 1.15rem; color: #f5f5f7; }
+    .upload-grid { grid-template-columns: 1fr 1fr; }
     @media (max-width: 800px) {
-      .gallery-stage {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.85rem;
-        padding: 2.5rem 1.15rem 1.75rem;
-      }
-      .gallery-intro { position: static; max-width: none; padding: 0; }
-      .gallery .section-title { font-size: 2.4rem; }
-      .photo-grid, .photo-card, .photo-card button { width: 100%; }
-      .photo-card { display: flex; flex-direction: column; }
-      .photo-card button { order: 0; }
-      .photo-card img, .photo-card.wide img {
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-        max-height: none;
-        object-fit: contain;
-        object-position: center center;
-      }
-      .photo-card figcaption {
-        order: -1;
-        position: static;
-        max-width: none;
-        margin: 0 0 0.85rem;
-        padding: 0;
-        background: transparent;
-        color: #f5f5f7;
-      }
+      .gallery-stage { padding: 2.5rem 1.15rem 1.75rem; }
+      .photo-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+      .photo-card img, .photo-card.wide img { max-height: none; }
+      .gallery-intro { position: static; }
     }
   </style>
 </head>
@@ -1309,10 +1275,9 @@
     <div class="container">
       <div class="what-is-grid">
         <div class="what-is-text">
-          <h3>What is an inuksuk?</h3>
-          <p>An <em class="inuktitut">inuksuk</em> is a stone figure built without mortar by Inuit in the Arctic. It marks a route or a place. The stones are lifted by a group, not by one person.</p>
-          <p>We commission the same kind of landmark for private land in the UK. Local stone where the ground allows it. A site visit before any build.</p>
-          <p class="origin-badge"><em class="inuktitut">inuksuk</em>. <em class="inuktitut">Inuktitut</em> for a figure in the likeness of a person.</p>
+          <h3>What is an Inukshuk?</h3>
+          <p>An Inukshuk is a stone figure built without mortar. It marks a route or a place. The stones are lifted by a group, not by one person.</p>
+          <p>We commission this kind of landmark for private land in the UK. Local stone where the ground allows it. A site visit before any build.</p>
         </div>
       </div>
     </div>
@@ -1322,14 +1287,29 @@
     <div class="gallery-stage">
       <div class="gallery-intro">
         <h2 class="section-title">Photographs</h2>
-        <p class="section-subtitle">The first landmark, in the weather it was built in.</p>
+        <p class="section-subtitle">Examples already standing in other places. Not our builds.</p>
       </div>
-      <figure class="photo-card">
-        <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the summer photograph">
-          <img src="assets/gallery/summer-landmark.jpg" alt="Stone landmark in summer grass, the whole figure from head to feet, with a young tree to its right" width="1125" height="2000" loading="lazy" decoding="async">
-        </button>
-        <figcaption>Later in the summer, the same figure, with a young tree to its right.</figcaption>
-      </figure>
+      <div class="photo-grid">
+        <figure class="photo-card">
+          <button type="button" class="gallery-open" data-gallery-index="0" aria-label="Open the Toronto photograph">
+            <img src="assets/gallery/example-toronto.jpg" alt="Stone Inukshuk at Inukshuk Park in Toronto, head and feet in frame" width="1067" height="1600" loading="lazy" decoding="async">
+          </button>
+          <figcaption>Toronto, Canada. Inukshuk Park, sculpture by Kellypalik Qimirpik. Not one of our builds.</figcaption>
+        </figure>
+        <figure class="photo-card">
+          <button type="button" class="gallery-open" data-gallery-index="1" aria-label="Open the Brisbane photograph">
+            <img src="assets/gallery/example-brisbane.jpg" alt="Stone Inukshuk at Victoria Park in Brisbane, head and feet in frame" width="1600" height="1067" loading="lazy" decoding="async">
+          </button>
+          <figcaption>Brisbane, Australia. Victoria Park. Not one of our builds.</figcaption>
+        </figure>
+        <figure class="photo-card">
+          <button type="button" class="gallery-open" data-gallery-index="2" aria-label="Open the Cambridge photograph">
+            <img src="assets/gallery/example-cambridge.jpg" alt="Stone Inukshuk outside the Scott Polar Research Institute in Cambridge, head and feet in frame" width="1600" height="1200" loading="lazy" decoding="async">
+          </button>
+          <figcaption>Cambridge, England. Scott Polar Research Institute. Not one of our builds.</figcaption>
+        </figure>
+      </div>
+      <p class="gallery-credits">Toronto: photograph by Fabian Roudra Baroi, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Inukshuk_Park_05.jpg">Wikimedia Commons</a>. Resized, metadata removed. Brisbane: Brisbane City Council, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg">Wikimedia Commons</a>. Resized, metadata removed. Cambridge: Meirion, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg">Wikimedia Commons</a>. Resized, metadata removed. Share-alike applies to the Toronto and Cambridge photographs.</p>
     </div>
   </section>
 
@@ -1337,7 +1317,7 @@
     <div class="lightbox-frame">
       <button class="lightbox-close" type="button" aria-label="Close image viewer">&times;</button>
       <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photograph">&#8249;</button>
-      <img id="lightbox-image" src="assets/gallery/summer-landmark.jpg" alt="">
+      <img id="lightbox-image" src="assets/gallery/example-toronto.jpg" alt="">
       <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photograph">&#8250;</button>
       <p class="lightbox-caption" id="lightbox-caption"></p>
     </div>
@@ -1350,18 +1330,21 @@
       <p class="viz-output-title" id="viz-title">Illustrative example: beside the tree</p>
       <div class="visualizer-shell">
         <div class="viz-stage" id="viz-stage">
-          <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. The height bracket is on the large foreground trunk at the right, from the grass at its foot to the top of the crown. The sculpture starts beside that trunk. The white birch on the left is not the reference. It is not a measurement."></canvas>
+          <canvas id="viz-canvas" width="1600" height="1200" role="img" tabindex="0" aria-label="Illustrative example. Drag the figure to move it. Use the handle to change its size. The metres are an estimate, not a measurement."></canvas>
+          <div class="viz-handles" id="viz-handles">
+            <div class="viz-box" id="viz-box"></div>
+            <button class="viz-resize" id="viz-resize" type="button" aria-label="Resize the figure from the top. The feet stay put."></button>
+          </div>
         </div>
-        <p class="viz-tip" id="viz-tip">Drag the base across the ground or back towards the house. Its height follows the distance.</p>
+        <p class="viz-tip" id="viz-tip">Drag the figure to move it. Use the white handle to change its size. The feet stay put. Dragging does not change the metre distance.</p>
         <p class="viz-guide" id="viz-guide" hidden></p>
         <aside class="viz-controls" aria-label="Preview controls">
           <div class="viz-control">
             <span class="viz-control-title">1. Add your land</span>
             <div class="upload-grid">
-              <label class="upload-action" for="camera-input">Take a photo</label>
-              <label class="upload-action" for="photo-input">Choose a photo</label>
+              <label class="upload-action" for="photo-input">Add your photo</label>
+              <button class="viz-button" id="prev-photo" type="button" disabled>Previous photo</button>
             </div>
-            <input class="visually-hidden" id="camera-input" type="file" accept="image/*" capture="environment">
             <input class="visually-hidden" id="photo-input" type="file" accept="image/*">
             <p class="privacy-note">Your photo stays on this device. It is never uploaded. There is no background-removal service.</p>
           </div>
@@ -1403,7 +1386,7 @@
             <button class="viz-button" id="reset-btn" type="button">Reset position</button>
             <button class="viz-button primary" id="download-btn" type="button">Download your preview</button>
           </div>
-          <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed; sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. This is not an endorsement by the photographer. GPS was not imported.</p>
+          <p class="viz-credit">Photograph: Preston Place, Preston, by Vieve Forward, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg">Wikimedia Commons</a>. Resized, metadata removed. Sculpture illustration added. A downloaded composite is also <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. GPS was not imported.</p>
           <p class="viz-status" id="viz-status" role="status">Illustrative example. Not a measurement of the tree or the house.</p>
         </aside>
       </div>
@@ -1418,7 +1401,7 @@
         <div class="step">
           <div class="step-number">01</div>
           <h4>Site Visit</h4>
-          <p>We walk your land together. Assess the terrain, identify natural stone sources, and choose the perfect location for your Inukshuk.</p>
+          <p>We walk your land together. We look at the ground, the stone, and where it will stand.</p>
         </div>
         <div class="step">
           <div class="step-number">02</div>
@@ -1427,13 +1410,13 @@
         </div>
         <div class="step">
           <div class="step-number">03</div>
-          <h4>The Build Day</h4>
-          <p>This is the event. Friends, family, neighbours. Diggers, concrete foundations, and heavy lifting. Your people build your monument together.</p>
+          <h4>The build</h4>
+          <p>We build it. Our team does the machinery, the lifting and the foundation. You can be there. You do not organise the stone and you do not lift it.</p>
         </div>
         <div class="step">
           <div class="step-number">04</div>
           <h4>After the build</h4>
-          <p>A foundation is set before the stones go up. The landmark stays where it is raised.</p>
+          <p>The foundation goes in before the stones. When the build is finished the landmark stays where it was raised. Any return visit is agreed before we leave.</p>
         </div>
       </div>
     </div>
@@ -1457,7 +1440,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £500</strong>Your booking deposit is credited against the £5,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-garden"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-garden"><span class="checkout-loading">Online checkout is not switched on.</span></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Garden">Ask about Garden</button>
           </div>
         </div>
@@ -1473,7 +1456,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £750</strong>Your booking deposit is credited against the £7,500 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-estate"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-estate"><span class="checkout-loading">Online checkout is not switched on.</span></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Estate">Ask about Estate</button>
           </div>
         </div>
@@ -1490,7 +1473,7 @@
           </ul>
           <p class="deposit-note"><strong>Reserve with £1,000</strong>Your booking deposit is credited against the £10,000 project price.</p>
           <div class="price-actions">
-            <div class="shopify-buy-slot" id="shopify-buy-landmark"><span class="checkout-loading">Loading secure checkout...</span></div>
+            <div class="shopify-buy-slot" id="shopify-buy-landmark"><span class="checkout-loading">Online checkout is not switched on.</span></div>
             <button class="price-btn secondary package-enquire" type="button" data-package="Landmark">Ask about Landmark</button>
           </div>
         </div>
@@ -1502,10 +1485,9 @@
     <div class="container">
       <h2 class="section-title">Our Story</h2>
       <div class="story-content">
-        <p>It started on a 13-acre property in Manchester. A family, their friends, and their neighbours decided to build something that would stand long after they were gone.</p>
-        <p class="highlight">"The stones were too heavy for one person. That was the whole point."</p>
-        <p>With diggers, concrete, and a lot of determination, they raised an Inukshuk on their land. The day became something none of them expected. It was not a construction project, but a shared experience that drew people closer together.</p>
-        <p>That first build proved something: the act of building together creates something more powerful than the structure itself. Now we help others create that same experience on their own land.</p>
+        <p>The first one was raised on a 13-acre property in Manchester. Family, friends and neighbours did it together.</p>
+        <p class="highlight">The stones were too heavy for one person.</p>
+        <p>Diggers and concrete were on site. We now do that work for other people on their land.</p>
       </div>
     </div>
   </section>
@@ -1517,7 +1499,7 @@
       <div class="faq-list">
         <details>
           <summary>Where does the stone come from?</summary>
-          <div class="faq-answer"><p>We prioritise stone that belongs visually and geologically to the setting. Where suitable material exists on your land, we assess it first; otherwise we source from an appropriate local quarry or reclaimed supply.</p></div>
+          <div class="faq-answer"><p>We look for stone that belongs to the setting. Where suitable material is on your land, we assess it first. If not, we source from a local quarry or a reclaimed supply.</p></div>
         </details>
         <details>
           <summary>How long does a project take?</summary>
@@ -1533,7 +1515,7 @@
         </details>
         <details>
           <summary>Can family and friends take part?</summary>
-          <div class="faq-answer"><p>Yes. Participation is central to the experience. The professional team manages machinery, lifting and safety while creating meaningful, supervised ways for your group to help raise the landmark.</p></div>
+          <div class="faq-answer"><p>Yes. Our team manages the machinery, the lifting and the safety. People can help where it is safe.</p></div>
         </details>
         <details>
           <summary>Where do you work?</summary>
@@ -1928,8 +1910,8 @@
       const status = document.getElementById('viz-status');
       const math = document.getElementById('viz-math');
       const sizeInputs = [...document.querySelectorAll('input[name="visual-size"]')];
-      const cameraInput = document.getElementById('camera-input');
       const photoInput = document.getElementById('photo-input');
+      const prevPhoto = document.getElementById('prev-photo');
       const flipButton = document.getElementById('flip-btn');
       const resetButton = document.getElementById('reset-btn');
       const downloadButton = document.getElementById('download-btn');
@@ -1966,7 +1948,12 @@
       let distanceM = DEFAULT_TREE_D;
       let meters = Number(sizeInputs.find(input => input.checked).dataset.meters);
       let x = 0;
+      let footY = 0;
+      let pixelHeight = 0;
+      let freeSize = false;
       let userMoved = false;
+      let dragMode = 'move';
+      const photoHistory = [];
       let landRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
       function displayedWidth() {
@@ -2085,7 +2072,7 @@
         const match = raw.match(/https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)$/);
         if (!match) return relative;
         const dir = match[4].replace(/[^/]*$/, '');
-        return 'https://cdn.jsdelivr.net/gh/' + match[1] + '/' + match[2] + '@' + match[3] + '/' + dir + relative;
+        return 'https://raw.githubusercontent.com/' + match[1] + '/' + match[2] + '/' + match[3] + '/' + dir + relative;
       }
 
       function fitRect(image) {
@@ -2126,10 +2113,13 @@
       }
       function limitX(value, drawWidth) {
         const half = drawWidth / 2;
-        const minX = landRect.x + landRect.w * 0.34 + half;
-        const maxX = landRect.x + landRect.w * TRUNK_LEFT - 20 - half;
+        const minX = landRect.x + half + 8;
+        const maxX = landRect.x + landRect.w - half - 8;
         if (maxX < minX) return (minX + maxX) / 2;
         return clamp(value, minX, maxX);
+      }
+      function limitFoot(value) {
+        return clamp(value, landRect.y + 24, landRect.y + landRect.h - 8);
       }
 
       function syncDistanceRange() {
@@ -2195,7 +2185,7 @@
           : 'Your photograph has no known scale. These metres are the illustrative example until you edit them.';
         const title = document.getElementById('viz-title');
         const beside = Math.abs(distanceM - treeDistanceM) < 1;
-        if (title) title.textContent = beside ? 'Illustrative example: beside the tree' : 'Illustrative example: toward the house';
+        if (title) title.textContent = (freeSize || userMoved) ? 'Placed on the picture' : 'Illustrative example: beside the tree';
         if (math) {
           math.textContent = mode + ' Reference tree ' + treeHeightM + ' m at ' + treeDistanceM + ' m, not measured. ' + meters + ' m guide height at ' + distanceM + ' m is ' + Math.round(drawHeight) + ' px. Beside the tree it is ' + Math.round(atTree) + ' px, ' + Math.round(100 * meters / treeHeightM) + '% of the tree. At ' + (distanceM * 2) + ' m it is ' + Math.round(doubled) + ' px, half the size. The house ground on this plane is about ' + Math.round(houseD) + ' m.';
         }
@@ -2207,14 +2197,10 @@
         canvas.dataset.doubled = String(Math.round(doubled));
         const guide = document.getElementById('viz-guide');
         if (guide) {
-          const onScreen = drawHeight * (displayedWidth() / canvas.width);
-          if (usingSample && onScreen < 150) {
-            guide.hidden = false;
-            guide.textContent = 'At ' + distanceM + ' m a ' + meters + ' m figure will look small. Illustrative estimate, not a measurement. Try Beside the tree to explore near scale.';
-          } else {
-            guide.hidden = true;
-            guide.textContent = '';
-          }
+          guide.hidden = false;
+          guide.textContent = freeSize
+            ? 'Sized by eye. Dragging does not change the metre distance. Not a measurement.'
+            : 'Guide height ' + meters + ' m at ' + distanceM + ' m. Illustrative estimate, not a measurement.';
         }
       }
 
@@ -2222,12 +2208,16 @@
         canvas._plates = [];
         landRect = (landPhoto.complete && landPhoto.naturalWidth) ? fitRect(landPhoto) : { x: 0, y: 0, w: canvas.width, h: canvas.height };
         syncDistanceRange();
-        const footY = footYForDistance(distanceM);
-        const drawHeight = apparentHeight(distanceM);
+        if (!freeSize || !pixelHeight) pixelHeight = apparentHeight(distanceM);
+        const drawHeight = pixelHeight;
         const ratio = sculpture.naturalWidth && sculpture.naturalHeight ? sculpture.naturalWidth / sculpture.naturalHeight : 0.76;
         const drawWidth = drawHeight * ratio;
-        if (!userMoved) x = besideCenter(drawWidth);
+        if (!userMoved) {
+          x = besideCenter(drawWidth);
+          footY = footYForDistance(distanceM);
+        }
         x = limitX(x, drawWidth);
+        footY = limitFoot(footY);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
@@ -2286,6 +2276,29 @@
         if (treeHeightReadout) treeHeightReadout.textContent = 'Illustrative ' + treeHeightM + ' m tree (not measured)';
         if (treeDistanceReadout) treeDistanceReadout.textContent = treeDistanceM + ' m';
         writeMath(drawHeight);
+        placeHandles(figure);
+        canvas.dataset.freeSize = String(freeSize);
+      }
+
+      function placeHandles(figure) {
+        const wrap = document.getElementById('viz-handles');
+        const box = document.getElementById('viz-box');
+        const handle = document.getElementById('viz-resize');
+        if (!wrap || !box || !handle || !figure) return;
+        const bounds = canvas.getBoundingClientRect();
+        const stageBounds = stage.getBoundingClientRect();
+        const sx = bounds.width / canvas.width;
+        const sy = bounds.height / canvas.height;
+        const left = bounds.left - stageBounds.left + figure.x * sx;
+        const top = bounds.top - stageBounds.top + figure.y * sy;
+        const w = (figure.x2 - figure.x) * sx;
+        const h = (figure.y2 - figure.y) * sy;
+        box.style.left = left + 'px';
+        box.style.top = top + 'px';
+        box.style.width = Math.max(8, w) + 'px';
+        box.style.height = Math.max(8, h) + 'px';
+        handle.style.left = (left + w / 2) + 'px';
+        handle.style.top = top + 'px';
       }
 
       function setDistance(value) {
@@ -2303,6 +2316,8 @@
         distanceM = DEFAULT_TREE_D;
         flipped = false;
         userMoved = false;
+        freeSize = false;
+        pixelHeight = 0;
         x = 0;
         if (treeHeightInput) treeHeightInput.value = String(DEFAULT_TREE_H);
         if (treeDistanceInput) treeDistanceInput.value = String(DEFAULT_TREE_D);
@@ -2326,20 +2341,47 @@
       let grabDy = 0;
       function placeAt(event) {
         const point = canvasPoint(event);
-        x = point.x - grabDx;
-        userMoved = true;
-        const foot = point.y - grabDy;
-        const minD = Math.round(treeDistanceM);
-        const maxD = Math.round(houseDistance());
-        distanceM = distanceForFoot(foot);
-        if (status && usingSample) {
-          if (distanceM >= maxD && foot < footYForDistance(maxD) - 6) {
-            status.textContent = 'Already at the house ground, about ' + maxD + ' m. Drag down to bring the figure closer. Illustrative, not a measurement.';
-          } else if (distanceM <= minD && foot > footYForDistance(minD) + 6) {
-            status.textContent = 'Already beside the tree, ' + minD + ' m. Drag up, toward the horizon, to move it back. Illustrative, not a measurement.';
-          }
+        if (dragMode === 'resize') {
+          pixelHeight = clamp(resizeStart.h + (resizeStart.y - point.y), 24, canvas.height * 0.92);
+          freeSize = true;
+          status.textContent = 'Sized by eye. The feet stay put. Not a measurement.';
+        } else {
+          x = point.x - grabDx;
+          footY = point.y - grabDy;
+          userMoved = true;
+          status.textContent = 'Moved on the picture. The metre distance stays ' + distanceM + ' m. Not a measurement.';
         }
         tip.classList.add('hidden');
+        draw();
+      }
+
+      function rememberPhoto() {
+        photoHistory.push({
+          landPhoto, usingSample, photoUrl, x, footY, pixelHeight, freeSize, userMoved, meters, distanceM, flipped
+        });
+        if (prevPhoto) prevPhoto.disabled = false;
+      }
+
+      function restorePhoto() {
+        const saved = photoHistory.pop();
+        if (!saved) return;
+        landPhoto = saved.landPhoto;
+        usingSample = saved.usingSample;
+        photoUrl = saved.photoUrl;
+        x = saved.x;
+        footY = saved.footY;
+        pixelHeight = saved.pixelHeight;
+        freeSize = saved.freeSize;
+        userMoved = saved.userMoved;
+        meters = saved.meters;
+        distanceM = saved.distanceM;
+        flipped = saved.flipped;
+        sizeInputs.forEach(input => { input.checked = Number(input.dataset.meters) === Number(meters); });
+        if (distanceInput) distanceInput.value = String(distanceM);
+        if (prevPhoto) prevPhoto.disabled = photoHistory.length === 0;
+        status.textContent = usingSample
+          ? 'Previous picture restored, with its placement. Illustrative example. Not a measurement.'
+          : 'Previous photo restored, with its placement. It stays on this device.';
         draw();
       }
 
@@ -2349,9 +2391,12 @@
           status.textContent = 'Please choose an image file.';
           return;
         }
-        if (photoUrl) URL.revokeObjectURL(photoUrl);
+        rememberPhoto();
         photoUrl = URL.createObjectURL(file);
         usingSample = false;
+        userMoved = false;
+        freeSize = false;
+        pixelHeight = 0;
         const visitorPhoto = new Image();
         visitorPhoto.onload = () => {
           landPhoto = visitorPhoto;
@@ -2363,36 +2408,87 @@
         visitorPhoto.src = photoUrl;
       }
 
-      [cameraInput, photoInput].forEach(input => {
-        input.addEventListener('change', event => {
-          loadPhoto(event.target.files && event.target.files[0]);
-          event.target.value = '';
-        });
+      photoInput.addEventListener('change', event => {
+        loadPhoto(event.target.files && event.target.files[0]);
+        event.target.value = '';
       });
-      canvas.addEventListener('pointerdown', event => {
+      if (prevPhoto) prevPhoto.addEventListener('click', restorePhoto);
+      let resizeStart = { y: 0, h: 0 };
+      function beginMove(event) {
         if (event.button != null && event.button !== 0) return;
+        dragMode = 'move';
         dragging = true;
         canvas.classList.add('dragging');
         const point = canvasPoint(event);
         grabDx = point.x - x;
-        grabDy = point.y - footYForDistance(distanceM);
-        try { canvas.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
+        grabDy = point.y - footY;
+        try { event.currentTarget.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
         event.preventDefault();
+      }
+      canvas.addEventListener('pointerdown', beginMove);
+      document.getElementById('viz-box').addEventListener('pointerdown', beginMove);
+      document.getElementById('viz-resize').addEventListener('pointerdown', event => {
+        if (event.button != null && event.button !== 0) return;
+        dragMode = 'resize';
+        dragging = true;
+        resizeStart = { y: canvasPoint(event).y, h: pixelHeight || apparentHeight(distanceM) };
+        try { event.currentTarget.setPointerCapture(event.pointerId); } catch (error) { /* Synthetic events have no capture. */ }
+        event.preventDefault();
+        event.stopPropagation();
       });
-      canvas.addEventListener('pointermove', event => {
+      function movePointer(event) {
         if (!dragging) return;
         placeAt(event);
         event.preventDefault();
-      });
+      }
+      canvas.addEventListener('pointermove', movePointer);
+      document.getElementById('viz-box').addEventListener('pointermove', movePointer);
+      document.getElementById('viz-resize').addEventListener('pointermove', movePointer);
       const stopDragging = event => {
         dragging = false;
+        dragMode = 'move';
         canvas.classList.remove('dragging');
         try {
-          if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+          if (event.currentTarget && event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
         } catch (error) { /* The pointer may already be released. */ }
       };
       canvas.addEventListener('pointerup', stopDragging);
       canvas.addEventListener('pointercancel', stopDragging);
+      const activePointers = new Map();
+      let pinchStart = null;
+      function pinchDistance() {
+        const pts = [...activePointers.values()];
+        if (pts.length < 2) return 0;
+        return Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      }
+      stage.addEventListener('pointerdown', event => {
+        activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (activePointers.size === 2) {
+          dragging = false;
+          pinchStart = { dist: Math.max(1, pinchDistance()), h: pixelHeight || apparentHeight(distanceM) };
+        }
+      });
+      stage.addEventListener('pointermove', event => {
+        if (!activePointers.has(event.pointerId) || !pinchStart) return;
+        activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (activePointers.size < 2) return;
+        pixelHeight = clamp(pinchStart.h * (pinchDistance() / pinchStart.dist), 24, canvas.height * 0.92);
+        freeSize = true;
+        status.textContent = 'Sized by eye. The feet stay put. Not a measurement.';
+        draw();
+      });
+      const endPinch = event => {
+        activePointers.delete(event.pointerId);
+        if (activePointers.size < 2) pinchStart = null;
+      };
+      stage.addEventListener('pointerup', endPinch);
+      stage.addEventListener('pointercancel', endPinch);
+      document.getElementById('viz-box').addEventListener('pointerup', stopDragging);
+      document.getElementById('viz-resize').addEventListener('pointerup', stopDragging);
+      document.getElementById('viz-box').addEventListener('pointercancel', stopDragging);
+      document.getElementById('viz-resize').addEventListener('pointercancel', stopDragging);
       canvas.addEventListener('keydown', event => {
         const step = event.shiftKey ? 4 : 1;
         if (event.key === 'ArrowLeft') { x -= event.shiftKey ? 40 : 12; userMoved = true; }
@@ -2408,7 +2504,9 @@
         input.addEventListener('change', () => {
           if (!input.checked) return;
           meters = Number(input.dataset.meters);
-          status.textContent = input.value + ' guide height selected. Illustrative example, not a measurement.';
+          freeSize = false;
+          pixelHeight = 0;
+          status.textContent = input.value + ' guide height selected. Illustrative estimate, not a measurement.';
           tip.classList.add('hidden');
           draw();
         });
@@ -2426,7 +2524,7 @@
           'Photograph: Preston Place, Preston, by Vieve Forward, CC BY-SA 2.0, via Wikimedia Commons.',
           'https://commons.wikimedia.org/wiki/File:Preston_Place,_Preston_-_geograph.org.uk_-_4948421.jpg',
           'https://creativecommons.org/licenses/by-sa/2.0/',
-          'Resized, metadata removed; sculpture illustration added. Not an endorsement.',
+          'Resized, metadata removed. Sculpture illustration added.',
           'A downloaded composite is also CC BY-SA 2.0. GPS was not imported.'
         ];
       }
@@ -2578,16 +2676,7 @@
         }).catch(showCheckoutError);
       }
 
-      if (window.ShopifyBuy && window.ShopifyBuy.UI) {
-        createCheckoutButtons();
-      } else {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = '';
-        script.onload = createCheckoutButtons;
-        script.onerror = showCheckoutError;
-        document.head.appendChild(script);
-      }
+      showCheckoutError();
     })();
   </script>
 

@@ -36,8 +36,24 @@ The 8 m reference height and the 40 m reference distance used in the visualiser 
 
 Sculpture photographs already in this branch are unchanged originals. `landmark-front.jpg` was not overwritten. A grass repair of that frame was tried and excluded because the result still read as a synthetic patch. `moonlit-landmark.jpg` was left out of the gallery because the moon is a soft disc on the head and was not sharpened or replaced. `hillside-landmark.jpg` was left out because it is the same frame as the desktop hero, only slightly wider. `stone-detail.jpg` was left out because the churned ground at the feet is the defect that was rejected.
 
+## Hero photograph, not retouched
+
+`legacy-static/assets/gallery/landmark-wide.jpg` is the desktop hero. It is 2000×1125. SHA-256 `1e60a6b79f1e8ac2ab519c90da2003011c40d5cd2aeab48e4f2d72e68ded2c58`. The raw file for the current preview is the copy in this repository. A cleared derivative, `landmark-wide-cleared.jpg`, is reserved and has not been made. The house near the head, the vehicles left of the left arm, the yellow hose, and the post on the right are still in the original. The stones, the shape, the sky and the perspective have not been repainted.
+
 ## Sculpture photographs on the page
 
-The desktop hero is `legacy-static/assets/gallery/landmark-wide.jpg`. The phone hero and the gallery both use `legacy-static/assets/gallery/summer-landmark.jpg`, a 1125×2000 portrait of the same figure with a young tree to its right. That file is the one already in the repository. It was not downloaded again and it was not resized for this preview.
+The phone hero is `legacy-static/assets/gallery/summer-landmark.jpg`, a 1125×2000 portrait already in the repository. It was not downloaded again for this change.
+
+## Examples elsewhere
+
+These three photographs are not builds by this studio. Each file was resized so the long side is 1600 pixels and the metadata, including GPS, was removed. That resize is the change to record.
+
+| Place | File | Photographer | Licence | Source page |
+| --- | --- | --- | --- | --- |
+| Toronto, Canada. Inukshuk Park. Sculpture by Kellypalik Qimirpik. | `legacy-static/assets/gallery/example-toronto.jpg` | Fabian Roudra Baroi | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_Park_05.jpg |
+| Brisbane, Australia. Victoria Park. | `legacy-static/assets/gallery/example-brisbane.jpg` | Brisbane City Council | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:%27INUKSHUK%27_by_Inuit_people_of_Northwest_Territories_of_Canada_(40551297444).jpg |
+| Cambridge, England. Scott Polar Research Institute. | `legacy-static/assets/gallery/example-cambridge.jpg` | Meirion | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Inukshuk_-_Scott_Polar_Research_Institute,_Cambridge_(geograph_2994484).jpg |
+
+Share-alike applies to the Toronto and Cambridge photographs. The original files were 4000×6000, 6720×4480 and 4320×3240. The whole figure, head and feet, is kept. They were not cropped to 9:16.
 
 The handover note recorded for this work, DESIGN-NOTES-ruben-2026-10-22, says the photographs are only real photos from the handover pack, passed through a metadata strip, with no GPS, and that the artwork is not an AI hero. The photographer’s name and the owner’s licence are not verified in this repository. These files are preexisting business assets already in the project, used here for an unpublished preview. This record does not claim a public licence, an upload permission, or permission to publish. Live publication needs the owner’s consent, which has not been given here.
